@@ -12,6 +12,8 @@ constraintlayout = "2.2.1"
 hilt = "2.48"
 ksp = "2.0.0-1.0.22"
 jetbrainsKotlinJvm = "2.0.0"
+playServicesMaps = "19.2.0"
+lifecycleCommon = "2.8.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -24,6 +26,8 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+androidx-lifecycle-common = { module = "androidx.lifecycle:lifecycle-common", version.ref = "lifecycleCommon" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -44,8 +44,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":presets"))
 
     implementation (libs.hilt.android)
+    implementation(libs.play.services.maps)
     ksp (libs.hilt.android.compiler)
 
     implementation(libs.androidx.core.ktx)
