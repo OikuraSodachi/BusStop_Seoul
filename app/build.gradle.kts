@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    id ("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -49,6 +50,7 @@ dependencies {
 
     implementation (libs.hilt.android)
     implementation(libs.play.services.maps)
+    implementation(libs.androidx.fragment)
     ksp (libs.hilt.android.compiler)
 
     implementation(libs.androidx.fragment.ktx)      // viewModel Injection for fragment
