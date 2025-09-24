@@ -30,5 +30,7 @@ class MainActivity : BaseActivity() {
     }
 
     override suspend fun collectUIState() {
+
     }
+
 }
