@@ -4,7 +4,6 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.databinding.FragmentMapBinding
 import com.todokanai.busstop_seoul.util.MapReadyCallback
 import com.todokanai.busstop_seoul.viewmodel.MapViewModel
@@ -23,7 +22,7 @@ class MapFragment : BaseFragment() {
     override fun prepareView(): View {
         requireActivity().supportFragmentManager
             .beginTransaction()
-            .add(R.id.map, mapFragment)
+            .add(binding.map.id, mapFragment)
             .commit()
         mapFragment.getMapAsync(callback)
         return binding.root
