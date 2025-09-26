@@ -1,15 +1,26 @@
 package com.todokanai.busstop_seoul.util
 
+import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
-class MapReadyCallback: OnMapReadyCallback {
+class MapReadyCallback(fragment: Fragment): OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         println("onMapReady")
         val seoul = LatLng(37.554891, 126.970814)
+
+        fun createMarker(pos: LatLng, title: String?, snippet: String?) {
+            googleMap.addMarker(
+                MarkerOptions()
+                    .position(pos)
+                    .title(title)
+                    .snippet(snippet)
+            )
+        }
 
         googleMap.apply {
             moveCamera(CameraUpdateFactory.newLatLngZoom(seoul, 15F)) //카메라 이동
