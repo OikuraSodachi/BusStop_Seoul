@@ -20,7 +20,7 @@ class MapFragment : Fragment() {
     private val binding by lazy { FragmentMapBinding.inflate(layoutInflater) }
     private val viewModel by viewModels<MapViewModel>()
     val mapFragment = SupportMapFragment.newInstance()
-    val callback: OnMapReadyCallback = MapReadyCallback(this)
+    val callback: OnMapReadyCallback = MapReadyCallback(viewLifecycleOwner,viewModel.mapUiState)
 
     override fun onCreateView(
         inflater: LayoutInflater,
