@@ -62,6 +62,7 @@ dependencies {
     implementation (libs.hilt.android)
     implementation(libs.play.services.maps)
     implementation(libs.androidx.fragment)
+    implementation(libs.androidx.recyclerview)
     ksp (libs.hilt.android.compiler)
 
     implementation(libs.androidx.fragment.ktx)      // viewModel Injection for fragment
