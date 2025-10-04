@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.mapsSecrets)
 }
 
@@ -34,6 +35,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
+        compose = true
         viewBinding = true
     }
     kotlinOptions {
@@ -57,15 +59,13 @@ secrets {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":presets"))
 
     implementation (libs.hilt.android)
     implementation(libs.play.services.maps)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.recyclerview)
     ksp (libs.hilt.android.compiler)
+    implementation(libs.androidx.activity.compose)
 
-    implementation(libs.androidx.fragment.ktx)      // viewModel Injection for fragment
+    implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -1,16 +1,12 @@
 package com.todokanai.busstop_seoul.util
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.asLiveData
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.todokanai.busstop_seoul.viewmodel.MapUiState
-import kotlinx.coroutines.flow.Flow
 
-class MapReadyCallback(private val lifecycleOwner: LifecycleOwner, private val mapState: Flow<MapUiState>): OnMapReadyCallback {
+class MapReadyCallback(): OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         println("onMapReady")
@@ -37,9 +33,7 @@ class MapReadyCallback(private val lifecycleOwner: LifecycleOwner, private val m
 //                    snippet("대한민국의 수도")
 //                }
 //            }
-            mapState.asLiveData().observe(lifecycleOwner){
 
-            }
         }
     }
 
