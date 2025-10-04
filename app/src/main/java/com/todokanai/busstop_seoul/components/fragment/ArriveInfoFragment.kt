@@ -41,7 +41,6 @@ class ArriveInfoFragment : Fragment() {
                 collectUIState()
             }
         }
-        // Inflate the layout for this fragment
         return binding.root
     }
 
