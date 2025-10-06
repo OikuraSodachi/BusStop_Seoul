@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
+import com.todokanai.busstop_seoul.compose.presets.MyDropdownMenu
 import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 
 @Composable
@@ -39,13 +40,24 @@ fun MainScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         MainMap(cameraPositionState = cameraPositionState)
+        val expanded = remember{mutableStateOf(false)}
 
         FloatingActionButton(
             onClick = {
-                isSmallMapEnabled.value = !isSmallMapEnabled.value
+                expanded.value = !expanded.value
             }
         ) {
             Icon(Icons.Filled.Settings, null)
+            MyDropdownMenu(
+                contents = listOf(
+                    Pair(
+                        "toggle small map",
+                        {isSmallMapEnabled.value = !isSmallMapEnabled.value}
+                        )
+                ),
+                expanded = expanded.value,
+                onDismissRequest = {expanded.value = false}
+            )
         }
 
         if (isSmallMapEnabled.value) {
