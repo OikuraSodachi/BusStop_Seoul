@@ -1,0 +1,35 @@
+package com.todokanai.busstop_seoul.compose
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.todokanai.busstop_seoul.compose.presets.MyDropdownMenu
+
+@Composable
+fun MenuButton(
+    toggleSmallMap: () -> Unit
+){
+    val expanded = remember{mutableStateOf(false)}
+
+    FloatingActionButton(
+        onClick = {
+            expanded.value = !expanded.value
+        }
+    ) {
+        Icon(Icons.Filled.Settings, null)
+        MyDropdownMenu(
+            contents = listOf(
+                Pair(
+                    "toggle small map",
+                    {toggleSmallMap()}
+                )
+            ),
+            expanded = expanded.value,
+            onDismissRequest = {expanded.value = false}
+        )
+    }
+}

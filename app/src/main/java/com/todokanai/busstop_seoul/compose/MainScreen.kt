@@ -4,10 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,7 +15,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
-import com.todokanai.busstop_seoul.compose.presets.MyDropdownMenu
 import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 
 @Composable
@@ -40,25 +35,9 @@ fun MainScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         MainMap(cameraPositionState = cameraPositionState)
-        val expanded = remember{mutableStateOf(false)}
-
-        FloatingActionButton(
-            onClick = {
-                expanded.value = !expanded.value
-            }
-        ) {
-            Icon(Icons.Filled.Settings, null)
-            MyDropdownMenu(
-                contents = listOf(
-                    Pair(
-                        "toggle small map",
-                        {isSmallMapEnabled.value = !isSmallMapEnabled.value}
-                        )
-                ),
-                expanded = expanded.value,
-                onDismissRequest = {expanded.value = false}
-            )
-        }
+        MenuButton(
+            toggleSmallMap = {isSmallMapEnabled.value = !isSmallMapEnabled.value}
+        )
 
         if (isSmallMapEnabled.value) {
             SmallMap(
