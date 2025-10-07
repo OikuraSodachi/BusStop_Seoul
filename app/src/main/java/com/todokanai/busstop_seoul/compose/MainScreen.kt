@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
+import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
@@ -32,7 +33,16 @@ fun MainScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        MainMap(cameraPositionState = cameraPositionState)
+        MainMap(
+            cameraPositionState = cameraPositionState,
+            uiSettings = MapUiSettings(
+                mapToolbarEnabled = false,
+                myLocationButtonEnabled = false,
+                rotationGesturesEnabled = false,
+                scrollGesturesEnabled = false,
+                tiltGesturesEnabled = false
+            )       // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
+        )
         MenuButton(
             toggleSmallMap = {isSmallMapEnabled.value = !isSmallMapEnabled.value}
         )
@@ -52,7 +62,18 @@ fun MainScreen(
                             cameraPositionState.position.bearing
                         )
                     )
-                }
+                },
+                uiSettings = MapUiSettings(
+                    zoomControlsEnabled = false,
+                    mapToolbarEnabled = false,
+                    compassEnabled = false,
+                    myLocationButtonEnabled = false,
+                    indoorLevelPickerEnabled = false,
+                    rotationGesturesEnabled = false,
+                    scrollGesturesEnabled = false,
+                    tiltGesturesEnabled = false,
+                    zoomGesturesEnabled = false
+                )       // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
             )
         }
     }

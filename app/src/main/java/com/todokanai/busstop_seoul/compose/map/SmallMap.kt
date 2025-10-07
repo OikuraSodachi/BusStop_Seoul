@@ -9,7 +9,8 @@ import com.google.maps.android.compose.MapUiSettings
 @Composable
 fun SmallMap(
     modifier: Modifier,
-    cameraPositionState: ()->CameraPositionState
+    cameraPositionState: ()->CameraPositionState,
+    uiSettings:MapUiSettings
 ){
 
     GoogleMap(
@@ -18,17 +19,7 @@ fun SmallMap(
         onMapLoaded = {
 
         },
-        uiSettings = MapUiSettings(
-            zoomControlsEnabled = false,
-            mapToolbarEnabled = false,
-            compassEnabled = false,
-            myLocationButtonEnabled = false,
-            indoorLevelPickerEnabled = false,
-            rotationGesturesEnabled = false,
-            scrollGesturesEnabled = false,
-            tiltGesturesEnabled = false,
-            zoomGesturesEnabled = false
-        )
+        uiSettings = uiSettings
     ){
 
     }
