@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
@@ -24,9 +25,6 @@ fun MainScreen(
     val singapore = LatLng(1.35, 103.87)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(singapore, 10f)
-    }
-    val smallMapPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(singapore,5f)
     }
 
     val isSmallMapEnabled = remember { mutableStateOf(true) }
@@ -45,7 +43,16 @@ fun MainScreen(
                     .align(Alignment.TopEnd)
                     .height(300.dp)
                     .width(180.dp),
-                cameraPositionState = smallMapPositionState
+                cameraPositionState = {
+                    CameraPositionState(
+                        position = CameraPosition(
+                            cameraPositionState.position.target,
+                            cameraPositionState.position.zoom / 2,
+                            cameraPositionState.position.tilt,
+                            cameraPositionState.position.bearing
+                        )
+                    )
+                }
             )
         }
     }

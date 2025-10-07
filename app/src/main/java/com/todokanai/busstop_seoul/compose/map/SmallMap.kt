@@ -9,12 +9,12 @@ import com.google.maps.android.compose.MapUiSettings
 @Composable
 fun SmallMap(
     modifier: Modifier,
-    cameraPositionState: CameraPositionState
+    cameraPositionState: ()->CameraPositionState
 ){
 
     GoogleMap(
         modifier = modifier,
-        cameraPositionState = cameraPositionState,
+        cameraPositionState = cameraPositionState(),
         onMapLoaded = {
 
         },
