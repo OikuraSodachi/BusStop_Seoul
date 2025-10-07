@@ -35,13 +35,14 @@ fun MainScreen(
     ) {
         MainMap(
             cameraPositionState = cameraPositionState,
-            uiSettings = MapUiSettings(
-                mapToolbarEnabled = false,
-                myLocationButtonEnabled = false,
-                rotationGesturesEnabled = false,
-                scrollGesturesEnabled = false,
-                tiltGesturesEnabled = false
-            )       // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
+            uiSettings = uiState.mapUiSettings
+//            uiSettings = MapUiSettings(
+//                mapToolbarEnabled = false,
+//                myLocationButtonEnabled = false,
+//                rotationGesturesEnabled = false,
+//                scrollGesturesEnabled = false,
+//                tiltGesturesEnabled = false
+//            )       // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
         )
         MenuButton(
             toggleSmallMap = {isSmallMapEnabled.value = !isSmallMapEnabled.value}

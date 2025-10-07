@@ -1,6 +1,7 @@
 package com.todokanai.busstop_seoul.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.google.maps.android.compose.MapUiSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,5 +14,6 @@ class MainViewModel @Inject constructor(): ViewModel()  {
 }
 
 data class MainActivityUiState(
-    val dummy:Int = 0
+    val dummy:Int = 0,
+    val mapUiSettings: MapUiSettings = MapUiSettings()
 )
