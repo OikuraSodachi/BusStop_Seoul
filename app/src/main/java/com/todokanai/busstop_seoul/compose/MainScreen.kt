@@ -17,6 +17,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
+import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 
 @Composable
@@ -35,14 +36,16 @@ fun MainScreen(
     ) {
         MainMap(
             cameraPositionState = cameraPositionState,
-            uiSettings = uiState.mapUiSettings
-//            uiSettings = MapUiSettings(
-//                mapToolbarEnabled = false,
-//                myLocationButtonEnabled = false,
-//                rotationGesturesEnabled = false,
-//                scrollGesturesEnabled = false,
-//                tiltGesturesEnabled = false
-//            )       // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
+            uiSettings = uiState.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
+            markerInfos = listOf(
+                MarkerInfo(
+                    id = 0,
+                    position = singapore,
+                    title = "Singapore",
+                    snippet = "Marker in Singapore"
+                )
+            ),
+            markerZoomLevel = 12f
         )
         MenuButton(
             toggleSmallMap = {isSmallMapEnabled.value = !isSmallMapEnabled.value}
