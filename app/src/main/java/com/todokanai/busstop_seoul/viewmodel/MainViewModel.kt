@@ -1,7 +1,9 @@
 package com.todokanai.busstop_seoul.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.MapUiSettings
+import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,5 +17,13 @@ class MainViewModel @Inject constructor(): ViewModel()  {
 
 data class MainActivityUiState(
     val dummy:Int = 0,
-    val mapUiSettings: MapUiSettings = MapUiSettings()
+    val mapUiSettings: MapUiSettings = MapUiSettings(),
+    val markerInfos:List<MarkerInfo> = listOf(
+        MarkerInfo(
+            id = 0,
+            position = LatLng(1.35, 103.87),
+            title = "Singapore",
+            snippet = "Marker in Singapore"
+        )
+    )
 )
