@@ -32,6 +32,11 @@ fun MainMap(
                     state = MarkerState(position = markerInfo.position),
                     title = markerInfo.title,
                     snippet = markerInfo.snippet,
+                    onClick = {
+                        println(it.title)
+                        false
+                    }
+
                 )
             }
         }

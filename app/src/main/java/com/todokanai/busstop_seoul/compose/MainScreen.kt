@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,14 +19,13 @@ import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 
 @Composable
 fun MainScreen(
-    uiState: MainActivityUiState
+    uiState: MainActivityUiState,
+    saveSmallMapEnabled: (Boolean) -> Unit
 ){
     val singapore = LatLng(1.35, 103.87)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(singapore, 10f)
     }
-
-    val isSmallMapEnabled = remember { mutableStateOf(true) }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -40,10 +37,10 @@ fun MainScreen(
             markerZoomLevel = 12f
         )
         MenuButton(
-            toggleSmallMap = {isSmallMapEnabled.value = !isSmallMapEnabled.value}
+            toggleSmallMap = { saveSmallMapEnabled(!uiState.isSmallMapEnabled) }
         )
 
-        if (isSmallMapEnabled.value) {
+        if (uiState.isSmallMapEnabled) {
             SmallMap(
                 modifier = Modifier
                     .align(Alignment.TopEnd)

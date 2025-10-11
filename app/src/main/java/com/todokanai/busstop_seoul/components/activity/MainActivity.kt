@@ -19,7 +19,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             val uiState = viewModel.uiState.collectAsStateWithLifecycle()
             MainScreen(
-                uiState = uiState.value
+                uiState = uiState.value,
+                saveSmallMapEnabled = {
+                    viewModel.saveSmallMapEnabled(it)
+                }
             )
         }
     }

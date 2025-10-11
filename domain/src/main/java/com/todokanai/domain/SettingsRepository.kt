@@ -24,4 +24,24 @@ interface SettingsRepository {
 
     fun zoomGesturesEnabled(): Flow<Boolean>
 
+    suspend fun saveSmallMapEnabled(value: Boolean)
+
+    suspend fun saveZoomControlsEnabled(value: Boolean)
+
+    suspend fun saveMapToolbarEnabled(value: Boolean)
+
+    suspend fun saveCompassEnabled(value: Boolean)
+
+    suspend fun saveMyLocationButtonEnabled(value: Boolean)
+
+    suspend fun saveIndoorLevelPickerEnabled(value: Boolean)
+
+    suspend fun saveRotationGesturesEnabled(value: Boolean)
+
+    suspend fun saveScrollGesturesEnabled(value: Boolean)
+
+    suspend fun saveTiltGesturesEnabled(value: Boolean)
+
+    suspend fun saveZoomGesturesEnabled(value: Boolean)
+
 }

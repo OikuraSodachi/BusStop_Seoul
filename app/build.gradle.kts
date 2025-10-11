@@ -57,6 +57,7 @@ secrets {
 }
 
 dependencies {
+    implementation(project(":data"))
     implementation(project(":domain"))
 
     implementation (libs.hilt.android)
