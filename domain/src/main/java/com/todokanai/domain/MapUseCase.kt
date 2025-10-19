@@ -26,4 +26,44 @@ class MapUseCase @Inject constructor(
 
     fun zoomGesturesEnabled() = settingsRepository.zoomGesturesEnabled()
 
+    suspend fun saveSmallMapEnabled(value: Boolean) {
+        settingsRepository.saveSmallMapEnabled(value)
+    }
+
+    suspend fun saveZoomControlsEnabled(value: Boolean) {
+        settingsRepository.saveZoomControlsEnabled(value)
+    }
+
+    suspend fun saveMapToolbarEnabled(value: Boolean) {
+        settingsRepository.saveMapToolbarEnabled(value)
+    }
+
+    suspend fun saveCompassEnabled(value: Boolean) {
+        settingsRepository.saveCompassEnabled(value)
+    }
+
+    suspend fun saveMyLocationButtonEnabled(value: Boolean) {
+        settingsRepository.saveMyLocationButtonEnabled(value)
+    }
+
+    suspend fun saveIndoorLevelPickerEnabled(value: Boolean) {
+        settingsRepository.saveIndoorLevelPickerEnabled(value)
+    }
+
+    suspend fun saveRotationGesturesEnabled(value: Boolean) {
+        settingsRepository.saveRotationGesturesEnabled(value)
+    }
+
+    suspend fun saveScrollGesturesEnabled(value: Boolean) {
+        settingsRepository.saveScrollGesturesEnabled(value)
+    }
+
+    suspend fun saveTiltGesturesEnabled(value: Boolean) {
+        settingsRepository.saveTiltGesturesEnabled(value)
+    }
+
+    suspend fun saveZoomGesturesEnabled(value: Boolean) {
+        settingsRepository.saveZoomGesturesEnabled(value)
+    }
+
 }

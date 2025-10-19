@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
-import com.todokanai.domain.SettingsRepository
+import com.todokanai.domain.MapUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -15,12 +15,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository
+    private val mapUseCase: MapUseCase
 ): ViewModel()  {
 
     val uiState = combine(
-        settingsRepository.smallMapEnabled(),
-        settingsRepository.zoomControlsEnabled(),
+        mapUseCase.smallMapEnabled(),
+        mapUseCase.zoomControlsEnabled(),
     ){ smallMapEnabled, zoomControlsEnabled ->
         MainActivityUiState(
             isSmallMapEnabled = smallMapEnabled,
@@ -45,7 +45,7 @@ class MainViewModel @Inject constructor(
 
     fun saveSmallMapEnabled(value: Boolean){
         viewModelScope.launch {
-            settingsRepository.saveSmallMapEnabled(value)
+            mapUseCase.saveSmallMapEnabled(value)
         }
     }
 
