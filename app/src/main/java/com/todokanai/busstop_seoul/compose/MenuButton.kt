@@ -11,7 +11,8 @@ import com.todokanai.busstop_seoul.compose.presets.MyDropdownMenu
 
 @Composable
 fun MenuButton(
-    toggleSmallMap: () -> Unit
+    toggleSmallMap: () -> Unit,
+    enableRotation: () -> Unit
 ){
     val expanded = remember{mutableStateOf(false)}
 
@@ -26,6 +27,10 @@ fun MenuButton(
                 Pair(
                     "toggle small map",
                     {toggleSmallMap()}
+                ),
+                Pair(
+                    "enable rotation",
+                    {enableRotation()}
                 )
             ),
             expanded = expanded.value,

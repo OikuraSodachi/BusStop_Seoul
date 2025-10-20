@@ -22,6 +22,9 @@ class MainActivity : ComponentActivity() {
                 uiState = uiState.value,
                 saveSmallMapEnabled = {
                     viewModel.saveSmallMapEnabled(it)
+                },
+                saveRotationGesturesEnabled = {
+                    viewModel.saveRotationGesturesEnabled(it)
                 }
             )
         }

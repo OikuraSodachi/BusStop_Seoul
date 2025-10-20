@@ -20,7 +20,8 @@ import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 @Composable
 fun MainScreen(
     uiState: MainActivityUiState,
-    saveSmallMapEnabled: (Boolean) -> Unit
+    saveSmallMapEnabled: (Boolean) -> Unit,
+    saveRotationGesturesEnabled: (Boolean) -> Unit
 ){
     val singapore = LatLng(1.35, 103.87)
     val cameraPositionState = rememberCameraPositionState {
@@ -37,7 +38,8 @@ fun MainScreen(
             markerZoomLevel = 12f
         )
         MenuButton(
-            toggleSmallMap = { saveSmallMapEnabled(!uiState.isSmallMapEnabled) }
+            toggleSmallMap = { saveSmallMapEnabled(!uiState.isSmallMapEnabled) },
+            enableRotation = {saveRotationGesturesEnabled(!uiState.mapUiSettings.rotationGesturesEnabled) }
         )
 
         if (uiState.isSmallMapEnabled) {

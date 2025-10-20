@@ -21,11 +21,13 @@ class MainViewModel @Inject constructor(
     val uiState = combine(
         mapUseCase.smallMapEnabled(),
         mapUseCase.zoomControlsEnabled(),
-    ){ smallMapEnabled, zoomControlsEnabled ->
+        mapUseCase.rotationGesturesEnabled()
+    ){ smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled ->
         MainActivityUiState(
             isSmallMapEnabled = smallMapEnabled,
             mapUiSettings = MapUiSettings(
                 zoomControlsEnabled = zoomControlsEnabled,
+                rotationGesturesEnabled = rotationGesturesEnabled
             ),
             markerInfos = listOf(
                 MarkerInfo(
@@ -46,6 +48,12 @@ class MainViewModel @Inject constructor(
     fun saveSmallMapEnabled(value: Boolean){
         viewModelScope.launch {
             mapUseCase.saveSmallMapEnabled(value)
+        }
+    }
+
+    fun saveRotationGesturesEnabled(value: Boolean) {
+        viewModelScope.launch {
+            mapUseCase.saveRotationGesturesEnabled(value)
         }
     }
 
