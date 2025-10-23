@@ -15,7 +15,8 @@ fun MainMap(
     cameraPositionState: CameraPositionState,
     uiSettings:MapUiSettings,
     markerInfos:List<MarkerInfo>,
-    markerZoomLevel:Float   // marker 를 표시할 zoom level 최소값
+    markerZoomLevel:Float,   // marker 를 표시할 zoom level 최소값
+    onMarkerClick: (MarkerInfo) -> Unit
 ){
 
     GoogleMap(
@@ -33,7 +34,8 @@ fun MainMap(
                     title = markerInfo.title,
                     snippet = markerInfo.snippet,
                     onClick = {
-                        println(it.title)
+                        onMarkerClick(markerInfo)
+                        //println(it.title)
                         false
                     }
 

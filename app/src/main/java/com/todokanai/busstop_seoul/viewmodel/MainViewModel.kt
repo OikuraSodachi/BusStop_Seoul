@@ -21,8 +21,27 @@ class MainViewModel @Inject constructor(
     private val mapUseCase: MapUseCase
 ): ViewModel()  {
 
+    private val testArriveInfo = listOf(
+        StationArriveInfo(
+            id = 0,
+            lineNumber = "Line 0",
+            estTime = "00000"
+        ),
+        StationArriveInfo(
+            id = 1,
+            lineNumber = "Line 1",
+            estTime = "11111"
+        ),
+        StationArriveInfo(
+            id = 2,
+            lineNumber = "Line 2",
+            estTime = "22222"
+        )
+
+    )
+
     /** StationInfoScreen 에 필요 **/
-    private val _arriveInfoFlow = MutableStateFlow<List<StationArriveInfo>>(emptyList())
+    private val _arriveInfoFlow = MutableStateFlow<List<StationArriveInfo>>(testArriveInfo)
     val arriveInfoFlow = _arriveInfoFlow.asStateFlow()
 
     val uiState = combine(

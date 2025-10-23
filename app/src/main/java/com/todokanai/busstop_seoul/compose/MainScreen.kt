@@ -42,7 +42,10 @@ fun MainScreen(
             cameraPositionState = cameraPositionState,
             uiSettings = uiState.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
             markerInfos = uiState.markerInfos,
-            markerZoomLevel = 12f
+            markerZoomLevel = 12f,
+            onMarkerClick = {
+                isStationInfoScreenOn.value = true
+            }
         )
         MenuButton(
             toggleSmallMap = { saveSmallMapEnabled(!uiState.isSmallMapEnabled) },
@@ -81,7 +84,8 @@ fun MainScreen(
 
         if(isStationInfoScreenOn.value) {
             StationInfoScreen(
-                arriveInfos = emptyList(),
+                arriveInfos = uiState.arriveInfos,
+                onClose = { isStationInfoScreenOn.value = false },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .height(400.dp)
