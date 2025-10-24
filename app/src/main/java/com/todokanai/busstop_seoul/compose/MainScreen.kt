@@ -2,6 +2,7 @@ package com.todokanai.busstop_seoul.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
-import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
@@ -28,58 +28,53 @@ fun MainScreen(
     saveSmallMapEnabled: (Boolean) -> Unit,
     saveRotationGesturesEnabled: (Boolean) -> Unit
 ){
-    val isStationInfoScreenOn = remember { mutableStateOf(true) }
+    val isStationInfoScreenOn = remember { mutableStateOf(false) }
 
-    val singapore = LatLng(1.35, 103.87)
+    val seoul =  LatLng(37.532600, 127.024612)
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(singapore, 10f)
+        position = CameraPosition.fromLatLngZoom(seoul, 10f)
     }
 
-    Box(
+    Column(
         modifier = Modifier.fillMaxSize()
-    ) {
-        MainMap(
-            cameraPositionState = cameraPositionState,
-            uiSettings = uiState.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
-            markerInfos = uiState.markerInfos,
-            markerZoomLevel = 12f,
-            onMarkerClick = {
-                isStationInfoScreenOn.value = true
-            }
-        )
-        MenuButton(
-            toggleSmallMap = { saveSmallMapEnabled(!uiState.isSmallMapEnabled) },
-            enableRotation = {saveRotationGesturesEnabled(!uiState.mapUiSettings.rotationGesturesEnabled) }
-        )
+    ){
+        Box(
+            modifier = Modifier
+                .weight(1f)
+        ){
 
-        if (uiState.isSmallMapEnabled) {
-            SmallMap(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .height(300.dp)
-                    .width(180.dp),
-                cameraPositionState = {
-                    CameraPositionState(
-                        position = CameraPosition(
-                            cameraPositionState.position.target,
-                            cameraPositionState.position.zoom / 2,
-                            cameraPositionState.position.tilt,
-                            cameraPositionState.position.bearing
-                        )
-                    )
-                },
-                uiSettings = MapUiSettings(
-                    zoomControlsEnabled = false,
-                    mapToolbarEnabled = false,
-                    compassEnabled = false,
-                    myLocationButtonEnabled = false,
-                    indoorLevelPickerEnabled = false,
-                    rotationGesturesEnabled = false,
-                    scrollGesturesEnabled = false,
-                    tiltGesturesEnabled = false,
-                    zoomGesturesEnabled = false
-                )       // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
+            MainMap(
+                cameraPositionState = cameraPositionState,
+                uiSettings = uiState.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
+                markerInfos = uiState.markerInfos,
+                markerZoomLevel = 12f,
+                onMarkerClick = {
+                    isStationInfoScreenOn.value = true
+                }
             )
+            MenuButton(
+                toggleSmallMap = { saveSmallMapEnabled(!uiState.isSmallMapEnabled) },
+                enableRotation = {saveRotationGesturesEnabled(!uiState.mapUiSettings.rotationGesturesEnabled) }
+            )
+            if (uiState.isSmallMapEnabled) {
+                    SmallMap(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .height(300.dp)
+                            .width(180.dp),
+                        cameraPositionState = {
+                            CameraPositionState(
+                                position = CameraPosition(
+                                    cameraPositionState.position.target,
+                                    cameraPositionState.position.zoom / 2,
+                                    cameraPositionState.position.tilt,
+                                    cameraPositionState.position.bearing
+                                )
+                            )
+                        },
+                        uiSettings = uiState.smallMapSettings
+                    ) // Todo: MainMap 과 같은 가로/세로 비율을 유지할 것
+                }
         }
 
         if(isStationInfoScreenOn.value) {
@@ -87,7 +82,6 @@ fun MainScreen(
                 arriveInfos = uiState.arriveInfos,
                 onClose = { isStationInfoScreenOn.value = false },
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
                     .height(400.dp)
                     .fillMaxWidth()
                     .background(Color.White)

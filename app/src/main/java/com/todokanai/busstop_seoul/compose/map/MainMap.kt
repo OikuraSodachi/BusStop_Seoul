@@ -35,7 +35,6 @@ fun MainMap(
                     snippet = markerInfo.snippet,
                     onClick = {
                         onMarkerClick(markerInfo)
-                        //println(it.title)
                         false
                     }
 

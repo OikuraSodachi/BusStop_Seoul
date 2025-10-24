@@ -59,9 +59,9 @@ class MainViewModel @Inject constructor(
             markerInfos = listOf(
                 MarkerInfo(
                     id = 0,
-                    position = LatLng(1.35, 103.87),
-                    title = "Singapore",
-                    snippet = "Marker in Singapore"
+                    position = LatLng(37.532600, 127.024612),
+                    title = "Seoul",
+                    snippet = "Marker in Seoul"
                 )
             ),
             arriveInfos = arriveInfos
@@ -91,5 +91,16 @@ data class MainActivityUiState(
     val isSmallMapEnabled: Boolean = false,
     val mapUiSettings: MapUiSettings = MapUiSettings(),
     val markerInfos:List<MarkerInfo> = emptyList(),
-    val arriveInfos:List<StationArriveInfo> = emptyList()
+    val arriveInfos:List<StationArriveInfo> = emptyList(),
+    val smallMapSettings: MapUiSettings =  MapUiSettings(
+        zoomControlsEnabled = false,
+        mapToolbarEnabled = false,
+        compassEnabled = false,
+        myLocationButtonEnabled = false,
+        indoorLevelPickerEnabled = false,
+        rotationGesturesEnabled = false,
+        scrollGesturesEnabled = false,
+        tiltGesturesEnabled = false,
+        zoomGesturesEnabled = false
+    )
 )
