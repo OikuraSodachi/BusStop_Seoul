@@ -23,6 +23,9 @@ class MainActivity : ComponentActivity() {
                 saveSmallMapEnabled = {
                     viewModel.saveSmallMapEnabled(it)
                 },
+                getArriveInfos = {
+                    viewModel.getArriveInfos_dummy(it)
+                },
                 saveRotationGesturesEnabled = {
                     viewModel.saveRotationGesturesEnabled(it)
                 }

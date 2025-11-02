@@ -20,15 +20,17 @@ import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
+import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 
 @Composable
 fun MainScreen(
     uiState: MainActivityUiState,
+    getArriveInfos: suspend (key:Long) -> List<StationArriveInfo>,
     saveSmallMapEnabled: (Boolean) -> Unit,
     saveRotationGesturesEnabled: (Boolean) -> Unit
 ){
-    val isStationInfoScreenOn = remember { mutableStateOf(false) }
+    val targetStationId = remember { mutableStateOf(null as Long?) }
 
     val seoul =  LatLng(37.532600, 127.024612)
     val cameraPositionState = rememberCameraPositionState {
@@ -49,7 +51,7 @@ fun MainScreen(
                 markerInfos = uiState.markerInfos,
                 markerZoomLevel = 12f,
                 onMarkerClick = {
-                    isStationInfoScreenOn.value = true
+                    targetStationId.value = it.id
                 }
             )
             MenuButton(
@@ -77,10 +79,11 @@ fun MainScreen(
                 }
         }
 
-        if(isStationInfoScreenOn.value) {
+        if(targetStationId.value != null){
             StationInfoScreen(
-                arriveInfos = uiState.arriveInfos,
-                onClose = { isStationInfoScreenOn.value = false },
+                stationId = targetStationId.value!!,
+                getArriveInfos = {getArriveInfos(it)},
+                onClose = { targetStationId.value = null },
                 modifier = Modifier
                     .height(400.dp)
                     .fillMaxWidth()

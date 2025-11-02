@@ -8,6 +8,7 @@ import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.domain.MapUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -84,6 +85,13 @@ class MainViewModel @Inject constructor(
             mapUseCase.saveRotationGesturesEnabled(value)
         }
     }
+
+
+    suspend fun getArriveInfos_dummy(key:Long):List<StationArriveInfo>{
+        delay(3000)
+        return _arriveInfoFlow.value
+    }
+
 
 }
 
