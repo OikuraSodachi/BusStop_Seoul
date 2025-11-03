@@ -32,16 +32,14 @@ fun StationInfoScreen(
     Column(
         modifier = modifier
     ) {
-        Row {
-            Text(
-                text = "Close",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        onClose()
-                    }
-            )
-        }
+        Text(
+            text = "Close",
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    onClose()
+                }
+        )
 
         LazyColumn(
             modifier = Modifier.nestedScroll(swipeState.nestedScrollConnection)
