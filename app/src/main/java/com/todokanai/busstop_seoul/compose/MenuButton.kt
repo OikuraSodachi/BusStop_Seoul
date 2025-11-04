@@ -1,12 +1,12 @@
 package com.todokanai.busstop_seoul.compose
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.foundation.Image
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.painterResource
+import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.presets.MyDropdownMenu
 
 @Composable
@@ -21,7 +21,10 @@ fun MenuButton(
             expanded.value = !expanded.value
         }
     ) {
-        Icon(Icons.Filled.Settings, null)
+        Image(
+            painter = painterResource(R.drawable.baseline_settings_24),
+            contentDescription = null
+        )
         MyDropdownMenu(
             contents = listOf(
                 Pair(
