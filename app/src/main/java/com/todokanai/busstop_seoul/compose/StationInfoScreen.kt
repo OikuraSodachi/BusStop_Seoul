@@ -7,10 +7,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,8 +33,19 @@ fun StationInfoScreen(
     val isRefreshing = remember{mutableStateOf(false)}
     val scope = rememberCoroutineScope()
     val arriveInfos =  remember{ mutableStateOf(emptyList<StationArriveInfo>())}
+
+    fun onRefresh(){
+        scope.launch {
+            isRefreshing.value = true
+            arriveInfos.value = emptyList()
+            arriveInfos.value = getArriveInfos(stationId)
+            isRefreshing.value = false
+        }
+    }
+
     Column(
-        modifier = modifier
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Close",
@@ -49,24 +58,8 @@ fun StationInfoScreen(
 
         PullToRefreshBox(
             isRefreshing = isRefreshing.value,
-            onRefresh = {
-                scope.launch {
-                    isRefreshing.value = true
-                    arriveInfos.value = emptyList()
-                    arriveInfos.value = getArriveInfos(stationId)
-                    isRefreshing.value = false
-                }
-            },
-            state = swipeState,
-            indicator = {
-                Indicator(
-                    modifier = Modifier.align(Alignment.TopCenter),
-                    isRefreshing = isRefreshing.value,
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    state = swipeState
-                )
-            },
+            onRefresh = { onRefresh() },
+            state = swipeState
         ) {
             LazyColumn {
                 itemsIndexed(arriveInfos.value) { index, _ ->
@@ -79,7 +72,7 @@ fun StationInfoScreen(
     }
 
     LaunchedEffect(key1 = stationId) {
-        arriveInfos.value = getArriveInfos(stationId)
+        onRefresh()
     }
 
 }
