@@ -2,8 +2,11 @@ package com.todokanai.data.di
 
 import android.content.Context
 import com.todokanai.data.repository.SettingsRepositoryImpl
+import com.todokanai.data.repository.StationRepositoryImpl
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.SettingsRepository
+import com.todokanai.domain.StationRepository
+import com.todokanai.domain.StationUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,4 +38,13 @@ class DatabaseModule {
         return MapUseCase(settingsRepository)
     }
 
+    @Provides
+    fun provideStationRepository(): StationRepository {
+        return StationRepositoryImpl()
+    }
+
+    @Provides
+    fun provideStationUseCase(stationRepository: StationRepository): StationUseCase {
+        return StationUseCase(stationRepository)
+    }
 }

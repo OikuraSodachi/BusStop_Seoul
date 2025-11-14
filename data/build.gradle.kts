@@ -38,6 +38,7 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(libs.androidx.datastore.preferences)       // enable DataStore
+    implementation(libs.retrofit)
 
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)

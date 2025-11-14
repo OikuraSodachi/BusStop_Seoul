@@ -7,6 +7,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.domain.MapUseCase
+import com.todokanai.domain.StationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val mapUseCase: MapUseCase
+    private val mapUseCase: MapUseCase,
+    private val stationUseCase: StationUseCase
 ): ViewModel()  {
 
     private val testArriveInfo = listOf(
