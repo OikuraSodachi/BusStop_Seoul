@@ -1,13 +1,13 @@
 package com.todokanai.data.repository
 
-import com.todokanai.data.dataclass.BusArrive
-import com.todokanai.domain.BusArriveRetrofit
+import com.todokanai.domain.BusStationTest
 import com.todokanai.domain.StationRepository
 
 class StationRepositoryImpl : StationRepository {
-    override fun getBusArrive(nodId: String) {
-        val result = mutableListOf<BusArrive>()
-        BusArriveRetrofit.retrofit.create()
+    override suspend fun getStationByName(keyWord:String): List<BusStationTest> {
+        val result = mutableListOf<BusStationTest>()
+        //BusArriveRetrofit.retrofit.create()
+        return result
     }
 
 }
