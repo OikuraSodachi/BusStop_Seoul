@@ -9,10 +9,7 @@ import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.StationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -24,35 +21,11 @@ class MainViewModel @Inject constructor(
     private val stationUseCase: StationUseCase
 ): ViewModel()  {
 
-    private val testArriveInfo = listOf(
-        StationArriveInfo(
-            id = 0,
-            lineNumber = "Line 0",
-            estTime = "00000"
-        ),
-        StationArriveInfo(
-            id = 1,
-            lineNumber = "Line 1",
-            estTime = "11111"
-        ),
-        StationArriveInfo(
-            id = 2,
-            lineNumber = "Line 2",
-            estTime = "22222"
-        )
-
-    )
-
-    /** StationInfoScreen 에 필요 **/
-    private val _arriveInfoFlow = MutableStateFlow<List<StationArriveInfo>>(testArriveInfo)
-    val arriveInfoFlow = _arriveInfoFlow.asStateFlow()
-
     val uiState = combine(
-        arriveInfoFlow,
         mapUseCase.smallMapEnabled(),
         mapUseCase.zoomControlsEnabled(),
         mapUseCase.rotationGesturesEnabled()
-    ){ arriveInfos,smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled ->
+    ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled ->
         MainActivityUiState(
             isSmallMapEnabled = smallMapEnabled,
             mapUiSettings = MapUiSettings(
@@ -66,8 +39,7 @@ class MainViewModel @Inject constructor(
                     title = "Seoul",
                     snippet = "Marker in Seoul"
                 )
-            ),
-            arriveInfos = arriveInfos
+            )
         )
 
     }.stateIn(
@@ -90,8 +62,13 @@ class MainViewModel @Inject constructor(
 
 
     suspend fun getArriveInfos_dummy(key:Long):List<StationArriveInfo>{
-        delay(3000)
-        return _arriveInfoFlow.value
+        return stationUseCase.getArriveInfos(key).map{
+            StationArriveInfo(
+                id = it.id,
+                lineNumber = it.lineNumber,
+                estTime = it.estTime.toString()
+            )
+        }
     }
 
 
@@ -101,7 +78,6 @@ data class MainActivityUiState(
     val isSmallMapEnabled: Boolean = false,
     val mapUiSettings: MapUiSettings = MapUiSettings(),
     val markerInfos:List<MarkerInfo> = emptyList(),
-    val arriveInfos:List<StationArriveInfo> = emptyList(),
     val smallMapSettings: MapUiSettings =  MapUiSettings(
         zoomControlsEnabled = false,
         mapToolbarEnabled = false,
