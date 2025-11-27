@@ -30,6 +30,7 @@ class MainViewModel @Inject constructor(
             isSmallMapEnabled = smallMapEnabled,
             mapUiSettings = MapUiSettings(
                 zoomControlsEnabled = zoomControlsEnabled,
+                mapToolbarEnabled = false,
                 rotationGesturesEnabled = rotationGesturesEnabled
             ),
             markerInfos = listOf(
