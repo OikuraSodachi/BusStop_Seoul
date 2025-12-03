@@ -1,9 +1,15 @@
 package com.todokanai.data.repository
 
 import com.todokanai.domain.BusStationTest
+import com.todokanai.domain.LineArriveRetrofit
+import com.todokanai.domain.LineArriveServiceTest
 import com.todokanai.domain.StationRepository
 import com.todokanai.domain.dataclass.StationArriveInfo_temp
+import com.todokanai.domain.linearrivetest.LineArriveTest
 import kotlinx.coroutines.delay
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class StationRepositoryImpl : StationRepository {
     override suspend fun getStationByName(keyWord:String): List<BusStationTest> {
@@ -14,6 +20,22 @@ class StationRepositoryImpl : StationRepository {
 
     override suspend fun getStationArriveInfos(key: Long): List<StationArriveInfo_temp> {
         val result = mutableListOf<StationArriveInfo_temp>()
+        println("key: $key")
+        LineArriveRetrofit.retrofit.create(LineArriveServiceTest::class.java)
+            .getStationArrive(key.toString()).enqueue(
+            object : Callback<LineArriveTest> {
+                override fun onResponse(
+                    call: Call<LineArriveTest>,
+                    response: Response<LineArriveTest>
+                ) {
+                    println("onResponse: ${response.body()?.ServiceResult?.msgBody}")
+                }
+
+                override fun onFailure(call: Call<LineArriveTest>, t: Throwable) {
+                    println("onFailure: ${t.message}")
+                }
+            }
+        )
 
         val temp = listOf(
             StationArriveInfo_temp(
