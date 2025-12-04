@@ -13,12 +13,6 @@ kotlin {
 dependencies {
     implementation(libs.inject)
     implementation(libs.kotlinx.coroutines.core)
-//    implementation(libs.okhttp)
-//    implementation(libs.logging.interceptor)
-//    implementation(libs.okhttp.urlconnection)
     implementation(libs.retrofit)
-//    implementation(libs.converter.scalars)
-    implementation(libs.converter.gson)
-//    implementation(libs.kotlinx.serialization.json)
-//    implementation(libs.gson)
+    implementation(libs.retrofit.converter.simplexml)
 }
