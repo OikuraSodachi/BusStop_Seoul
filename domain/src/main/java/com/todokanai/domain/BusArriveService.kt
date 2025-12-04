@@ -5,6 +5,6 @@ import retrofit2.http.Query
 
 interface BusArriveService {
 
-    @GET()
-    fun getStationArrive(@Query("") nodeId: String )
+    @GET("getStationByUidItem?serviceKey=")
+    fun getStationArrive(@Query("arsId") arsId: String )
 }
