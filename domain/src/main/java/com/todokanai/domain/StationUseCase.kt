@@ -1,10 +1,10 @@
 package com.todokanai.domain
 
-import com.todokanai.domain.dataclass.StationArriveInfo_temp
+import com.todokanai.domain.stationarrrivetest.BusArrivalResponse
 
 class StationUseCase(private val stationRepository: StationRepository) {
 
-    suspend fun getArriveInfos(key:Long):List<StationArriveInfo_temp>{
+    suspend fun getArriveInfos(key:Long):List<BusArrivalResponse>{
         return stationRepository.getStationArriveInfos(key)
     }
 }

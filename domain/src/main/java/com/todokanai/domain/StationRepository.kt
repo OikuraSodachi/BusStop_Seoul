@@ -1,11 +1,9 @@
 package com.todokanai.domain
 
-import com.todokanai.domain.dataclass.StationArriveInfo_temp
+import com.todokanai.domain.stationarrrivetest.BusArrivalResponse
 
 interface StationRepository {
 
-  suspend fun getStationByName(keyWord:String):List<BusStationTest>
-
-  suspend fun getStationArriveInfos(key:Long): List<StationArriveInfo_temp>
+  suspend fun getStationArriveInfos(key:Long): List<BusArrivalResponse>
 
 }

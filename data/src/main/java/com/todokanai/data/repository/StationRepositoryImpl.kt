@@ -1,61 +1,52 @@
 package com.todokanai.data.repository
 
-import com.todokanai.domain.BusStationTest
-import com.todokanai.domain.LineArriveRetrofit
-import com.todokanai.domain.LineArriveServiceTest
+import com.todokanai.domain.BusArriveRetrofit
+import com.todokanai.domain.BusArriveService
 import com.todokanai.domain.StationRepository
-import com.todokanai.domain.dataclass.StationArriveInfo_temp
+import com.todokanai.domain.stationarrrivetest.BusArrivalResponse
 import kotlinx.coroutines.delay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class StationRepositoryImpl : StationRepository {
-    override suspend fun getStationByName(keyWord:String): List<BusStationTest> {
-        val result = mutableListOf<BusStationTest>()
-        //BusArriveRetrofit.retrofit.create()
-        return result
-    }
 
-    override suspend fun getStationArriveInfos(key: Long): List<StationArriveInfo_temp> {
-        val result = mutableListOf<StationArriveInfo_temp>()
-      //  println("key: $key")
-        LineArriveRetrofit.retrofit.create(LineArriveServiceTest::class.java)
+    override suspend fun getStationArriveInfos(key: Long): List<BusArrivalResponse> {
+        val result = mutableListOf<BusArrivalResponse>()
+        BusArriveRetrofit.retrofit.create(BusArriveService::class.java)
             .getStationArrive(key.toString()).enqueue(
-            object : Callback<> {
+            object : Callback<BusArrivalResponse> {
                 override fun onResponse(
-                    call: Call<>,
-                    response: Response<>
+                    call: Call<BusArrivalResponse>,
+                    response: Response<BusArrivalResponse>
                 ) {
+
                     println(response)
-                    //println("onResponse: ${response.body()?.ServiceResult?.msgBody}")
+
+                    val temp = response.body()
+                    if (temp != null) {
+                        result.add(temp)
+                    }
                 }
 
-                override fun onFailure(call: Call<>, t: Throwable) {
+                override fun onFailure(call: Call<BusArrivalResponse>, t: Throwable) {
                     println("onFailure: ${t}")
                 }
             }
         )
 
         val temp = listOf(
-            StationArriveInfo_temp(
-                id = 0,
-                lineNumber = "Line 0",
-                estTime = 0
+            BusArrivalResponse(
+                busRouteId = "Line 0"
             ),
-            StationArriveInfo_temp(
-                id = 1,
-                lineNumber = "Line 1",
-                estTime = 11111
+            BusArrivalResponse(
+                busRouteId = "Line 1"
             ),
-            StationArriveInfo_temp(
-                id = 2,
-                lineNumber = "Line 2",
-                estTime = 22222
+            BusArrivalResponse(
+                busRouteId = "Line 2"
             )
-
         )
-        result.addAll(temp)
+        //result.addAll(temp)
 
         delay(3000)
         return result
