@@ -1,35 +1,7 @@
 package com.todokanai.domain.stationarrrivetest
 
 import org.simpleframework.xml.Element
-import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
-
-@Root(name = "ServiceResult", strict = false)
-data class ServiceResult(
-    @field:Element(name = "msgHeader", required = false)
-    var msgHeader: MsgHeader? = null,
-
-    @field:Element(name = "msgBody", required = false)
-    var msgBody: MsgBody? = null
-)
-
-@Root(name = "msgHeader", strict = false)
-data class MsgHeader(
-    @field:Element(name = "headerCd", required = false)
-    var headerCd: String? = null,
-
-    @field:Element(name = "headerMsg", required = false)
-    var headerMsg: String? = null,
-
-    @field:Element(name = "itemCount", required = false)
-    var itemCount: Int? = null
-)
-
-@Root(name = "msgBody", strict = false)
-data class MsgBody(
-    @field:ElementList(inline = true, entry = "itemList", required = false)
-    var itemList: List<BusArrivalResponse>? = null
-)
 
 @Root(name = "itemList", strict = false)
 data class BusArrivalResponse(

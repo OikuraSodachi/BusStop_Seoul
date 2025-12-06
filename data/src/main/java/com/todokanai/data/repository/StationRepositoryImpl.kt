@@ -1,14 +1,11 @@
 package com.todokanai.data.repository
 
-import com.todokanai.domain.ApiExplorer
 import com.todokanai.domain.BusArriveRetrofit
 import com.todokanai.domain.BusArriveService
 import com.todokanai.domain.StationRepository
+import com.todokanai.domain.stationarrrivetest.ServiceResult
 import com.todokanai.domain.stationarrrivetest.BusArrivalResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,46 +13,31 @@ import retrofit2.Response
 class StationRepositoryImpl : StationRepository {
 
     override suspend fun getStationArriveInfos(key: Long): List<BusArrivalResponse> {
-        CoroutineScope(Dispatchers.Default).launch {
-            ApiExplorer.main(emptyArray())
-        }
         val result = mutableListOf<BusArrivalResponse>()
+
         BusArriveRetrofit.retrofit.create(BusArriveService::class.java)
             .getStationArrive(key.toString()).enqueue(
-            object : Callback<BusArrivalResponse> {
+            object : Callback<ServiceResult> {
                 override fun onResponse(
-                    call: Call<BusArrivalResponse>,
-                    response: Response<BusArrivalResponse>
+                    call: Call<ServiceResult>,
+                    response: Response<ServiceResult>
                 ) {
 
-                   // println(response)
+                    println(response.body())
 
-                    val temp = response.body()
+                    val temp = response.body()?.msgBody?.itemList
                     if (temp != null) {
-                        result.add(temp)
+                        result.addAll(temp)
                     }
                 }
 
-                override fun onFailure(call: Call<BusArrivalResponse>, t: Throwable) {
+                override fun onFailure(call: Call<ServiceResult>, t: Throwable) {
                     println("onFailure: ${t}")
                 }
             }
         )
+        delay(3000)     // Todo: response 내용을 result 에 담은 후 return 하도록 할 것
 
-        val temp = listOf(
-            BusArrivalResponse(
-                busRouteId = "Line 0"
-            ),
-            BusArrivalResponse(
-                busRouteId = "Line 1"
-            ),
-            BusArrivalResponse(
-                busRouteId = "Line 2"
-            )
-        )
-        //result.addAll(temp)
-
-        delay(3000)
         return result
     }
 

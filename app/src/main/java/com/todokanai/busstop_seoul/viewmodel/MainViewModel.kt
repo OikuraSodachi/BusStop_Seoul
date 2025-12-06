@@ -62,12 +62,11 @@ class MainViewModel @Inject constructor(
     }
 
     suspend fun getArriveInfos_dummy(key:Long):List<StationArriveInfo>{
-        val testKey = 12121L
+        val testKey = 11111L
         return stationUseCase.getArriveInfos(testKey).map{
             StationArriveInfo(
-                id = it.arsId.toString(),
-                lineNumber = it.busRouteId.toString(),
-                estTime = it.repTm1.toString()
+                lineNumber = it.rtNm.toString(),
+                estTime = it.arrmsg1.toString()
             )
         }
     }

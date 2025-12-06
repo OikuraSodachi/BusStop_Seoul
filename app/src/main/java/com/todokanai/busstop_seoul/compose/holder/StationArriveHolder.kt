@@ -45,7 +45,6 @@ private fun StationArriveHolderPreview(){
     Surface {
         StationArriveHolder(
             stationArriveInfo = StationArriveInfo(
-                id = "0",
                 lineNumber = "line",
                 estTime = "estTime"
             )
