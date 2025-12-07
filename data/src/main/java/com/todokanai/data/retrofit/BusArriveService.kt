@@ -1,6 +1,6 @@
-package com.todokanai.domain
+package com.todokanai.data.retrofit
 
-import com.todokanai.domain.stationarrrivetest.ServiceResult
+import com.todokanai.data.retrofit.stationarrrivetest.ServiceResult
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

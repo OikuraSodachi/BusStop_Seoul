@@ -1,5 +1,6 @@
-package com.todokanai.domain.stationarrrivetest
+package com.todokanai.data.retrofit.stationarrrivetest
 
+import com.todokanai.domain.BusArrivalResponse
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
@@ -154,4 +155,63 @@ data class BusArrivalResponse(
 
     @field:Element(name = "remndrNmpr2", required = false)
     var remndrNmpr2: String? = null
-)
+){
+
+    /** simpleXML Converter 관련 annotation 제거
+     *  @return [com.todokanai.domain.BusArrivalResponse] **/
+    fun convert(): BusArrivalResponse{
+        return BusArrivalResponse(
+            stId,
+            stNm,
+            arsId,
+            busRouteId,
+            rtNm,
+            busRouteAbrv,
+            sectNm,
+            gpsX,
+            gpsY,
+            stationTp,
+            firstTm,
+            lastTm,
+            term,
+            routeType,
+            nextBus,
+            staOrd,
+            vehId1,
+            sectOrd1,
+            stationNm1,
+            traTime1,
+            traSpd1,
+            isArrive1,
+            repTm1,
+            isLast1,
+            busType1,
+            vehId2,
+            sectOrd2,
+            stationNm2,
+            traTime2,
+            traSpd2,
+            isArrive2,
+            isLast2,
+            busType2,
+            adirection,
+            arrmsg1,
+            arrmsg2,
+            arrmsgSec1,
+            arrmsgSec2,
+            nxtStn,
+            rerdieDiv1,
+            rerdieDiv2,
+            rerideNum1,
+            rerideNum2,
+            isFullFlag1,
+            isFullFlag2,
+            deTourAt,
+            congestion1,
+            congestion2,
+            remndrNmpr1,
+            remndrNmpr2
+        )
+    }
+
+}

@@ -1,10 +1,10 @@
 package com.todokanai.data.repository
 
-import com.todokanai.domain.BusArriveRetrofit
-import com.todokanai.domain.BusArriveService
+import com.todokanai.data.retrofit.BusArriveRetrofit
+import com.todokanai.data.retrofit.BusArriveService
 import com.todokanai.domain.StationRepository
-import com.todokanai.domain.stationarrrivetest.ServiceResult
-import com.todokanai.domain.stationarrrivetest.BusArrivalResponse
+import com.todokanai.data.retrofit.stationarrrivetest.ServiceResult
+import com.todokanai.domain.BusArrivalResponse
 import kotlinx.coroutines.delay
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,9 +25,9 @@ class StationRepositoryImpl : StationRepository {
 
                     println(response.body())
 
-                    val temp = response.body()?.msgBody?.itemList
-                    if (temp != null) {
-                        result.addAll(temp)
+                    val responseList = response.body()?.msgBody?.itemList
+                    if (responseList != null) {
+                        result.addAll(responseList.map { it.convert() })
                     }
                 }
 

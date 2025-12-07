@@ -1,4 +1,4 @@
-package com.todokanai.domain
+package com.todokanai.data.retrofit
 
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
