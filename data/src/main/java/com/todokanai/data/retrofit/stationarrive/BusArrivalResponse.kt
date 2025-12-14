@@ -1,4 +1,4 @@
-package com.todokanai.data.retrofit.stationarrrivetest
+package com.todokanai.data.retrofit.stationarrive
 
 import com.todokanai.domain.BusArrivalResponse
 import org.simpleframework.xml.Element
