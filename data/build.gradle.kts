@@ -1,10 +1,12 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
-
+val localProperties = Properties().apply { rootProject.file("local.properties").inputStream().use { load(it) } }
 android {
     namespace = "com.todokanai.data"
     compileSdk = 36
@@ -14,6 +16,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String","REST_API_KEY", localProperties["REST_API_KEY"].toString())
+    }
+    buildFeatures{
+        buildConfig = true
     }
 
     buildTypes {
