@@ -1,6 +1,6 @@
 package com.todokanai.domain.response
 
-data class BusArrivalResponse(
+data class StationArriveItem(
     var stId: String? = null,          // 정류소 고유 ID
 
     var stNm: String? = null,          // 정류소명

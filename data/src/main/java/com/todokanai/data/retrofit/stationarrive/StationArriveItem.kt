@@ -1,11 +1,11 @@
 package com.todokanai.data.retrofit.stationarrive
 
-import com.todokanai.domain.response.BusArrivalResponse
+import com.todokanai.domain.response.StationArriveItem
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
 @Root(name = "itemList", strict = false)
-data class BusArrivalResponse(
+data class StationArriveItem(
     @field:Element(name = "stId", required = false)
     var stId: String? = null,          // 정류소 고유 ID
 
@@ -158,9 +158,9 @@ data class BusArrivalResponse(
 ){
 
     /** simpleXML Converter 관련 annotation 제거
-     *  @return [com.todokanai.domain.response.BusArrivalResponse] **/
-    fun convert(): BusArrivalResponse{
-        return BusArrivalResponse(
+     *  @return [com.todokanai.domain.response.StationArriveItem] **/
+    fun convert(): StationArriveItem {
+        return StationArriveItem(
             stId,
             stNm,
             arsId,

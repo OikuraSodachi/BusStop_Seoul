@@ -1,9 +1,9 @@
 package com.todokanai.domain
 
-import com.todokanai.domain.response.BusArrivalResponse
+import com.todokanai.domain.response.StationArriveItem
 
 interface StationRepository {
 
-  suspend fun getStationArriveInfos(key:Long): List<BusArrivalResponse>
+  suspend fun getStationArriveInfos(key:Long): List<StationArriveItem>
 
 }

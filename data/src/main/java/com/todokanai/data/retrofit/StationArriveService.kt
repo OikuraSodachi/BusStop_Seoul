@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface BusArriveService {
+interface StationArriveService {
 
     @GET("getStationByUid?serviceKey=${BuildConfig.REST_API_KEY}")
     fun getStationArrive(@Query("arsId") arsId: String ) : Call<ServiceResult>
