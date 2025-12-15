@@ -1,7 +1,7 @@
 package com.todokanai.data.retrofit
 
 import com.todokanai.data.BuildConfig
-import com.todokanai.data.retrofit.stationarrive.ServiceResult
+import com.todokanai.data.retrofit.stationarrive.StationArriveResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -9,5 +9,5 @@ import retrofit2.http.Query
 interface StationArriveService {
 
     @GET("getStationByUid?serviceKey=${BuildConfig.REST_API_KEY}")
-    fun getStationArrive(@Query("arsId") arsId: String ) : Call<ServiceResult>
+    fun getStationArrive(@Query("arsId") arsId: String ) : Call<StationArriveResponse>
 }

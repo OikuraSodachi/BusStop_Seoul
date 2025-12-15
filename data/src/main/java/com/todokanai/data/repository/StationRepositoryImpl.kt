@@ -11,7 +11,7 @@ class StationRepositoryImpl : StationRepository {
     /** Gemini Generated code **/
     override suspend fun getStationArriveInfos(key: Long): List<StationArriveItem> {
         return try {
-            val service = StationInfoRetrofit.retrofit.create(StationArriveService::class.java)
+            val service = StationInfoRetrofit.stationInfoRetrofit.create(StationArriveService::class.java)
 
             val response = service.getStationArrive(key.toString()).awaitResponse()
 
