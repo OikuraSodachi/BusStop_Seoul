@@ -2,7 +2,7 @@ package com.todokanai.data.repository
 
 import com.todokanai.data.retrofit.BusArriveRetrofit
 import com.todokanai.data.retrofit.BusArriveService
-import com.todokanai.domain.BusArrivalResponse
+import com.todokanai.domain.response.BusArrivalResponse
 import com.todokanai.domain.StationRepository
 import retrofit2.awaitResponse
 

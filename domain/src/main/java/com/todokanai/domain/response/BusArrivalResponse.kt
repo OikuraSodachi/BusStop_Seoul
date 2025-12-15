@@ -1,4 +1,4 @@
-package com.todokanai.domain
+package com.todokanai.domain.response
 
 data class BusArrivalResponse(
     var stId: String? = null,          // 정류소 고유 ID

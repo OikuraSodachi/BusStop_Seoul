@@ -1,6 +1,6 @@
 package com.todokanai.data.retrofit.stationarrive
 
-import com.todokanai.domain.BusArrivalResponse
+import com.todokanai.domain.response.BusArrivalResponse
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
@@ -158,7 +158,7 @@ data class BusArrivalResponse(
 ){
 
     /** simpleXML Converter 관련 annotation 제거
-     *  @return [com.todokanai.domain.BusArrivalResponse] **/
+     *  @return [com.todokanai.domain.response.BusArrivalResponse] **/
     fun convert(): BusArrivalResponse{
         return BusArrivalResponse(
             stId,
