@@ -1,5 +1,6 @@
 package com.todokanai.data.retrofit.stationbyname
 
+import com.todokanai.domain.response.StationItem
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
@@ -25,4 +26,16 @@ data class StationItem(
 
     @field:Element(name = "posY", required = false)
     var posY: String? = null           // 좌표 Y (GRS80)
-)
+){
+    fun convert(): StationItem{
+        return StationItem(
+            stId,
+            stNm,
+            arsId,
+            tmX,
+            tmY,
+            posX,
+            posY
+        )
+    }
+}

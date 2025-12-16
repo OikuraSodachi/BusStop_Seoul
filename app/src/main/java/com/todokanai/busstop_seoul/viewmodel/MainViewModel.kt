@@ -63,6 +63,11 @@ class MainViewModel @Inject constructor(
 
     suspend fun getArriveInfos_dummy(key:Long):List<StationArriveInfo>{
         val testKey = 11111L
+        val testString ="경성"
+
+        val stationNames = stationUseCase.getStationByName(testString)
+        println(stationNames)
+
         return stationUseCase.getArriveInfos(testKey).map{
             StationArriveInfo(
                 lineNumber = it.rtNm.toString(),
