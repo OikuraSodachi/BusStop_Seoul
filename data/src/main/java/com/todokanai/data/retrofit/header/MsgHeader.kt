@@ -1,4 +1,4 @@
-package com.todokanai.data.retrofit.stationarrive
+package com.todokanai.data.retrofit.header
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
