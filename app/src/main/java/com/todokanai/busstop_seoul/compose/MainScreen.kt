@@ -52,7 +52,8 @@ fun MainScreen(
                 markerZoomLevel = 12f,
                 onMarkerClick = {
                     targetStationId.value = it.id
-                }
+                },
+                mainMapCallback =
             )
             MenuButton(
                 toggleSmallMap = { saveSmallMapEnabled(!uiState.isSmallMapEnabled) },
