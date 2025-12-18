@@ -9,7 +9,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
-import com.todokanai.busstop_seoul.interfaces.MainMapCallback
+import com.todokanai.busstop_seoul.interfaces.MainMapInterface
 
 @Composable
 fun MainMap(
@@ -17,7 +17,7 @@ fun MainMap(
     uiSettings:MapUiSettings,
     markerInfos:List<MarkerInfo>,
     markerZoomLevel:Float,   // marker 를 표시할 zoom level 최소값
-    mainMapCallback: MainMapCallback
+    mainMapCallback: MainMapInterface
 ){
 
     GoogleMap(
