@@ -28,7 +28,8 @@ class MainActivity : ComponentActivity() {
                 },
                 saveRotationGesturesEnabled = {
                     viewModel.saveRotationGesturesEnabled(it)
-                }
+                },
+                mainMapCallback = viewModel.mainMapCallback
             )
         }
     }

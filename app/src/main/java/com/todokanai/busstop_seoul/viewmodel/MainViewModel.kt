@@ -6,6 +6,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
+import com.todokanai.busstop_seoul.interfaces.MainMapInterface
+import com.todokanai.busstop_seoul.util.MainMapCallback
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.StationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -75,6 +77,9 @@ class MainViewModel @Inject constructor(
             )
         }
     }
+
+    // Todo: mainMapCallback 을 함수가 아닌 변수 (val) 로서 가지고 있는 것이 메모리 관리상 적절한지 고민해볼 것
+    val mainMapCallback : MainMapInterface = MainMapCallback()
 
 
 }

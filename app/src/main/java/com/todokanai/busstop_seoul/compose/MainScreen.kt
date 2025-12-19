@@ -21,6 +21,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
+import com.todokanai.busstop_seoul.interfaces.MainMapInterface
 import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 
 @Composable
@@ -28,8 +29,10 @@ fun MainScreen(
     uiState: MainActivityUiState,
     getArriveInfos: suspend (key:Long) -> List<StationArriveInfo>,
     saveSmallMapEnabled: (Boolean) -> Unit,
-    saveRotationGesturesEnabled: (Boolean) -> Unit
+    saveRotationGesturesEnabled: (Boolean) -> Unit,
+    mainMapCallback: MainMapInterface
 ){
+    // Todo: targetStation 표시 여부에 대한 판단 로직을 다른 곳에서 수행해야 할 듯?
     val targetStationId = remember { mutableStateOf(null as Long?) }
 
     val seoul =  LatLng(37.532600, 127.024612)
@@ -50,10 +53,10 @@ fun MainScreen(
                 uiSettings = uiState.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
                 markerInfos = uiState.markerInfos,
                 markerZoomLevel = 12f,
-                onMarkerClick = {
-                    targetStationId.value = it.id
-                },
-                mainMapCallback =
+//                onMarkerClick = {
+//                    targetStationId.value = it.id
+//                },
+                mainMapCallback = mainMapCallback
             )
             MenuButton(
                 toggleSmallMap = { saveSmallMapEnabled(!uiState.isSmallMapEnabled) },
