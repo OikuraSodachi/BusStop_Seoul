@@ -14,7 +14,6 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
-    /** Todo: composable 에 사용할 interface 의 instance 생성 작업을 여기서 할 지 고민해볼 것 **/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
