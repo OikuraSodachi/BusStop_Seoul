@@ -1,4 +1,4 @@
-package com.todokanai.busstop_seoul.compose.interfaces
+package com.todokanai.busstop_seoul.interfaces.compose
 
 import com.google.android.gms.maps.model.LatLngBounds
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
