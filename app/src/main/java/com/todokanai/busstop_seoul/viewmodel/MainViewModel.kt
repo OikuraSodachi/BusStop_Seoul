@@ -3,11 +3,12 @@ package com.todokanai.busstop_seoul.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
-import com.todokanai.busstop_seoul.util.MainMapCallback
+import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.StationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,37 +52,45 @@ class MainViewModel @Inject constructor(
         initialValue = MainActivityUiState()
     )
 
-    fun saveSmallMapEnabled(value: Boolean){
-        viewModelScope.launch {
-            mapUseCase.saveSmallMapEnabled(value)
-        }
-    }
-
-    fun saveRotationGesturesEnabled(value: Boolean) {
-        viewModelScope.launch {
-            mapUseCase.saveRotationGesturesEnabled(value)
-        }
-    }
-
-    suspend fun getArriveInfos_dummy(key:Long):List<StationArriveInfo>{
-        val testKey = 11111L
-        val testString ="경성"
-
-        val stationNames = stationUseCase.getStationByName(testString)
-        println(stationNames)
-
-        return stationUseCase.getArriveInfos(testKey).map{
-            StationArriveInfo(
-                lineNumber = it.rtNm.toString(),
-                estTime = it.arrmsg1.toString()
-            )
-        }
-    }
-
     // Todo: mainMapCallback 을 함수가 아닌 변수 (val) 로서 가지고 있는 것이 메모리 관리상 적절한지 고민해볼 것
-    val mainMapCallback : MainMapInterface = MainMapCallback()
+    val mainMapCallback = object: MainMapInterface {
+        override fun onMarkerClick(markerInfo: MarkerInfo) {
+            println("onMarkerClick")
+        }
 
+        override fun onVisibleRegionChanged(latLngBounds: LatLngBounds) {
+            println("onVisibleRegionChanged: ${latLngBounds}")
 
+        }
+
+    }
+
+    val mainScreenCallback = object : MainScreenInterface {
+        override suspend fun getArriveInfos(key: Long): List<StationArriveInfo> {
+            val testKey = 11111L
+            val testString ="경성"
+
+            val stationNames = stationUseCase.getStationByName(testString)
+            println(stationNames)
+
+            return stationUseCase.getArriveInfos(testKey).map{
+                StationArriveInfo(
+                    lineNumber = it.rtNm.toString(),
+                    estTime = it.arrmsg1.toString()
+                )
+            }
+        }
+        override fun saveSmallMapEnabled(value: Boolean) {
+            viewModelScope.launch {
+                mapUseCase.saveSmallMapEnabled(value)
+            }
+        }
+        override fun saveRotationGesturesEnabled(value: Boolean) {
+            viewModelScope.launch {
+                mapUseCase.saveRotationGesturesEnabled(value)
+            }
+        }
+    }
 }
 
 data class MainActivityUiState(

@@ -21,16 +21,8 @@ class MainActivity : ComponentActivity() {
             val uiState = viewModel.uiState.collectAsStateWithLifecycle()
             MainScreen(
                 uiState = uiState.value,
-                saveSmallMapEnabled = {
-                    viewModel.saveSmallMapEnabled(it)
-                },
-                getArriveInfos = {
-                    viewModel.getArriveInfos_dummy(it)
-                },
-                saveRotationGesturesEnabled = {
-                    viewModel.saveRotationGesturesEnabled(it)
-                },
-                mainMapCallback = viewModel.mainMapCallback
+                mainMapCallback = viewModel.mainMapCallback,
+                mainScreenInterface = viewModel.mainScreenCallback
             )
         }
     }

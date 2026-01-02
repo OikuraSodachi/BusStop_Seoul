@@ -20,17 +20,15 @@ import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
-import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
+import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
 import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 
 @Composable
 fun MainScreen(
     uiState: MainActivityUiState,
-    getArriveInfos: suspend (key:Long) -> List<StationArriveInfo>,
-    saveSmallMapEnabled: (Boolean) -> Unit,
-    saveRotationGesturesEnabled: (Boolean) -> Unit,
-    mainMapCallback: MainMapInterface
+    mainMapCallback: MainMapInterface,
+    mainScreenInterface: MainScreenInterface
 ){
     // Todo: targetStation 표시 여부에 대한 판단 로직을 다른 곳에서 수행해야 할 듯?
     val targetStationId = remember { mutableStateOf(null as Long?) }
@@ -53,14 +51,11 @@ fun MainScreen(
                 uiSettings = uiState.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
                 markerInfos = uiState.markerInfos,
                 markerZoomLevel = 12f,
-//                onMarkerClick = {
-//                    targetStationId.value = it.id
-//                },
                 mainMapCallback = mainMapCallback
             )
             MenuButton(
-                toggleSmallMap = { saveSmallMapEnabled(!uiState.isSmallMapEnabled) },
-                enableRotation = {saveRotationGesturesEnabled(!uiState.mapUiSettings.rotationGesturesEnabled) }
+                toggleSmallMap = { mainScreenInterface.saveSmallMapEnabled(!uiState.isSmallMapEnabled) },
+                enableRotation = {mainScreenInterface.saveRotationGesturesEnabled(!uiState.mapUiSettings.rotationGesturesEnabled) }
             )
             if (uiState.isSmallMapEnabled) {
                     SmallMap(
@@ -86,7 +81,7 @@ fun MainScreen(
         if(targetStationId.value != null){
             StationInfoScreen(
                 stationId = targetStationId.value!!,
-                getArriveInfos = {getArriveInfos(it)},
+                getArriveInfos = {mainScreenInterface.getArriveInfos(it)},
                 onClose = { targetStationId.value = null },
                 modifier = Modifier
                     .height(400.dp)
