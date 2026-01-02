@@ -9,7 +9,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
-import com.todokanai.busstop_seoul.interfaces.MainMapInterface
+import com.todokanai.busstop_seoul.compose.interfaces.MainMapInterface
 
 @Composable
 fun MainMap(

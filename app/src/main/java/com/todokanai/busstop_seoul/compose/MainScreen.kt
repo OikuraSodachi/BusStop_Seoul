@@ -21,7 +21,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
-import com.todokanai.busstop_seoul.interfaces.MainMapInterface
+import com.todokanai.busstop_seoul.compose.interfaces.MainMapInterface
 import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 
 @Composable

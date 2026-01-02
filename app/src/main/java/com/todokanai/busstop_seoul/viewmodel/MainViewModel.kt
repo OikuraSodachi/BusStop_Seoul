@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
-import com.todokanai.busstop_seoul.interfaces.MainMapInterface
+import com.todokanai.busstop_seoul.compose.interfaces.MainMapInterface
 import com.todokanai.busstop_seoul.util.MainMapCallback
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.StationUseCase

@@ -1,8 +1,9 @@
-package com.todokanai.busstop_seoul.interfaces
+package com.todokanai.busstop_seoul.compose.interfaces
 
 import com.google.android.gms.maps.model.LatLngBounds
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 
+/** interface for [com.todokanai.busstop_seoul.compose.map.MainMap] **/
 interface MainMapInterface {
 
     fun onMarkerClick(markerInfo: MarkerInfo)
