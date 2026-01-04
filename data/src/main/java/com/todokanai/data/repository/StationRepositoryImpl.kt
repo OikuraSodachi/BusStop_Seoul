@@ -1,5 +1,6 @@
 package com.todokanai.data.repository
 
+import android.util.Log
 import com.todokanai.data.retrofit.StationInfoRetrofit
 import com.todokanai.data.retrofit.StationArriveService
 import com.todokanai.data.retrofit.StationInfoService
@@ -22,7 +23,7 @@ class StationRepositoryImpl : StationRepository {
             responseList?.map { it.convert() } ?: emptyList()
 
         } catch (e: Exception) {
-            println("onFailure: ${e.message}")
+            Log.d("${this.javaClass}"+".getStationArriveInfos","onFailure: ${e.message}")
             emptyList()
         }
     }
@@ -37,7 +38,7 @@ class StationRepositoryImpl : StationRepository {
 
             responseList?.map{it.convert()}?:emptyList()
         } catch (e: Exception) {
-            println("onFailure: ${e.message}")
+            Log.d("${this.javaClass}"+".getStationByName","onFailure: ${e.message}")
             emptyList()
         }
     }
