@@ -13,4 +13,8 @@ class StationUseCase(private val stationRepository: StationRepository) {
         return stationRepository.getStationByName(key)
     }
 
+    suspend fun getAllStation():List<StationItem>{
+        return stationRepository.getAllStation()
+    }
+
 }
