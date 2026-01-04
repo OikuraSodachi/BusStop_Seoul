@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,8 +28,6 @@ fun MainScreen(
     mainMapCallback: MainMapInterface,
     mainScreenInterface: MainScreenInterface
 ){
-    // Todo: targetStation 표시 여부에 대한 판단 로직을 다른 곳에서 수행해야 할 듯?
-    val targetStationId = remember { mutableStateOf(null as Long?) }
 
     val seoul =  LatLng(37.532600, 127.024612)
     val cameraPositionState = rememberCameraPositionState {
@@ -42,10 +38,8 @@ fun MainScreen(
         modifier = Modifier.fillMaxSize()
     ){
         Box(
-            modifier = Modifier
-                .weight(1f)
+            modifier = Modifier.weight(1f)
         ){
-
             MainMap(
                 cameraPositionState = cameraPositionState,
                 uiSettings = uiState.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
@@ -78,11 +72,11 @@ fun MainScreen(
                 }
         }
 
-        if(targetStationId.value != null){
+        if(uiState.targetStationId != null){
             StationInfoScreen(
-                stationId = targetStationId.value!!,
+                stationId = uiState.targetStationId,
                 getArriveInfos = {mainScreenInterface.getArriveInfos(it)},
-                onClose = { targetStationId.value = null },
+                onClose = { mainScreenInterface.invalidateTargetStation() },
                 modifier = Modifier
                     .height(400.dp)
                     .fillMaxWidth()

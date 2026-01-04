@@ -8,4 +8,5 @@ interface MainScreenInterface {
     suspend fun getArriveInfos(key:Long): List<StationArriveInfo>
     fun saveSmallMapEnabled(value: Boolean)
     fun saveRotationGesturesEnabled(value: Boolean)
+    fun invalidateTargetStation()
 }

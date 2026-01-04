@@ -12,6 +12,7 @@ import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.StationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
@@ -24,11 +25,14 @@ class MainViewModel @Inject constructor(
     private val stationUseCase: StationUseCase
 ): ViewModel()  {
 
+    private val targetStationId = MutableStateFlow<Long?>(null)
+
     val uiState = combine(
         mapUseCase.smallMapEnabled(),
         mapUseCase.zoomControlsEnabled(),
-        mapUseCase.rotationGesturesEnabled()
-    ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled ->
+        mapUseCase.rotationGesturesEnabled(),
+        targetStationId
+    ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled, targetStation ->
         MainActivityUiState(
             isSmallMapEnabled = smallMapEnabled,
             mapUiSettings = MapUiSettings(
@@ -43,7 +47,8 @@ class MainViewModel @Inject constructor(
                     title = "Seoul",
                     snippet = "Marker in Seoul"
                 )
-            )
+            ),
+            targetStationId = targetStation
         )
 
     }.stateIn(
@@ -55,7 +60,11 @@ class MainViewModel @Inject constructor(
     // Todo: mainMapCallback 을 함수가 아닌 변수 (val) 로서 가지고 있는 것이 메모리 관리상 적절한지 고민해볼 것
     val mainMapCallback = object: MainMapInterface {
         override fun onMarkerClick(markerInfo: MarkerInfo) {
-            println("onMarkerClick: ${markerInfo}")
+            viewModelScope.launch {
+                println("onMarkerClick: ${markerInfo}")
+                val stationId = markerInfo.id
+                targetStationId.value = stationId
+            }
         }
 
         override fun onVisibleRegionChanged(latLngBounds: LatLngBounds) {
@@ -90,6 +99,12 @@ class MainViewModel @Inject constructor(
                 mapUseCase.saveRotationGesturesEnabled(value)
             }
         }
+
+        override fun invalidateTargetStation() {
+            viewModelScope.launch {
+                targetStationId.value = null
+            }
+        }
     }
 }
 
@@ -107,5 +122,6 @@ data class MainActivityUiState(
         scrollGesturesEnabled = false,
         tiltGesturesEnabled = false,
         zoomGesturesEnabled = false
-    )
+    ),
+    val targetStationId: Long? = null
 )
