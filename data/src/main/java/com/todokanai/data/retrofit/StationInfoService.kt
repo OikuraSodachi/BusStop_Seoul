@@ -11,4 +11,6 @@ interface StationInfoService {
     @GET("getStationByName?serviceKey=${BuildConfig.REST_API_KEY}")
     fun getStationByName(@Query("stSrch") stSrch: String ) : Call<StationInfoResponse>
 
+    @GET("getStationByPos?serviceKey=${BuildConfig.REST_API_KEY}")
+    fun getStationByPosition(@Query("tmX") tmX: String, @Query("tmY") tmY: String, @Query("radius") radius: String) : Call<StationInfoResponse>
 }

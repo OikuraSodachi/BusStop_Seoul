@@ -45,6 +45,8 @@ fun MainMap(
 
         if(!cameraPositionState.isMoving) {
             cameraPositionState.projection?.visibleRegion?.latLngBounds?.let{
+
+
                 mainMapCallback.onVisibleRegionChanged(it)
             }
         }

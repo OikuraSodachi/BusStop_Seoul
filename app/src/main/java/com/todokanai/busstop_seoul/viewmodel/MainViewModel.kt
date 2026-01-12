@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
+import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
 import com.todokanai.domain.MapUseCase
@@ -68,8 +69,18 @@ class MainViewModel @Inject constructor(
         }
 
         override fun onVisibleRegionChanged(latLngBounds: LatLngBounds) {
-            println("onVisibleRegionChanged: ${latLngBounds}")
+            viewModelScope.launch {
+                val tmX = latLngBounds.center.longitude
+                val tmY = latLngBounds.center.latitude
+                val radius : Int = 100        // Todo: radius 를 meter 단위로 변환하는 식 필요
 
+
+                mainScreenCallback.getVisibleStation(
+                    tmX = tmX,
+                    tmY = tmY,
+                    radius = radius.toInt()
+                )
+            }
         }
 
     }
@@ -79,8 +90,10 @@ class MainViewModel @Inject constructor(
             val testKey = 11111L
             val testString ="경성"
 
-            val stationNames = stationUseCase.getStationByName(testString)
-            println(stationNames)
+            //val stationNames = stationUseCase.getStationByName(testString)
+           // println(stationNames)
+
+          //  val allStation = stationUseCase.getAllStation()
 
             return stationUseCase.getArriveInfos(testKey).map{
                 StationArriveInfo(
@@ -88,6 +101,30 @@ class MainViewModel @Inject constructor(
                     estTime = it.arrmsg1.toString()
                 )
             }
+        }
+        override suspend fun getVisibleStation(
+            tmX: Double,
+            tmY: Double,
+            radius: Int
+        ): List<StationInfo> {
+            val result = stationUseCase.getStationByPosition(
+                tmX = tmX,
+                tmY = tmY,
+                radius = radius
+            ).map{
+                StationInfo(
+                    stId = it.stId.toString(),
+                    stNm = it.stNm.toString(),
+                    arsId = it.arsId.toString(),
+                    tmX = it.tmX.toString(),
+                    tmY = it.tmY.toString(),
+                    posX = it.posX.toString(),
+                    posY = it.posY.toString()
+                )
+            }
+            println("result: ${result}")
+
+            return result
         }
         override fun saveSmallMapEnabled(value: Boolean) {
             viewModelScope.launch {

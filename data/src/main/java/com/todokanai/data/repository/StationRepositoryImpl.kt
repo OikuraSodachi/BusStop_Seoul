@@ -44,7 +44,45 @@ class StationRepositoryImpl : StationRepository {
     }
 
     override suspend fun getAllStation(): List<StationItem> {
-        return emptyList() // Todo....
+        return try {
+            val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
+
+            val response = service.getStationByPosition(
+                tmX = "126.9161669371",
+                tmY = "37.5606439736",
+                radius = "50"
+            ).awaitResponse()
+
+            val responseList = response.body()?.msgBody?.itemList
+
+            println("size: ${responseList?.size}")
+            println("list: ${responseList}")
+            responseList?.map{it.convert()}?:emptyList()
+        } catch (e: Exception) {
+            Log.d("${this.javaClass}"+".getStationByName","onFailure: ${e.message}")
+            emptyList()
+        }
+    }
+
+    override suspend fun getStationByPosition(
+        tmX: String,
+        tmY: String,
+        radius: String
+    ): List<StationItem> {
+        return try {
+            val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
+
+            val response = service.getStationByPosition(tmX, tmY, radius).awaitResponse()
+
+            val responseList = response.body()?.msgBody?.itemList
+
+            println("size: ${responseList?.size}")
+            println("list: ${responseList}")
+            responseList?.map{it.convert()}?:emptyList()
+        } catch (e: Exception) {
+            Log.d("${this.javaClass}"+".getStationByName","onFailure: ${e.message}")
+            emptyList()
+        }
     }
 
     /** simpleXML Converter 관련 annotation 제거

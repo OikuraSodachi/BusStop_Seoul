@@ -11,4 +11,6 @@ interface StationRepository {
 
   suspend fun getAllStation(): List<StationItem>
 
+  suspend fun getStationByPosition(tmX:String, tmY:String, radius:String): List<StationItem>
+
 }

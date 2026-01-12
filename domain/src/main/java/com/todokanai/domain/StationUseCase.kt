@@ -17,4 +17,8 @@ class StationUseCase(private val stationRepository: StationRepository) {
         return stationRepository.getAllStation()
     }
 
+    suspend fun getStationByPosition(tmX: Double, tmY: Double, radius:Int):List<StationItem>{
+        return stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
+    }
+
 }
