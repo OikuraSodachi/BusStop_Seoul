@@ -43,27 +43,6 @@ class StationRepositoryImpl : StationRepository {
         }
     }
 
-    override suspend fun getAllStation(): List<StationItem> {
-        return try {
-            val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
-
-            val response = service.getStationByPosition(
-                tmX = "126.9161669371",
-                tmY = "37.5606439736",
-                radius = "50"
-            ).awaitResponse()
-
-            val responseList = response.body()?.msgBody?.itemList
-
-            println("size: ${responseList?.size}")
-            println("list: ${responseList}")
-            responseList?.map{it.convert()}?:emptyList()
-        } catch (e: Exception) {
-            Log.d("${this.javaClass}"+".getStationByName","onFailure: ${e.message}")
-            emptyList()
-        }
-    }
-
     override suspend fun getStationByPosition(
         tmX: String,
         tmY: String,
@@ -72,12 +51,17 @@ class StationRepositoryImpl : StationRepository {
         return try {
             val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
 
+            val testX = "126.9161669371"
+            val testY = "37.5606439736"
+            val testRadius = "50"
             val response = service.getStationByPosition(tmX, tmY, radius).awaitResponse()
+            //val response = service.getStationByPosition(testX, testY, testRadius).awaitResponse()
 
+            println("test: ${response.raw()}")
             val responseList = response.body()?.msgBody?.itemList
 
-            println("size: ${responseList?.size}")
-            println("list: ${responseList}")
+//            println("size: ${responseList?.size}")
+//            println("list: ${responseList}")
             responseList?.map{it.convert()}?:emptyList()
         } catch (e: Exception) {
             Log.d("${this.javaClass}"+".getStationByName","onFailure: ${e.message}")
