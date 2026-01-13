@@ -50,18 +50,9 @@ class StationRepositoryImpl : StationRepository {
     ): List<StationItem> {
         return try {
             val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
-
-            val testX = "126.9161669371"
-            val testY = "37.5606439736"
-            val testRadius = "50"
             val response = service.getStationByPosition(tmX, tmY, radius).awaitResponse()
-            //val response = service.getStationByPosition(testX, testY, testRadius).awaitResponse()
 
-            println("test: ${response.raw()}")
             val responseList = response.body()?.msgBody?.itemList
-
-//            println("size: ${responseList?.size}")
-//            println("list: ${responseList}")
             responseList?.map{it.convert()}?:emptyList()
         } catch (e: Exception) {
             Log.d("${this.javaClass}"+".getStationByName","onFailure: ${e.message}")
@@ -127,6 +118,18 @@ class StationRepositoryImpl : StationRepository {
     }
 
     private fun com.todokanai.data.retrofit.stationbyname.StationItem.convert(): StationItem {
+        return StationItem(
+            stId,
+            stNm,
+            arsId,
+            tmX?.toDouble(),
+            tmY?.toDouble(),
+            posX,
+            posY
+        )
+    }
+
+    private fun com.todokanai.data.retrofit.stationbyposition.StationByPositionItem.convert() : StationItem{
         return StationItem(
             stId,
             stNm,

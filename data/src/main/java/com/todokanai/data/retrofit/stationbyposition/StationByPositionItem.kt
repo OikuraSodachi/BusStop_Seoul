@@ -1,0 +1,35 @@
+package com.todokanai.data.retrofit.stationbyposition
+
+import org.simpleframework.xml.Element
+import org.simpleframework.xml.Root
+
+@Root(name = "itemList", strict = false)
+data class StationByPositionItem(
+    @field:Element(name = "stationId", required = false) // 'stationId'로 변경 (XML 기준)
+    var stId: String? = null,
+
+    @field:Element(name = "stationNm", required = false) // 'stationNm'으로 변경 (XML 기준)
+    var stNm: String? = null,
+
+    @field:Element(name = "arsId", required = false)
+    var arsId: String? = null,
+
+    @field:Element(name = "gpsX", required = false)     // gpsX, gpsY로 변경
+    var tmX: String? = null,
+
+    @field:Element(name = "gpsY", required = false)
+    var tmY: String? = null,
+
+    @field:Element(name = "posX", required = false)
+    var posX: String? = null,
+
+    @field:Element(name = "posY", required = false)
+    var posY: String? = null,
+
+    // 이 필드를 추가하세요
+    @field:Element(name = "dist", required = false)
+    var dist: String? = null,                          // 거리 (단위: 미터)
+
+    @field:Element(name = "stationTp", required = false)
+    var stationTp: String? = null                      // 정류소 타입
+)
