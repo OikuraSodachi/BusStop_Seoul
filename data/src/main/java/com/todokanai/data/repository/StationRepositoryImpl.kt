@@ -117,7 +117,7 @@ class StationRepositoryImpl : StationRepository {
         )
     }
 
-    private fun com.todokanai.data.retrofit.stationbyname.StationItem.convert(): StationItem {
+    private fun com.todokanai.data.retrofit.stationbyname.StationByNameItem.convert(): StationItem {
         return StationItem(
             stId,
             stNm,

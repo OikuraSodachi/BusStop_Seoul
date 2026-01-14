@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
 @Root(name = "itemList", strict = false)
-data class StationItem(
+data class StationByNameItem(
     @field:Element(name = "stId", required = false)
     var stId: String? = null,          // 정류소 ID
 
