@@ -1,5 +1,6 @@
 package com.todokanai.busstop_seoul.viewmodel
 
+import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
@@ -70,15 +71,24 @@ class MainViewModel @Inject constructor(
 
         override fun onVisibleRegionChanged(latLngBounds: LatLngBounds) {
             viewModelScope.launch {
-                val tmX = latLngBounds.center.longitude
-                val tmY = latLngBounds.center.latitude
-                val radius : Int = 100        // Todo: radius 를 meter 단위로 변환하는 식 필요
+                val northEast= latLngBounds.northeast
+                val southWest = latLngBounds.southwest
+                //--------
+                // Gemini generated code
+                val results = FloatArray(1)
+                Location.distanceBetween(
+                    northEast.latitude, northEast.longitude,
+                    southWest.latitude, southWest.longitude,
+                    results
+                )
 
-
+                val radiusInMeters = (results[0] / 2).toInt()
+                //
+                //-------
                 mainScreenCallback.getVisibleStation(
-                    tmX = tmX,
-                    tmY = tmY,
-                    radius = radius.toInt()
+                    tmX = latLngBounds.center.longitude,
+                    tmY = latLngBounds.center.latitude,
+                    radius = radiusInMeters
                 )
             }
         }
@@ -89,11 +99,6 @@ class MainViewModel @Inject constructor(
         override suspend fun getArriveInfos(key: Long): List<StationArriveInfo> {
             val testKey = 11111L
             val testString ="경성"
-
-            //val stationNames = stationUseCase.getStationByName(testString)
-           // println(stationNames)
-
-          //  val allStation = stationUseCase.getAllStation()
 
             return stationUseCase.getArriveInfos(testKey).map{
                 StationArriveInfo(
