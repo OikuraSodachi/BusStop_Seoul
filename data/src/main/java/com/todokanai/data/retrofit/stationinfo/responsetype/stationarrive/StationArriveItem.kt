@@ -1,6 +1,5 @@
-package com.todokanai.data.retrofit.stationarrive
+package com.todokanai.data.retrofit.stationinfo.responsetype.stationarrive
 
-import com.todokanai.domain.response.StationArriveItem
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 

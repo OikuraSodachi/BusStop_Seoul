@@ -1,9 +1,11 @@
 package com.todokanai.data.repository
 
 import android.util.Log
-import com.todokanai.data.retrofit.StationInfoRetrofit
-import com.todokanai.data.retrofit.StationArriveService
-import com.todokanai.data.retrofit.StationInfoService
+import com.todokanai.data.retrofit.stationinfo.StationInfoRetrofit
+import com.todokanai.data.retrofit.stationinfo.StationArriveService
+import com.todokanai.data.retrofit.stationinfo.StationInfoService
+import com.todokanai.data.retrofit.stationinfo.responsetype.stationbyname.StationByNameItem
+import com.todokanai.data.retrofit.stationinfo.responsetype.stationbyposition.StationByPositionItem
 import com.todokanai.domain.response.StationArriveItem
 import com.todokanai.domain.StationRepository
 import com.todokanai.domain.response.StationItem
@@ -62,7 +64,7 @@ class StationRepositoryImpl : StationRepository {
 
     /** simpleXML Converter 관련 annotation 제거
      *  @return [com.todokanai.domain.response.StationArriveItem] **/
-    private fun com.todokanai.data.retrofit.stationarrive.StationArriveItem.convert(): StationArriveItem {
+    private fun com.todokanai.data.retrofit.stationinfo.responsetype.stationarrive.StationArriveItem.convert(): StationArriveItem {
         return StationArriveItem(
             stId,
             stNm,
@@ -117,7 +119,7 @@ class StationRepositoryImpl : StationRepository {
         )
     }
 
-    private fun com.todokanai.data.retrofit.stationbyname.StationByNameItem.convert(): StationItem {
+    private fun StationByNameItem.convert(): StationItem {
         return StationItem(
             stId,
             stNm,
@@ -129,7 +131,7 @@ class StationRepositoryImpl : StationRepository {
         )
     }
 
-    private fun com.todokanai.data.retrofit.stationbyposition.StationByPositionItem.convert() : StationItem{
+    private fun StationByPositionItem.convert() : StationItem{
         return StationItem(
             stId,
             stNm,

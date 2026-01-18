@@ -1,7 +1,7 @@
-package com.todokanai.data.retrofit
+package com.todokanai.data.retrofit.stationinfo
 
 import com.todokanai.data.BuildConfig
-import com.todokanai.data.retrofit.stationarrive.StationArriveResponse
+import com.todokanai.data.retrofit.stationinfo.responsetype.stationarrive.StationArriveResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

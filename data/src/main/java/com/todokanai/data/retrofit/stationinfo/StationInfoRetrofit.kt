@@ -1,4 +1,4 @@
-package com.todokanai.data.retrofit
+package com.todokanai.data.retrofit.stationinfo
 
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory

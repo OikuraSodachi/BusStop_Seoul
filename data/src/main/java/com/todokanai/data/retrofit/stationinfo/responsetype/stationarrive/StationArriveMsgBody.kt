@@ -1,10 +1,10 @@
-package com.todokanai.data.retrofit.stationbyposition
+package com.todokanai.data.retrofit.stationinfo.responsetype.stationarrive
 
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 
 @Root(name = "msgBody", strict = false)
-data class StationByPositionMsgBody(
+data class StationArriveMsgBody(
     @field:ElementList(inline = true, entry = "itemList", required = false)
-    var itemList: List<StationByPositionItem>? = null
+    var itemList: List<StationArriveItem>? = null
 )

@@ -1,4 +1,4 @@
-package com.todokanai.data.retrofit.stationbyposition
+package com.todokanai.data.retrofit.stationinfo.responsetype.stationbyposition
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
