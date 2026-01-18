@@ -20,7 +20,6 @@ class StationRepositoryImpl : StationRepository {
             val response = service.getStationArrive(key.toString()).awaitResponse()
 
             val responseList = response.body()?.stationArriveMsgBody?.itemList
-
             responseList?.map { it.convert() } ?: emptyList()
 
         } catch (e: Exception) {

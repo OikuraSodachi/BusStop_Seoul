@@ -61,8 +61,7 @@ class MainViewModel @Inject constructor(
         override fun onMarkerClick(markerInfo: MarkerInfo) {
             viewModelScope.launch {
                 println("onMarkerClick: ${markerInfo}")
-                val stationId = markerInfo.id
-                targetStationId.value = stationId
+                targetStationId.value = markerInfo.id
             }
         }
 
@@ -80,10 +79,10 @@ class MainViewModel @Inject constructor(
                     )
                     markerInfos.value = result.map{
                         MarkerInfo(
-                            id = it.stId.toLong(),
+                            id = it.arsId.toLong(),
                             position = LatLng(it.tmY.toDouble(), it.tmX.toDouble()),
                             title = it.stNm,
-                            snippet = it.arsId
+                            snippet = null
                         )
                     }
                 }else{
@@ -96,10 +95,7 @@ class MainViewModel @Inject constructor(
 
     val mainScreenCallback = object : MainScreenInterface {
         override suspend fun getArriveInfos(key: Long): List<StationArriveInfo> {
-            val testKey = 11111L
-            val testString ="경성"
-
-            return stationUseCase.getArriveInfos(testKey).map{
+            return stationUseCase.getArriveInfos(key).map{
                 StationArriveInfo(
                     lineNumber = it.rtNm.toString(),
                     estTime = it.arrmsg1.toString()

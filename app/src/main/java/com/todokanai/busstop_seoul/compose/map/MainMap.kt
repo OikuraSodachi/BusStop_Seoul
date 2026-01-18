@@ -28,7 +28,6 @@ fun MainMap(
         uiSettings = uiSettings
     ) {
         markerInfos.forEach { markerInfo ->
-            println("marker: ${markerInfo.title}")
             Marker(
                 state = MarkerState(position = markerInfo.position),
                 title = markerInfo.title,
