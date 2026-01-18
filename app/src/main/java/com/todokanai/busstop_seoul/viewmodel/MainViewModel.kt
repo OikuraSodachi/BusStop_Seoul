@@ -81,7 +81,7 @@ class MainViewModel @Inject constructor(
                     markerInfos.value = result.map{
                         MarkerInfo(
                             id = it.stId.toLong(),
-                            position = LatLng(it.tmX.toDouble(), it.tmY.toDouble()),
+                            position = LatLng(it.tmY.toDouble(), it.tmX.toDouble()),
                             title = it.stNm,
                             snippet = it.arsId
                         )
