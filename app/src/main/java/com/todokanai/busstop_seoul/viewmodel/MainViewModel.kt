@@ -85,6 +85,8 @@ class MainViewModel @Inject constructor(
                 val radiusInMeters = (results[0] / 2).toInt()
                 //
                 //-------
+
+                //Todo: 지도 zoom 크기에 의한 getVisibleStation 수행 여부 결정 로직 짜기
                 mainScreenCallback.getVisibleStation(
                     tmX = latLngBounds.center.longitude,
                     tmY = latLngBounds.center.latitude,
