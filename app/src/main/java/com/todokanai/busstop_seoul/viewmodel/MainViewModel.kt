@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.VisibleRegion
 import com.google.maps.android.compose.MapUiSettings
+import com.todokanai.busstop_seoul.Constants.MAP_MARKER_MINIMUM_RADIUS
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
@@ -71,27 +73,17 @@ class MainViewModel @Inject constructor(
 
         override fun onVisibleRegionChanged(latLngBounds: LatLngBounds) {
             viewModelScope.launch {
-                val northEast= latLngBounds.northeast
-                val southWest = latLngBounds.southwest
-                //--------
-                // Gemini generated code
-                val results = FloatArray(1)
-                Location.distanceBetween(
-                    northEast.latitude, northEast.longitude,
-                    southWest.latitude, southWest.longitude,
-                    results
-                )
+                val radiusInMeters = getRadiusInMeters(latLngBounds)
 
-                val radiusInMeters = (results[0] / 2).toInt()
-                //
-                //-------
+                val isMarkerActive = radiusInMeters<MAP_MARKER_MINIMUM_RADIUS        // marker 기능 활성화 여부 결정
 
-                //Todo: 지도 zoom 크기에 의한 getVisibleStation 수행 여부 결정 로직 짜기
-                mainScreenCallback.getVisibleStation(
-                    tmX = latLngBounds.center.longitude,
-                    tmY = latLngBounds.center.latitude,
-                    radius = radiusInMeters
-                )
+                if(isMarkerActive) {
+                    mainScreenCallback.getVisibleStation(
+                        tmX = latLngBounds.center.longitude,
+                        tmY = latLngBounds.center.latitude,
+                        radius = radiusInMeters
+                    )
+                }
             }
         }
 
@@ -150,6 +142,22 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+    private fun getRadiusInMeters(latLngBounds: LatLngBounds): Int {
+        val results = FloatArray(1)
+        Location.distanceBetween(
+            latLngBounds.northeast.latitude, latLngBounds.northeast.longitude,
+            latLngBounds.southwest.latitude, latLngBounds.southwest.longitude,
+            results
+        )
+        val radiusInMeters = (results[0] / 2).toInt()
+        return radiusInMeters
+    }
+
+    private fun getZoomLevel(visibleRegion: VisibleRegion){
+
+    }
+
 }
 
 data class MainActivityUiState(
