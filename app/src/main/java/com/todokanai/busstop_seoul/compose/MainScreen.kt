@@ -44,7 +44,6 @@ fun MainScreen(
                 cameraPositionState = cameraPositionState,
                 uiSettings = uiState.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
                 markerInfos = uiState.markerInfos,
-                markerZoomLevel = 12f,
                 mainMapCallback = mainMapCallback
             )
             MenuButton(

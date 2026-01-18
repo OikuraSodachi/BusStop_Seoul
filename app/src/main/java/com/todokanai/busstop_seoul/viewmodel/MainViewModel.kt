@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.VisibleRegion
 import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.Constants.MAP_MARKER_MINIMUM_RADIUS
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
@@ -30,13 +29,16 @@ class MainViewModel @Inject constructor(
 ): ViewModel()  {
 
     private val targetStationId = MutableStateFlow<Long?>(null)
+    private val markerInfos = MutableStateFlow<List<MarkerInfo>>(emptyList())
 
     val uiState = combine(
         mapUseCase.smallMapEnabled(),
         mapUseCase.zoomControlsEnabled(),
         mapUseCase.rotationGesturesEnabled(),
+        markerInfos,
         targetStationId
-    ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled, targetStation ->
+    ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled, markers, targetStation ->
+        println("test: ${markers}")
         MainActivityUiState(
             isSmallMapEnabled = smallMapEnabled,
             mapUiSettings = MapUiSettings(
@@ -44,14 +46,7 @@ class MainViewModel @Inject constructor(
                 mapToolbarEnabled = false,
                 rotationGesturesEnabled = rotationGesturesEnabled
             ),
-            markerInfos = listOf(
-                MarkerInfo(
-                    id = 0,
-                    position = LatLng(37.532600, 127.024612),
-                    title = "Seoul",
-                    snippet = "Marker in Seoul"
-                )
-            ),
+            markerInfos = markers,
             targetStationId = targetStation
         )
 
@@ -78,11 +73,21 @@ class MainViewModel @Inject constructor(
                 val isMarkerActive = radiusInMeters<MAP_MARKER_MINIMUM_RADIUS        // marker 기능 활성화 여부 결정
 
                 if(isMarkerActive) {
-                    mainScreenCallback.getVisibleStation(
+                    val result= mainScreenCallback.getVisibleStation(
                         tmX = latLngBounds.center.longitude,
                         tmY = latLngBounds.center.latitude,
                         radius = radiusInMeters
                     )
+                    markerInfos.value = result.map{
+                        MarkerInfo(
+                            id = it.stId.toLong(),
+                            position = LatLng(it.tmX.toDouble(), it.tmY.toDouble()),
+                            title = it.stNm,
+                            snippet = it.arsId
+                        )
+                    }
+                }else{
+                    markerInfos.value = emptyList()
                 }
             }
         }
@@ -121,8 +126,6 @@ class MainViewModel @Inject constructor(
                     posY = it.posY.toString()
                 )
             }
-            println("result: ${result}")
-
             return result
         }
         override fun saveSmallMapEnabled(value: Boolean) {
@@ -152,10 +155,6 @@ class MainViewModel @Inject constructor(
         )
         val radiusInMeters = (results[0] / 2).toInt()
         return radiusInMeters
-    }
-
-    private fun getZoomLevel(visibleRegion: VisibleRegion){
-
     }
 
 }
