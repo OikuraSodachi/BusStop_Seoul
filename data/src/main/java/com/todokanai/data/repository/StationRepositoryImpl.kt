@@ -2,7 +2,6 @@ package com.todokanai.data.repository
 
 import android.util.Log
 import com.todokanai.data.retrofit.stationinfo.StationInfoRetrofit
-import com.todokanai.data.retrofit.stationinfo.StationArriveService
 import com.todokanai.data.retrofit.stationinfo.StationInfoService
 import com.todokanai.data.retrofit.stationinfo.responsetype.stationbyname.StationByNameItem
 import com.todokanai.data.retrofit.stationinfo.responsetype.stationbyposition.StationByPositionItem
@@ -16,7 +15,7 @@ class StationRepositoryImpl : StationRepository {
     /** Gemini Generated code **/
     override suspend fun getStationArriveInfos(key: Long): List<StationArriveItem> {
         return try {
-            val service = StationInfoRetrofit.stationInfoRetrofit.create(StationArriveService::class.java)
+            val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
 
             val response = service.getStationArrive(key.toString()).awaitResponse()
 
