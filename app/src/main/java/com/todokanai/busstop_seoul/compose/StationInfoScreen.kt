@@ -2,6 +2,7 @@ package com.todokanai.busstop_seoul.compose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -61,7 +62,9 @@ fun StationInfoScreen(
             onRefresh = { onRefresh() },
             state = swipeState
         ) {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
                 itemsIndexed(arriveInfos.value) { index, _ ->
                     StationArriveHolder(arriveInfos.value[index])
                     if (index < arriveInfos.value.lastIndex)
