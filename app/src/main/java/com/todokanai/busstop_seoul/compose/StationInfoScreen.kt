@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun StationInfoScreen(
     stationId:Long,
+    stationName:String,
     getArriveInfos: suspend (key:Long) -> List<StationArriveInfo>,
     onClose: () -> Unit,
     modifier:Modifier = Modifier
@@ -56,6 +57,7 @@ fun StationInfoScreen(
                     onClose()
                 }
         )
+        Text(text = stationName)
 
         PullToRefreshBox(
             isRefreshing = isRefreshing.value,
