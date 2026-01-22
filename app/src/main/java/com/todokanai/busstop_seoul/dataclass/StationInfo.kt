@@ -15,7 +15,4 @@ data class StationInfo(
 
     var tmY: String,           // 위도 (Latitude)
 
-    var posX: String? = null,          // 좌표 X (GRS80)
-
-    var posY: String? = null           // 좌표 Y (GRS80)
 )

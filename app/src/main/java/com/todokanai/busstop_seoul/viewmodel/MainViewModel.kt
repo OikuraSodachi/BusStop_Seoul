@@ -118,9 +118,7 @@ class MainViewModel @Inject constructor(
                     stNm = it.stNm.toString(),
                     arsId = it.arsId.toString(),
                     tmX = it.tmX.toString(),
-                    tmY = it.tmY.toString(),
-                    posX = it.posX.toString(),
-                    posY = it.posY.toString()
+                    tmY = it.tmY.toString()
                 )
             }
             return result
