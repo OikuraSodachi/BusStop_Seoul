@@ -28,7 +28,7 @@ class MainViewModel @Inject constructor(
     private val stationUseCase: StationUseCase
 ): ViewModel()  {
 
-    private val targetStationId = MutableStateFlow<Long?>(null)
+    private val targetStation = MutableStateFlow<StationInfo?>(null)
     private val markerInfos = MutableStateFlow<List<MarkerInfo>>(emptyList())
 
     val uiState = combine(
@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(
         mapUseCase.zoomControlsEnabled(),
         mapUseCase.rotationGesturesEnabled(),
         markerInfos,
-        targetStationId
+        targetStation
     ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled, markers, targetStation ->
         println("test: ${markers}")
         MainActivityUiState(
@@ -47,7 +47,7 @@ class MainViewModel @Inject constructor(
                 rotationGesturesEnabled = rotationGesturesEnabled
             ),
             markerInfos = markers,
-            targetStationId = targetStation
+            targetStation = targetStation
         )
 
     }.stateIn(
@@ -61,7 +61,8 @@ class MainViewModel @Inject constructor(
         override fun onMarkerClick(markerInfo: MarkerInfo) {
             viewModelScope.launch {
                 println("onMarkerClick: ${markerInfo}")
-                targetStationId.value = markerInfo.id
+                val result = markerInfos.value.first{it == markerInfo}
+                targetStation.value = result.stationInfo
             }
         }
 
@@ -79,7 +80,7 @@ class MainViewModel @Inject constructor(
                     )
                     markerInfos.value = result.map{
                         MarkerInfo(
-                            id = it.arsId.toLong(),
+                            stationInfo = it,
                             position = LatLng(it.tmY.toDouble(), it.tmX.toDouble()),
                             title = it.stNm,
                             snippet = null
@@ -137,7 +138,7 @@ class MainViewModel @Inject constructor(
 
         override fun invalidateTargetStation() {
             viewModelScope.launch {
-                targetStationId.value = null
+                targetStation.value = null
             }
         }
     }
@@ -170,5 +171,5 @@ data class MainActivityUiState(
         tiltGesturesEnabled = false,
         zoomGesturesEnabled = false
     ),
-    val targetStationId: Long? = null
+    val targetStation: StationInfo? = null
 )

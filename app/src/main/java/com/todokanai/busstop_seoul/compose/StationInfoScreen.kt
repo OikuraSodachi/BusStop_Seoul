@@ -20,13 +20,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.todokanai.busstop_seoul.compose.holder.StationArriveHolder
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
+import com.todokanai.busstop_seoul.dataclass.StationInfo
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StationInfoScreen(
-    stationId:Long,
-    stationName:String,
+    targetStation: StationInfo,
     getArriveInfos: suspend (key:Long) -> List<StationArriveInfo>,
     onClose: () -> Unit,
     modifier:Modifier = Modifier
@@ -40,7 +40,7 @@ fun StationInfoScreen(
         scope.launch {
             isRefreshing.value = true
             arriveInfos.value = emptyList()
-            arriveInfos.value = getArriveInfos(stationId)
+            arriveInfos.value = getArriveInfos(targetStation.arsId.toLong())
             isRefreshing.value = false
         }
     }
@@ -57,7 +57,7 @@ fun StationInfoScreen(
                     onClose()
                 }
         )
-        Text(text = stationName)
+        Text(text = targetStation.stNm)
 
         PullToRefreshBox(
             isRefreshing = isRefreshing.value,
@@ -76,7 +76,7 @@ fun StationInfoScreen(
         }
     }
 
-    LaunchedEffect(key1 = stationId) {
+    LaunchedEffect(key1 = targetStation.arsId) {
         onRefresh()
     }
 

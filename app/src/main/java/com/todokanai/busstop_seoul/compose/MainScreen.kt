@@ -71,10 +71,9 @@ fun MainScreen(
                 }
         }
 
-        if(uiState.targetStationId != null){
+        if(uiState.targetStation != null){
             StationInfoScreen(
-                stationId = uiState.targetStationId,
-                stationName = uiState.markerInfos.first { it.id == uiState.targetStationId }.title.toString(),
+                targetStation = uiState.targetStation,
                 getArriveInfos = {mainScreenInterface.getArriveInfos(it)},
                 onClose = { mainScreenInterface.invalidateTargetStation() },
                 modifier = Modifier
