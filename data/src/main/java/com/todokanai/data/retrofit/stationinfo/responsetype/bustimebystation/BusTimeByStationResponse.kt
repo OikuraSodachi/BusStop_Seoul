@@ -7,8 +7,8 @@ import org.simpleframework.xml.Root
 @Root(name = "ServiceResult", strict = false)
 data class BusTimeByStationResponse(
     @field:Element(name = "msgHeader", required = false)
-    var msgHeader: MsgHeader? = null,
+    val msgHeader: MsgHeader? = null,
 
     @field:Element(name = "msgBody", required = false)
-    var msgBody: BusTimeByStationMsgBody? = null
+    val msgBody: BusTimeByStationMsgBody? = null
 )

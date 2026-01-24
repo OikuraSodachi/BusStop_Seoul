@@ -4,5 +4,6 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class LineInfo(
-    val stationInfo : StationInfo
+    val stationInfo : StationInfo,
+    val busInfo : String?
 )

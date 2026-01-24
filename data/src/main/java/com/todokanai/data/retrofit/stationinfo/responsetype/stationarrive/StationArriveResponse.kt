@@ -7,8 +7,8 @@ import org.simpleframework.xml.Root
 @Root(name = "ServiceResult", strict = false)
 data class StationArriveResponse(
     @field:Element(name = "msgHeader", required = false)
-    var msgHeader: MsgHeader? = null,
+    val msgHeader: MsgHeader? = null,
 
     @field:Element(name = "msgBody", required = false)
-    var stationArriveMsgBody: StationArriveMsgBody? = null
+    val stationArriveMsgBody: StationArriveMsgBody? = null
 )
