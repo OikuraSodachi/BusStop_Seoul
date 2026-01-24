@@ -2,11 +2,14 @@ package com.todokanai.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.todokanai.data.repository.BusPositionRepositoryImpl
 import com.todokanai.data.repository.LocalDataRepository
 import com.todokanai.data.repository.SettingsRepositoryImpl
 import com.todokanai.data.repository.StationRepositoryImpl
 import com.todokanai.data.room.MyDatabase
 import com.todokanai.data.room.StationItemDao
+import com.todokanai.domain.BusPositionRepository
+import com.todokanai.domain.BusPositionUseCase
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.SettingsRepository
 import com.todokanai.domain.StationRepository
@@ -50,6 +53,11 @@ class DatabaseModule {
     }
 
     @Provides
+    fun provideBusPositionRepository(): BusPositionRepository {
+        return BusPositionRepositoryImpl()
+    }
+
+    @Provides
     fun provideStationItemDao(myDatabase: MyDatabase): StationItemDao {
         return myDatabase.stationItemDao()
     }
@@ -63,4 +71,10 @@ class DatabaseModule {
     fun provideStationUseCase(stationRepository: StationRepository): StationUseCase {
         return StationUseCase(stationRepository)
     }
+
+    @Provides
+    fun provideBusPositionUseCase(busPositionRepository: BusPositionRepository): BusPositionUseCase {
+        return BusPositionUseCase(busPositionRepository)
+    }
+
 }

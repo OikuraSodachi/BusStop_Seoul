@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 object BusPositionRetrofit {
-    val stationInfoRetrofit = Retrofit.Builder()
+    val busPositionRetrofit = Retrofit.Builder()
         .baseUrl(BUS_POSITION_BASE_URL)
         .addConverterFactory(SimpleXmlConverterFactory.create())
         .build()
