@@ -52,7 +52,7 @@ fun LineInfoHolder(
             // Todo: 정류장 표시 UI
         }
         Box(modifier = Modifier.weight(1f)) {
-            lineInfo.busInfo?.let {
+            lineInfo.busInfo.forEach {
                 Text(
                     text = it,
                     modifier = Modifier
@@ -73,7 +73,7 @@ private fun LineInfoHolderPreview(){
         LineInfoHolder(
             lineInfo = LineInfo(
                 stNm = "Name",
-                busInfo = "123"
+                busInfo = listOf("123", "123", "123", "123", "123", "123")
             ),
             modifier = Modifier.height(100.dp)
 

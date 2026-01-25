@@ -128,13 +128,24 @@ class MainViewModel @Inject constructor(
         }
 
         override suspend fun getLineInfos(routeId: Long): List<LineInfo> {
-            val result = busPositionUseCase.getBusPositions(routeId).map {
-                LineInfo(
-                    stNm = it.lastStnId,
-                    busInfo = it.plainNo.toString()
+            val stList = mutableListOf<String>()    // 노선이 지나는 정류장 목록
 
-                )
+            val response = busPositionUseCase.getBusPositions(routeId)
+            // Todo: stList 값 가져오기
+
+            fun busPositionCheck(stNm:String):List<String>{
+                // Todo: response 로부터, 해당 정류소에 위차한 버스 목록 가져오기. REST API 호출 횟수 최적화에 주의.
+                return emptyList()
             }
+            val result = stList.map{
+                LineInfo(
+                    stNm = it,
+                    busInfo = busPositionCheck(it)
+                )
+
+            }
+
+
             return result
         }
         override fun saveSmallMapEnabled(value: Boolean) {
