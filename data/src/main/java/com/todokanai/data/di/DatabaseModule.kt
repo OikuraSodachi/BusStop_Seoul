@@ -2,18 +2,19 @@ package com.todokanai.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.todokanai.data.repository.ArriveInfoRepositoryImpl
 import com.todokanai.data.repository.BusPositionRepositoryImpl
 import com.todokanai.data.repository.LocalDataRepository
 import com.todokanai.data.repository.SettingsRepositoryImpl
 import com.todokanai.data.repository.StationRepositoryImpl
 import com.todokanai.data.room.MyDatabase
 import com.todokanai.data.room.StationItemDao
+import com.todokanai.domain.ArriveInfoRepository
 import com.todokanai.domain.BusPositionRepository
-import com.todokanai.domain.BusPositionUseCase
+import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.SettingsRepository
 import com.todokanai.domain.StationRepository
-import com.todokanai.domain.StationUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -68,13 +69,21 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideStationUseCase(stationRepository: StationRepository): StationUseCase {
-        return StationUseCase(stationRepository)
+    fun provideArriveInfoRepository():ArriveInfoRepository{
+        return ArriveInfoRepositoryImpl()
     }
 
     @Provides
-    fun provideBusPositionUseCase(busPositionRepository: BusPositionRepository): BusPositionUseCase {
-        return BusPositionUseCase(busPositionRepository)
+    fun provideBusUseCase(
+        stationRepository: StationRepository,
+        busPositionRepository: BusPositionRepository,
+        arriveInfoRepository: ArriveInfoRepository
+    ): BusUseCase{
+        return BusUseCase(
+            stationRepository,
+            busPositionRepository,
+            arriveInfoRepository
+        )
     }
 
 }

@@ -1,9 +1,15 @@
 package com.todokanai.domain
 
+import com.todokanai.domain.response.BusPositionItem
 import com.todokanai.domain.response.StationArriveItem
 import com.todokanai.domain.response.StationItem
+import javax.inject.Inject
 
-class StationUseCase(private val stationRepository: StationRepository) {
+class BusUseCase @Inject constructor(
+    private val stationRepository: StationRepository,
+    private val busPositionRepository: BusPositionRepository,
+    private val arriveInfoRepository: ArriveInfoRepository
+) {
 
     suspend fun getArriveInfos(key:Long):List<StationArriveItem>{
         return stationRepository.getStationArriveInfos(key)
@@ -17,4 +23,7 @@ class StationUseCase(private val stationRepository: StationRepository) {
         return stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
     }
 
+    suspend fun getBusPositions(key: Long): List<BusPositionItem> {
+        return busPositionRepository.getBusPositions(key)
+    }
 }

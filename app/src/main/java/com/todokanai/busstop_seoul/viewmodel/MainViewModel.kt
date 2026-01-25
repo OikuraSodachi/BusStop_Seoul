@@ -13,9 +13,8 @@ import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
-import com.todokanai.domain.BusPositionUseCase
+import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.MapUseCase
-import com.todokanai.domain.StationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,8 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val mapUseCase: MapUseCase,
-    private val stationUseCase: StationUseCase,
-    private val busPositionUseCase : BusPositionUseCase
+    private val busUseCase: BusUseCase
 ): ViewModel()  {
 
     private val targetStation = MutableStateFlow<StationInfo?>(null)
@@ -99,7 +97,7 @@ class MainViewModel @Inject constructor(
 
     val mainScreenCallback = object : MainScreenInterface {
         override suspend fun getArriveInfos(key: Long): List<StationArriveInfo> {
-            return stationUseCase.getArriveInfos(key).map{
+            return busUseCase.getArriveInfos(key).map{
                 StationArriveInfo(
                     lineNumber = it.rtNm.toString(),
                     estTime = it.arrmsg1.toString()
@@ -111,7 +109,7 @@ class MainViewModel @Inject constructor(
             tmY: Double,
             radius: Int
         ): List<StationInfo> {
-            val result = stationUseCase.getStationByPosition(
+            val result = busUseCase.getStationByPosition(
                 tmX = tmX,
                 tmY = tmY,
                 radius = radius
@@ -130,7 +128,7 @@ class MainViewModel @Inject constructor(
         override suspend fun getLineInfos(routeId: Long): List<LineInfo> {
             val stList = mutableListOf<String>()    // 노선이 지나는 정류장 목록
 
-            val response = busPositionUseCase.getBusPositions(routeId)
+            val response = busUseCase.getBusPositions(routeId)
             // Todo: stList 값 가져오기
 
             fun busPositionCheck(stNm:String):List<String>{
