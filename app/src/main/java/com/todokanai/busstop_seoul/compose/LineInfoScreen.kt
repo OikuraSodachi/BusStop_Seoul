@@ -1,15 +1,16 @@
 package com.todokanai.busstop_seoul.compose
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.todokanai.busstop_seoul.compose.holder.LineInfoHolder
 import com.todokanai.busstop_seoul.dataclass.LineInfo
 import kotlinx.coroutines.launch
@@ -18,26 +19,26 @@ import kotlinx.coroutines.launch
 @Composable
 fun LineInfoScreen(
     routeId:Long,
-    getLineInfo:LineInfo
+    getLineInfos:suspend (Long) -> List<LineInfo>
 ){
 
-    val swipeState = rememberPullToRefreshState()
-    val isRefreshing = remember{mutableStateOf(false)}
     val scope = rememberCoroutineScope()
     val lineInfos = remember{ mutableStateOf(emptyList<LineInfo>())}
 
     fun onRefresh(){
         scope.launch {
-            isRefreshing.value = true
-
-            isRefreshing.value = false
+            lineInfos.value = emptyList()
+            lineInfos.value = getLineInfos(routeId)
         }
     }
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         itemsIndexed(lineInfos.value){ index, _ ->
-            LineInfoHolder(lineInfos.value[index])
+            LineInfoHolder(
+                lineInfo = lineInfos.value[index],
+                modifier = Modifier.height(150.dp)
+            )
             if(index < lineInfos.value.lastIndex)
                 HorizontalDivider()
         }

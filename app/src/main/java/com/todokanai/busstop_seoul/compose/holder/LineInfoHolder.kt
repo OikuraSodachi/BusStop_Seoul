@@ -1,16 +1,22 @@
 package com.todokanai.busstop_seoul.compose.holder
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.todokanai.busstop_seoul.dataclass.LineInfo
-import com.todokanai.busstop_seoul.dataclass.StationInfo
 
 @Composable
 fun LineInfoHolder(
@@ -18,14 +24,31 @@ fun LineInfoHolder(
     modifier: Modifier = Modifier
 ){
     Row(modifier = modifier){
-        Box(modifier = Modifier.weight(1f)) {
-            Text(
-                text = lineInfo.stationInfo.stNm,
+        Column(
+            modifier = Modifier
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize()
+                .weight(1f)
+                .width(4.dp)
+                .background(Color.Red)
             )
 
+            Text(
+                text = lineInfo.stNm,
+                modifier = Modifier
+                    .wrapContentSize()
+                    .weight(1f)
+            )
+
+            Box(
+                modifier = Modifier
+                .weight(1f)
+                .width(4.dp)
+                .background(Color.Red)
+            )
             // Todo: 정류장 표시 UI
         }
         Box(modifier = Modifier.weight(1f)) {
@@ -49,15 +72,10 @@ private fun LineInfoHolderPreview(){
     Surface{
         LineInfoHolder(
             lineInfo = LineInfo(
-                stationInfo = StationInfo(
-                    stId = "1",
-                    stNm = "2",
-                    arsId = "3",
-                    tmX = "4",
-                    tmY = "5"
-                ),
+                stNm = "Name",
                 busInfo = "123"
-            )
+            ),
+            modifier = Modifier.height(100.dp)
 
         )
 

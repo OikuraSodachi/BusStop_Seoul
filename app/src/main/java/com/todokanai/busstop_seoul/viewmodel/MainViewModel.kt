@@ -7,11 +7,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.Constants.MAP_MARKER_MINIMUM_RADIUS
+import com.todokanai.busstop_seoul.dataclass.LineInfo
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
+import com.todokanai.domain.BusPositionUseCase
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.StationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +27,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val mapUseCase: MapUseCase,
-    private val stationUseCase: StationUseCase
+    private val stationUseCase: StationUseCase,
+    private val busPositionUseCase : BusPositionUseCase
 ): ViewModel()  {
 
     private val targetStation = MutableStateFlow<StationInfo?>(null)
@@ -119,6 +122,17 @@ class MainViewModel @Inject constructor(
                     arsId = it.arsId.toString(),
                     tmX = it.tmX.toString(),
                     tmY = it.tmY.toString()
+                )
+            }
+            return result
+        }
+
+        override suspend fun getLineInfos(routeId: Long): List<LineInfo> {
+            val result = busPositionUseCase.getBusPositions(routeId).map {
+                LineInfo(
+                    stNm = it.lastStnId,
+                    busInfo = it.plainNo.toString()
+
                 )
             }
             return result
