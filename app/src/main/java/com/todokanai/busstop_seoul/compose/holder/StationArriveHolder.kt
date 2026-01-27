@@ -25,7 +25,7 @@ fun StationArriveHolder(
         Text(
             modifier = Modifier
                 .padding(4.dp),
-            text = stationArriveInfo.lineNumber
+            text = stationArriveInfo.rtNm.toString()
         )
 
         Text(
@@ -33,12 +33,13 @@ fun StationArriveHolder(
                 .fillMaxWidth()
                 .background(Color.Cyan)
                 .padding(4.dp),
-            text = stationArriveInfo.estTime
+            text = stationArriveInfo.arrmsg1.toString()
         )
     }
 
 }
 
+/*
 @Preview
 @Composable
 private fun StationArriveHolderPreview(){
@@ -51,3 +52,5 @@ private fun StationArriveHolderPreview(){
         )
     }
 }
+
+ */

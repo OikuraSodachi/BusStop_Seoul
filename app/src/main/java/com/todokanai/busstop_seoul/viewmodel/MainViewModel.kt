@@ -15,6 +15,8 @@ import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.MapUseCase
+import com.todokanai.domain.response.StationArriveItem
+import com.todokanai.domain.response.StationItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -98,10 +100,7 @@ class MainViewModel @Inject constructor(
     val mainScreenCallback = object : MainScreenInterface {
         override suspend fun getArriveInfos(key: Long): List<StationArriveInfo> {
             return busUseCase.getArriveInfos(key).map{
-                StationArriveInfo(
-                    lineNumber = it.rtNm.toString(),
-                    estTime = it.arrmsg1.toString()
-                )
+                it.toStationArriveInfo()
             }
         }
         override suspend fun getVisibleStation(
@@ -114,13 +113,7 @@ class MainViewModel @Inject constructor(
                 tmY = tmY,
                 radius = radius
             ).map{
-                StationInfo(
-                    stId = it.stId.toString(),
-                    stNm = it.stNm.toString(),
-                    arsId = it.arsId.toString(),
-                    tmX = it.tmX.toString(),
-                    tmY = it.tmY.toString()
-                )
+                it.toStationInfo()
             }
             return result
         }
@@ -174,6 +167,76 @@ class MainViewModel @Inject constructor(
         val radiusInMeters = (results[0] / 2).toInt()
         return radiusInMeters
     }
+
+    private fun StationArriveItem.toStationArriveInfo(): StationArriveInfo {
+        return StationArriveInfo(
+            stId = stId,
+            stNm = stNm,
+            arsId = arsId,
+            busRouteId = busRouteId,
+            rtNm = rtNm,
+            busRouteAbrv = busRouteAbrv,
+            sectNm = sectNm,
+            gpsX = gpsX,
+            gpsY = gpsY,
+            stationTp = stationTp,
+            firstTm = firstTm,
+            lastTm = lastTm,
+            term = term,
+            routeType = routeType,
+            nextBus = nextBus,
+            staOrd = staOrd,
+            vehId1 = vehId1,
+            sectOrd1 = sectOrd1,
+            stationNm1 = stationNm1,
+            traTime1 = traTime1,
+            traSpd1 = traSpd1,
+            isArrive1 = isArrive1,
+            repTm1 = repTm1,
+            isLast1 = isLast1,
+            busType1 = busType1,
+            vehId2 = vehId2,
+            sectOrd2 = sectOrd2,
+            stationNm2 = stationNm2,
+            traTime2 = traTime2,
+            traSpd2 = traSpd2,
+            isArrive2 = isArrive2,
+            isLast2 = isLast2,
+            busType2 = busType2,
+            adirection = adirection,
+            arrmsg1 = arrmsg1,
+            arrmsg2 = arrmsg2,
+            arrmsgSec1 = arrmsgSec1,
+            arrmsgSec2 = arrmsgSec2,
+            nxtStn = nxtStn,
+            rerdieDiv1 = rerdieDiv1,
+            rerdieDiv2 = rerdieDiv2,
+            rerideNum1 = rerideNum1,
+            rerideNum2 = rerideNum2,
+            isFullFlag1 = isFullFlag1,
+            isFullFlag2 = isFullFlag2,
+            deTourAt = deTourAt,
+            congestion1 = congestion1,
+            congestion2 = congestion2,
+            remndrNmpr1 = remndrNmpr1,
+            remndrNmpr2 = remndrNmpr2
+        )
+    }
+
+    // Todo: tmX, tmY 값 null 케이스 제거
+    private fun StationItem.toStationInfo(): StationInfo {
+        return StationInfo(
+            stId = stId.toString(),
+            stNm = stNm.toString(),
+            arsId = arsId.toString(),
+            tmX = tmX?: 0.0,
+            tmY = tmY?: 0.0,
+            posX = posX,
+            posY = posY,
+            stationTp = stationTp
+        )
+    }
+
 
 }
 
