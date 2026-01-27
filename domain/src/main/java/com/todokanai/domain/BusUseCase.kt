@@ -1,5 +1,6 @@
 package com.todokanai.domain
 
+import com.todokanai.domain.response.ArriveInfoByRouteAllItem
 import com.todokanai.domain.response.BusPositionItem
 import com.todokanai.domain.response.StationArriveItem
 import com.todokanai.domain.response.StationItem
@@ -25,5 +26,10 @@ class BusUseCase @Inject constructor(
 
     suspend fun getBusPositions(key: Long): List<BusPositionItem> {
         return busPositionRepository.getBusPositions(key)
+    }
+
+    suspend fun getArriveInfoByRouteAll(key:Long):List<ArriveInfoByRouteAllItem>{
+        return arriveInfoRepository.getArriveInfoByRouteAll(key)
+
     }
 }

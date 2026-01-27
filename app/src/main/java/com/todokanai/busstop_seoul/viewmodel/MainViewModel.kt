@@ -128,7 +128,7 @@ class MainViewModel @Inject constructor(
         override suspend fun getLineInfos(routeId: Long): List<LineInfo> {
             val stList = mutableListOf<String>()    // 노선이 지나는 정류장 목록
 
-            val response = busUseCase.getBusPositions(routeId)
+            val response = busUseCase.getArriveInfoByRouteAll(routeId)
             // Todo: stList 값 가져오기
 
             fun busPositionCheck(stNm:String):List<String>{
