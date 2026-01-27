@@ -6,29 +6,29 @@ import org.simpleframework.xml.Root
 @Root(name = "itemList", strict = false)
 data class StationByPositionItem(
     @field:Element(name = "stationId", required = false) // 'stationId'로 변경 (XML 기준)
-    val stId: String? = null,
+    var stId: String? = null,
 
     @field:Element(name = "stationNm", required = false) // 'stationNm'으로 변경 (XML 기준)
-    val stNm: String? = null,
+    var stNm: String? = null,
 
     @field:Element(name = "arsId", required = false)
-    val arsId: String? = null,
+    var arsId: String? = null,
 
     @field:Element(name = "gpsX", required = false)     // gpsX, gpsY로 변경
-    val tmX: String? = null,
+    var tmX: String? = null,
 
     @field:Element(name = "gpsY", required = false)
-    val tmY: String? = null,
+    var tmY: String? = null,
 
     @field:Element(name = "posX", required = false)
-    val posX: String? = null,
+    var posX: String? = null,
 
     @field:Element(name = "posY", required = false)
-    val posY: String? = null,
+    var posY: String? = null,
 
     @field:Element(name = "dist", required = false)
-    val dist: String? = null,                          // 거리 (단위: 미터)
+    var dist: String? = null,                          // 거리 (단위: 미터)
 
     @field:Element(name = "stationTp", required = false)
-    val stationTp: String? = null                      // 정류소 타입
+    var stationTp: String? = null                      // 정류소 타입
 )

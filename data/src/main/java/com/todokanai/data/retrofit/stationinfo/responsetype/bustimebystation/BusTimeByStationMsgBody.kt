@@ -6,5 +6,5 @@ import org.simpleframework.xml.Root
 @Root(name = "ServiceResult", strict = false)
 data class BusTimeByStationMsgBody(
     @field:Element(name = "itemList", required = false)
-    val itemList: List<BusTimeByStationItem>? = null
+    var itemList: List<BusTimeByStationItem>? = null
 )

@@ -6,5 +6,5 @@ import org.simpleframework.xml.Root
 @Root(name = "msgBody", strict = false)
 data class ArriveInfoByRouteAllMsgBody(
     @field:Element(name = "itemList", required = false)
-    val itemList: List<ArriveInfoByRouteAllItem>? = null
+    var itemList: List<ArriveInfoByRouteAllItem>? = null
 )

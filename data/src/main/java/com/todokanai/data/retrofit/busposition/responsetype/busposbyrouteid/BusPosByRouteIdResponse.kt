@@ -8,8 +8,8 @@ import org.simpleframework.xml.Root
 data class BusPosByRouteIdResponse(
 
     @field:Element(name = "msgHeader", required = false)
-    val msgHeader: MsgHeader? = null,
+    var msgHeader: MsgHeader? = null,
     @field:Element(name = "msgBody", required = false)
-    val msgBody: BusPosByRouteIdMsgBody? = null
+    var msgBody: BusPosByRouteIdMsgBody? = null
 
 )

@@ -6,5 +6,5 @@ import org.simpleframework.xml.Root
 @Root(name = "msgBody", strict = false)
 data class StationByNameMsgBody(
     @field:ElementList(inline = true, entry = "itemList", required = false)
-    val itemList: List<StationByNameItem>? = null
+    var itemList: List<StationByNameItem>? = null
 )
