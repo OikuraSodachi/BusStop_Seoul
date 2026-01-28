@@ -25,7 +25,7 @@ fun StationArriveHolder(
         Text(
             modifier = Modifier
                 .padding(4.dp),
-            text = stationArriveInfo.rtNm.toString()
+            text = stationArriveInfo.rtNm
         )
 
         Text(

@@ -4,15 +4,15 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class StationArriveInfo(
-    val stId: String? = null,          // 정류소 고유 ID
+    val stId: String,          // 정류소 고유 ID
 
-    val stNm: String? = null,          // 정류소명
+    val stNm: String,          // 정류소명
 
-    val arsId: String? = null,         // 정류소 번호 (5자리)
+    val arsId: String,         // 정류소 번호 (5자리)
 
-    val busRouteId: String? = null,    // 노선 ID
+    val busRouteId: String,    // 노선 ID
 
-    val rtNm: String? = null,          // 노선명
+    val rtNm: String,          // 노선명
 
     val busRouteAbrv: String? = null,  // 노선 약어
 
