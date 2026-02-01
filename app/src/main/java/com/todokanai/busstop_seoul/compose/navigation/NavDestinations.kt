@@ -1,0 +1,21 @@
+package com.todokanai.busstop_seoul.compose.navigation
+
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+
+sealed interface NavDestinations{
+    val route: String
+}
+
+data object MainScreen: NavDestinations{
+    override val route: String = "MainScreen"
+}
+
+data object LineInfoScreen: NavDestinations{
+    override val route: String = "LineInfoScreen"
+    const val lineInfoArg = "line_info"
+    val routeWithArgs = "$route/{$lineInfoArg}"
+    val arguments = listOf(
+        navArgument(lineInfoArg) { type = NavType.StringType }
+    )
+}
