@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.todokanai.busstop_seoul.compose.MainScreen
 import com.todokanai.busstop_seoul.viewmodel.MainViewModel
@@ -17,13 +18,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-            MainScreen(
-                uiState = uiState.value,
-                mainMapCallback = viewModel.mainMapCallback,
-                mainScreenInterface = viewModel.mainScreenCallback
-            )
+            BusStopApp(viewModel)
         }
     }
 
+}
+
+@Composable
+fun BusStopApp(viewModel: MainViewModel){
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    MainScreen(
+        uiState = uiState.value,
+        mainMapCallback = viewModel.mainMapCallback,
+        mainScreenInterface = viewModel.mainScreenCallback
+    )
 }
