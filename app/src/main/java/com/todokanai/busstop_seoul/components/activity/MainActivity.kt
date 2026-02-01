@@ -10,6 +10,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.todokanai.busstop_seoul.compose.MainScreen
+import com.todokanai.busstop_seoul.compose.navigation.BusNavHost
 import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,10 +34,9 @@ fun BusStopApp(viewModel: MainViewModel){
     val currentBackStack by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStack?.destination
 
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    MainScreen(
-        uiState = uiState.value,
-        mainMapCallback = viewModel.mainMapCallback,
-        mainScreenInterface = viewModel.mainScreenCallback
+    //val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    BusNavHost(
+        navController = navController,
+        viewModel = viewModel
     )
 }

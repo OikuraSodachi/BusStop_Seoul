@@ -2,13 +2,18 @@ package com.todokanai.busstop_seoul.compose.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.todokanai.busstop_seoul.compose.LineInfoScreen
+import com.todokanai.busstop_seoul.compose.MainScreen
+import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 
 @Composable
 fun BusNavHost(
     navController: NavHostController,
+    viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -17,13 +22,25 @@ fun BusNavHost(
         modifier = modifier
     ){
         composable(route = MainScreen.route){
-
+            val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+            MainScreen(
+                uiState = uiState.value,
+                mainMapCallback = viewModel.mainMapCallback,
+                mainScreenInterface = viewModel.mainScreenCallback,
+                navController = navController
+            )
         }
 
         composable(
-            route = LineInfoScreen.route,
+            route = LineInfoScreen.routeWithArgs,
             arguments = LineInfoScreen.arguments
         ) {
+            LineInfoScreen(
+                routeId = it.arguments?.getString(LineInfoScreen.lineInfoArg)?.toLong() ?: 0L,
+                getLineInfos = {routeId ->
+                    viewModel.mainScreenCallback.getLineInfos(routeId)
+                }
+            )
 
         }
     }

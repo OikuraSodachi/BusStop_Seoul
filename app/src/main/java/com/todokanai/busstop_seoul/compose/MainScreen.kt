@@ -12,12 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
+import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
 import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
@@ -26,7 +28,8 @@ import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
 fun MainScreen(
     uiState: MainActivityUiState,
     mainMapCallback: MainMapInterface,
-    mainScreenInterface: MainScreenInterface
+    mainScreenInterface: MainScreenInterface,
+    navController: NavHostController
 ){
 
     val seoul =  LatLng(37.532600, 127.024612)
@@ -76,6 +79,7 @@ fun MainScreen(
                 targetStation = uiState.targetStation,
                 getArriveInfos = {mainScreenInterface.getArriveInfos(it)},
                 onClose = { mainScreenInterface.invalidateTargetStation() },
+                toLineInfoScreen = { navController.navigateToLineInfo(it) },
                 modifier = Modifier
                     .height(400.dp)
                     .fillMaxWidth()

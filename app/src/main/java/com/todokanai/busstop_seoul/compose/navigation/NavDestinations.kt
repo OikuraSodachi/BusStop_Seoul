@@ -13,7 +13,7 @@ data object MainScreen: NavDestinations{
 
 data object LineInfoScreen: NavDestinations{
     override val route: String = "LineInfoScreen"
-    const val lineInfoArg = "line_info"
+    const val lineInfoArg = "lineInfoArg"
     val routeWithArgs = "$route/{$lineInfoArg}"
     val arguments = listOf(
         navArgument(lineInfoArg) { type = NavType.StringType }

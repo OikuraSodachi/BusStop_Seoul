@@ -29,6 +29,7 @@ fun StationInfoScreen(
     targetStation: StationInfo,
     getArriveInfos: suspend (key:Long) -> List<StationArriveInfo>,
     onClose: () -> Unit,
+    toLineInfoScreen: (routeId:Long) -> Unit,
     modifier:Modifier = Modifier
 ){
     val swipeState = rememberPullToRefreshState()
@@ -68,7 +69,13 @@ fun StationInfoScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 itemsIndexed(arriveInfos.value) { index, _ ->
-                    StationArriveHolder(arriveInfos.value[index])
+                    StationArriveHolder(
+                        stationArriveInfo = arriveInfos.value[index],
+                        modifier = Modifier
+                            .clickable{
+                                toLineInfoScreen(arriveInfos.value[index].busRouteId.toLong())
+                            }
+                    )
                     if (index < arriveInfos.value.lastIndex)
                         HorizontalDivider()
                 }
