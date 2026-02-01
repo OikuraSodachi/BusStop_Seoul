@@ -16,6 +16,7 @@ class ArriveInfoRepositoryImpl: ArriveInfoRepository {
 
             val responseList = response.body()?.msgBody?.itemList
 
+            println("responseList: ${responseList}")
             responseList?.map { it.convert() } ?: emptyList()
 
 

@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface BusArriveInfoService {
 
-    @GET("/getArrInfoByRouteAll?serviceKey=${BuildConfig.REST_API_KEY}")
+    @GET("getArrInfoByRouteAll?serviceKey=${BuildConfig.REST_API_KEY}")
     fun getArriveInfoByRouteAll(@Query("busRouteId") busRouteId: String): Call<ArriveInfoByRouteAllResponse>
 
 }
