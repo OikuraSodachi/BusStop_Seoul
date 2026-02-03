@@ -41,7 +41,6 @@ class MainViewModel @Inject constructor(
         markerInfos,
         targetStation
     ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled, markers, targetStation ->
-        println("test: ${markers}")
         MainActivityUiState(
             isSmallMapEnabled = smallMapEnabled,
             mapUiSettings = MapUiSettings(
@@ -63,7 +62,6 @@ class MainViewModel @Inject constructor(
     val mainMapCallback = object: MainMapInterface {
         override fun onMarkerClick(markerInfo: MarkerInfo) {
             viewModelScope.launch {
-                println("onMarkerClick: ${markerInfo}")
                 val result = markerInfos.value.first{it == markerInfo}
                 targetStation.value = result.stationInfo
             }
@@ -119,10 +117,11 @@ class MainViewModel @Inject constructor(
         }
 
         override suspend fun getLineInfos(routeId: Long): List<LineInfo> {
-            val stList = mutableListOf<String>()    // 노선이 지나는 정류장 목록
 
             val response = busUseCase.getArriveInfoByRouteAll(routeId)
-            // Todo: stList 값 가져오기
+            val stList = response.map{
+                it.stNm.toString()
+            }           // 노선이 지나는 정류소 목록
 
             fun busPositionCheck(stNm:String):List<String>{
                 // Todo: response 로부터, 해당 정류소에 위차한 버스 목록 가져오기. REST API 호출 횟수 최적화에 주의.
@@ -135,7 +134,6 @@ class MainViewModel @Inject constructor(
                 )
 
             }
-
 
             return result
         }
