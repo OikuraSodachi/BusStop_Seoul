@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.todokanai.busstop_seoul.compose.MainScreen
 import com.todokanai.busstop_seoul.compose.navigation.BusNavHost
+import com.todokanai.busstop_seoul.compose.ui.BusStopTheme
 import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BusStopApp(viewModel)
+            BusStopTheme {
+                BusStopApp(viewModel)
+            }
         }
     }
 
