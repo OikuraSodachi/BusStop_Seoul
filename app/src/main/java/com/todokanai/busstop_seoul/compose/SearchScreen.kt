@@ -53,7 +53,9 @@ private fun SearchScreenPreview(){
         SearchScreen(
             navController = NavHostController(LocalContext.current),
             searchScreenInterface = object : SearchScreenInterface {
+                override fun dummyFunction() {
 
+                }
             }
         )
     }
