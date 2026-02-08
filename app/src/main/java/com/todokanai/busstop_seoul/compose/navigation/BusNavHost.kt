@@ -32,6 +32,7 @@ fun BusNavHost(
             )
         }
 
+        // Todo: SearchScreen 에 대한 viewModel 도입 고려하기
         composable(route = SearchScreen.route){
             SearchScreen(
                 navController = navController,
