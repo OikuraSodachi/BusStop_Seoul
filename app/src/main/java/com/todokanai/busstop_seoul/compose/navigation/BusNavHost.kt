@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.todokanai.busstop_seoul.compose.LineInfoScreen
 import com.todokanai.busstop_seoul.compose.MainScreen
+import com.todokanai.busstop_seoul.compose.SearchScreen
 import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 
 @Composable
@@ -28,6 +29,13 @@ fun BusNavHost(
                 mainMapCallback = viewModel.mainMapCallback,
                 mainScreenInterface = viewModel.mainScreenCallback,
                 navController = navController
+            )
+        }
+
+        composable(route = SearchScreen.route){
+            SearchScreen(
+                navController = navController,
+                searchScreenInterface = viewModel.searchScreenCallback
             )
         }
 

@@ -11,6 +11,10 @@ data object MainScreen: NavDestinations{
     override val route: String = "MainScreen"
 }
 
+data object SearchScreen: NavDestinations{
+    override val route: String = "SearchScreen"
+}
+
 data object LineInfoScreen: NavDestinations{
     override val route: String = "LineInfoScreen"
     const val lineInfoArg = "lineInfoArg"

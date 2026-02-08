@@ -13,6 +13,7 @@ import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
+import com.todokanai.busstop_seoul.interfaces.compose.SearchScreenInterface
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.response.StationArriveItem
@@ -152,6 +153,12 @@ class MainViewModel @Inject constructor(
             viewModelScope.launch {
                 targetStation.value = null
             }
+        }
+    }
+
+    val searchScreenCallback = object : SearchScreenInterface {
+        override fun dummyFunction() {
+
         }
     }
 
