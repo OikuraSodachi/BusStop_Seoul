@@ -66,6 +66,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.navigation.compose)
 
+    implementation(libs.androidx.hilt.navigation.compose)
     ksp (libs.hilt.android.compiler)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.compose.android)     // collectAsStateWithLifecycle
