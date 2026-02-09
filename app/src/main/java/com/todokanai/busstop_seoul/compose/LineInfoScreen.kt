@@ -14,7 +14,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.todokanai.busstop_seoul.compose.holder.LineInfoHolder
 import com.todokanai.busstop_seoul.dataclass.LineInfo
 import com.todokanai.busstop_seoul.viewmodel.LineInfoViewModel
@@ -25,7 +24,7 @@ import kotlinx.coroutines.launch
 fun LineInfoScreen(
     routeId:Long,
     getLineInfos:suspend (Long) -> List<LineInfo>,
-    viewModel: LineInfoViewModel = hiltViewModel()
+  //  viewModel: LineInfoViewModel = hiltViewModel()
 ){
 
     val scope = rememberCoroutineScope()
