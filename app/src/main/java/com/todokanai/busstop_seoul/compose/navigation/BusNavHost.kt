@@ -2,6 +2,7 @@ package com.todokanai.busstop_seoul.compose.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -14,8 +15,8 @@ import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 @Composable
 fun BusNavHost(
     navController: NavHostController,
-    viewModel: MainViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     NavHost(
         navController = navController,
