@@ -7,7 +7,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.Constants.MAP_MARKER_MINIMUM_RADIUS
-import com.todokanai.busstop_seoul.dataclass.LineInfo
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
@@ -110,26 +109,6 @@ class MainViewModel @Inject constructor(
         ).map{
             it.toStationInfo()
         }
-        return result
-    }
-
-    suspend fun getLineInfos(routeId: Long): List<LineInfo> {
-        val response = busUseCase.getArriveInfoByRouteAll(routeId)
-        val stList = response.map{
-            it.stNm.toString()
-        }           // 노선이 지나는 정류소 목록
-
-        fun busPositionCheck(stNm:String):List<String>{
-            // Todo: response 로부터, 해당 정류소에 위차한 버스 목록 가져오기. REST API 호출 횟수 최적화에 주의.
-            return emptyList()
-        }
-        val result = stList.map{
-            LineInfo(
-                stNm = it,
-                busInfo = busPositionCheck(it)
-            )
-        }
-
         return result
     }
 
