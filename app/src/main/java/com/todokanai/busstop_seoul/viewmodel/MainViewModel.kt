@@ -12,8 +12,6 @@ import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
-import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
-import com.todokanai.busstop_seoul.interfaces.compose.SearchScreenInterface
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.response.StationArriveItem
@@ -52,7 +50,6 @@ class MainViewModel @Inject constructor(
             markerInfos = markers,
             targetStation = targetStation
         )
-
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -71,11 +68,10 @@ class MainViewModel @Inject constructor(
         override fun onVisibleRegionChanged(latLngBounds: LatLngBounds) {
             viewModelScope.launch {
                 val radiusInMeters = getRadiusInMeters(latLngBounds)
-
                 val isMarkerActive = radiusInMeters<MAP_MARKER_MINIMUM_RADIUS        // marker 기능 활성화 여부 결정
 
                 if(isMarkerActive) {
-                    val result= mainScreenCallback.getVisibleStation(
+                    val result= getVisibleStation(
                         tmX = latLngBounds.center.longitude,
                         tmY = latLngBounds.center.latitude,
                         radius = radiusInMeters
@@ -83,7 +79,7 @@ class MainViewModel @Inject constructor(
                     markerInfos.value = result.map{
                         MarkerInfo(
                             stationInfo = it,
-                            position = LatLng(it.tmY.toDouble(), it.tmX.toDouble()),
+                            position = LatLng(it.tmY, it.tmX),
                             title = it.stNm,
                             snippet = null
                         )
@@ -96,69 +92,62 @@ class MainViewModel @Inject constructor(
 
     }
 
-    val mainScreenCallback = object : MainScreenInterface {
-        override suspend fun getArriveInfos(key: Long): List<StationArriveInfo> {
-            return busUseCase.getArriveInfos(key).map{
-                it.toStationArriveInfo()
-            }
-        }
-        override suspend fun getVisibleStation(
-            tmX: Double,
-            tmY: Double,
-            radius: Int
-        ): List<StationInfo> {
-            val result = busUseCase.getStationByPosition(
-                tmX = tmX,
-                tmY = tmY,
-                radius = radius
-            ).map{
-                it.toStationInfo()
-            }
-            return result
-        }
-
-        override suspend fun getLineInfos(routeId: Long): List<LineInfo> {
-
-            val response = busUseCase.getArriveInfoByRouteAll(routeId)
-            val stList = response.map{
-                it.stNm.toString()
-            }           // 노선이 지나는 정류소 목록
-
-            fun busPositionCheck(stNm:String):List<String>{
-                // Todo: response 로부터, 해당 정류소에 위차한 버스 목록 가져오기. REST API 호출 횟수 최적화에 주의.
-                return emptyList()
-            }
-            val result = stList.map{
-                LineInfo(
-                    stNm = it,
-                    busInfo = busPositionCheck(it)
-                )
-
-            }
-
-            return result
-        }
-        override fun saveSmallMapEnabled(value: Boolean) {
-            viewModelScope.launch {
-                mapUseCase.saveSmallMapEnabled(value)
-            }
-        }
-        override fun saveRotationGesturesEnabled(value: Boolean) {
-            viewModelScope.launch {
-                mapUseCase.saveRotationGesturesEnabled(value)
-            }
-        }
-
-        override fun invalidateTargetStation() {
-            viewModelScope.launch {
-                targetStation.value = null
-            }
+    suspend fun getArriveInfos(key:Long) : List<StationArriveInfo>{
+        return busUseCase.getArriveInfos(key).map{
+            it.toStationArriveInfo()
         }
     }
 
-    val searchScreenCallback = object : SearchScreenInterface {
-        override fun dummyFunction() {
+    private suspend fun getVisibleStation(
+        tmX: Double,
+        tmY: Double,
+        radius: Int
+    ): List<StationInfo> {
+        val result = busUseCase.getStationByPosition(
+            tmX = tmX,
+            tmY = tmY,
+            radius = radius
+        ).map{
+            it.toStationInfo()
+        }
+        return result
+    }
 
+    suspend fun getLineInfos(routeId: Long): List<LineInfo> {
+        val response = busUseCase.getArriveInfoByRouteAll(routeId)
+        val stList = response.map{
+            it.stNm.toString()
+        }           // 노선이 지나는 정류소 목록
+
+        fun busPositionCheck(stNm:String):List<String>{
+            // Todo: response 로부터, 해당 정류소에 위차한 버스 목록 가져오기. REST API 호출 횟수 최적화에 주의.
+            return emptyList()
+        }
+        val result = stList.map{
+            LineInfo(
+                stNm = it,
+                busInfo = busPositionCheck(it)
+            )
+        }
+
+        return result
+    }
+
+    fun saveSmallMapEnabled(value: Boolean) {
+        viewModelScope.launch {
+            mapUseCase.saveSmallMapEnabled(value)
+        }
+    }
+
+    fun saveRotationGesturesEnabled(value: Boolean) {
+        viewModelScope.launch {
+            mapUseCase.saveRotationGesturesEnabled(value)
+        }
+    }
+
+    fun invalidateTargetStation() {
+        viewModelScope.launch {
+            targetStation.value = null
         }
     }
 
@@ -241,7 +230,6 @@ class MainViewModel @Inject constructor(
             stationTp = stationTp
         )
     }
-
 
 }
 

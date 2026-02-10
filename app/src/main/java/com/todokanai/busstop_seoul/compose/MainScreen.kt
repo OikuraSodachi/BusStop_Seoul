@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -18,17 +20,14 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
-import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
-import com.todokanai.busstop_seoul.interfaces.compose.MainScreenInterface
-import com.todokanai.busstop_seoul.viewmodel.MainActivityUiState
+import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 
 @Composable
 fun MainScreen(
-    uiState: MainActivityUiState,
-    mainMapCallback: MainMapInterface,
-    mainScreenInterface: MainScreenInterface,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: MainViewModel = hiltViewModel()
 ){
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     val seoul =  LatLng(37.532600, 127.024612)
     val cameraPositionState = rememberCameraPositionState {
@@ -43,15 +42,15 @@ fun MainScreen(
         ){
             MainMap(
                 cameraPositionState = cameraPositionState,
-                uiSettings = uiState.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
-                markerInfos = uiState.markerInfos,
-                mainMapCallback = mainMapCallback
+                uiSettings = uiState.value.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
+                markerInfos = uiState.value.markerInfos,
+                mainMapCallback = viewModel.mainMapCallback
             )
             MenuButton(
-                toggleSmallMap = { mainScreenInterface.saveSmallMapEnabled(!uiState.isSmallMapEnabled) },
-                enableRotation = {mainScreenInterface.saveRotationGesturesEnabled(!uiState.mapUiSettings.rotationGesturesEnabled) }
+                toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
+                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.mapUiSettings.rotationGesturesEnabled) }
             )
-            if (uiState.isSmallMapEnabled) {
+            if (uiState.value.isSmallMapEnabled) {
                     SmallMap(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
@@ -67,16 +66,16 @@ fun MainScreen(
                                 )
                             )
                         },
-                        uiSettings = uiState.smallMapSettings
+                        uiSettings = uiState.value.smallMapSettings
                     ) // Todo: MainMap 과 같은 가로/세로 비율을 유지할 것
                 }
         }
 
-        if(uiState.targetStation != null){
+        if(uiState.value.targetStation != null){
             StationInfoScreen(
-                targetStation = uiState.targetStation,
-                getArriveInfos = {mainScreenInterface.getArriveInfos(it)},
-                onClose = { mainScreenInterface.invalidateTargetStation() },
+                targetStation = uiState.value.targetStation!!,
+                getArriveInfos =  {viewModel.getArriveInfos(it)},
+                onClose = { viewModel.invalidateTargetStation() },
                 toLineInfoScreen = { navController.navigateToLineInfo(it) },
                 modifier = Modifier
                     .height(400.dp)

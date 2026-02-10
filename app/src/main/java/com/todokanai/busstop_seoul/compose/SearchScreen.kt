@@ -14,13 +14,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.todokanai.busstop_seoul.interfaces.compose.SearchScreenInterface
+import com.todokanai.busstop_seoul.viewmodel.SearchScreenViewModel
 
 @Composable
 fun SearchScreen(
     navController: NavHostController,
-    searchScreenInterface: SearchScreenInterface
+    viewModel: SearchScreenViewModel = hiltViewModel()
 ){
 
     var text by remember { mutableStateOf("") }
@@ -51,12 +52,7 @@ fun SearchScreen(
 private fun SearchScreenPreview(){
     Surface{
         SearchScreen(
-            navController = NavHostController(LocalContext.current),
-            searchScreenInterface = object : SearchScreenInterface {
-                override fun dummyFunction() {
-
-                }
-            }
+            navController = NavHostController(LocalContext.current)
         )
     }
 }
