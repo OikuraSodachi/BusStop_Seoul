@@ -46,9 +46,6 @@ fun BusNavHost(
         ) {
             LineInfoScreen(
                 routeId = it.arguments?.getString(LineInfoScreen.lineInfoArg)?.toLong() ?: 0L,
-                getLineInfos = {routeId ->
-                    viewModel.mainScreenCallback.getLineInfos(routeId)
-                }
             )
 
         }
