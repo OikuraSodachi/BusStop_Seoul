@@ -1,4 +1,4 @@
-package com.todokanai.busstop_seoul.dataclass.abstracts
+package com.todokanai.busstop_seoul.dataclass.searchresult.abstracts
 
 /** [com.todokanai.busstop_seoul.compose.holder.SearchResultHolder] 에 사용할 abstract class **/
 abstract class SearchResult {

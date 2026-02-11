@@ -1,6 +1,6 @@
-package com.todokanai.busstop_seoul.dataclass
+package com.todokanai.busstop_seoul.dataclass.searchresult
 
-import com.todokanai.busstop_seoul.dataclass.abstracts.SearchResult
+import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
 data class LineSearchResult(
     val lineId:Long,
@@ -13,4 +13,3 @@ data class LineSearchResult(
     override fun type() {
     }
 }
-

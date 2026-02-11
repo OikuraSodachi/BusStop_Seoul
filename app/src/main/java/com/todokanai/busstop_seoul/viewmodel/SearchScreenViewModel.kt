@@ -2,7 +2,7 @@ package com.todokanai.busstop_seoul.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.todokanai.busstop_seoul.dataclass.LineSearchResult
+import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

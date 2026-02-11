@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.todokanai.busstop_seoul.dataclass.LineSearchResult
-import com.todokanai.busstop_seoul.dataclass.abstracts.SearchResult
+import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
+import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
 @Composable
 fun SearchResultHolder(
