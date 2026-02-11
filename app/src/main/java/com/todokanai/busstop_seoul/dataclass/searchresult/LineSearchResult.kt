@@ -6,6 +6,10 @@ data class LineSearchResult(
     val lineId:Long,
     val lineName:String
 ): SearchResult() {
+
+    override fun description(): String {
+        return lineName
+    }
     override fun onItemClick() {
         TODO("Not yet implemented")
     }
