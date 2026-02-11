@@ -4,51 +4,64 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.todokanai.busstop_seoul.interfaces.compose.SearchDataInterface
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.todokanai.busstop_seoul.dataclass.LineSearchResult
+import com.todokanai.busstop_seoul.dataclass.abstracts.SearchResult
 
 @Composable
 fun SearchResultHolder(
-    searchDataCallback: SearchDataInterface,        // Todo: reference 함수 형태로 넘기기 고려해볼 것
+    data: SearchResult,
     modifier: Modifier = Modifier
 ){
     Row(modifier = modifier) {
 
         // Todo: result type icon
-        Box()
+        Box(
+            modifier = Modifier
+                .width(50.dp)
+        )
         {
 
         }
         Column(
             modifier = Modifier
                 .weight(1f)
+                .fillMaxHeight()
                 .clickable{
-                    searchDataCallback
+                    data.onItemClick()
                 }
         ){
 
         }
 
         // Todo: 더보기 버튼
-        Box(){
+        Box(
+            modifier = Modifier
+                .width(30.dp)
+        ){
 
         }
     }
 
 }
 
+//@Preview
 @Composable
 private fun SearchResultHolderPreview(){
     Surface {
         SearchResultHolder(
-            searchDataCallback = object : SearchDataInterface {
-                override fun onItemClick() {
-                    TODO("Not yet implemented")
-                }
-
-            }
+            data = LineSearchResult(
+                lineId = 123,
+                lineName = "123"
+            ),
+            modifier = Modifier.height(100.dp)
         )
     }
 }

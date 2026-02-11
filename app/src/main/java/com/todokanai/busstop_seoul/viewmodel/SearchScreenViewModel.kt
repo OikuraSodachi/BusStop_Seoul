@@ -2,7 +2,7 @@ package com.todokanai.busstop_seoul.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.todokanai.busstop_seoul.interfaces.compose.SearchDataInterface
+import com.todokanai.busstop_seoul.dataclass.LineSearchResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,15 +26,9 @@ class SearchScreenViewModel @Inject constructor(): ViewModel(){
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = SearchScreenUiState()
     )
-    val searchDataCallback = object : SearchDataInterface {
-        override fun onItemClick() {
-            TODO("Not yet implemented")
-        }
-
-    }
 
 }
 
 data class SearchScreenUiState(
-    val dummyData:List<String> = emptyList()
+    val dummyData:List<LineSearchResult> = emptyList()
 )

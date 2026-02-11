@@ -46,7 +46,8 @@ fun SearchScreen(
             itemsIndexed(items = uiState.value.dummyData){
                 index, item ->
                 SearchResultHolder(
-                    searchDataCallback = viewModel.searchDataCallback
+                    item
+                   // searchDataCallback = viewModel.searchDataCallback
                 )
             }
 
