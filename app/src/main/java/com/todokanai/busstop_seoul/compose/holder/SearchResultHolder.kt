@@ -63,7 +63,7 @@ fun SearchResultHolder(
 
 }
 
-@Preview
+//@Preview
 @Composable
 private fun SearchResultHolderPreview(){
     Surface {
