@@ -2,7 +2,7 @@ package com.todokanai.busstop_seoul.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
+import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,5 +34,5 @@ class SearchScreenViewModel @Inject constructor(): ViewModel(){
 }
 
 data class SearchScreenUiState(
-    val dummyData:List<LineSearchResult> = emptyList()
+    val dummyData:List<SearchResult> = emptyList()
 )
