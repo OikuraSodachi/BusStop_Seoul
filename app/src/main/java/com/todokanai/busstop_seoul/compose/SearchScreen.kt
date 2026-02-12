@@ -36,7 +36,10 @@ fun SearchScreen(
         ) {
             TextField(
                 value = text,
-                onValueChange = {text = it}
+                onValueChange = {
+                    text = it
+                    viewModel.onKeyWordChanged(it)
+                }
             )
         }
         LazyColumn(

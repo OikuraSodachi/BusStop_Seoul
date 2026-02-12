@@ -8,6 +8,11 @@ abstract class SearchResult {
     abstract fun onItemClick()
 
     /** Todo: enum class 사용하기? **/
-    abstract fun type()
+    abstract fun type():ResultType
 
+}
+
+enum class ResultType(val code:Int){
+    LINE(0),
+    STATION(1)
 }

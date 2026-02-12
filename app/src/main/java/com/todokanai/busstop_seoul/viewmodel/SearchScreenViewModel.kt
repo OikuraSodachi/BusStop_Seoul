@@ -27,6 +27,10 @@ class SearchScreenViewModel @Inject constructor(): ViewModel(){
         initialValue = SearchScreenUiState()
     )
 
+    fun onKeyWordChanged(keyWord:String){
+        println("keyWord: $keyWord")
+    }
+
 }
 
 data class SearchScreenUiState(
