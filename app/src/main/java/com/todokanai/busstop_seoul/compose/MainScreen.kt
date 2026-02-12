@@ -20,6 +20,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
+import com.todokanai.busstop_seoul.compose.navigation.navigateToSearchScreen
 import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 
 @Composable
@@ -48,7 +49,8 @@ fun MainScreen(
             )
             MenuButton(
                 toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
-                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.mapUiSettings.rotationGesturesEnabled) }
+                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.mapUiSettings.rotationGesturesEnabled) },
+                toSearchScreen = { navController.navigateToSearchScreen() }
             )
             if (uiState.value.isSmallMapEnabled) {
                     SmallMap(

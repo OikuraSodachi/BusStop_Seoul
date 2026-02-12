@@ -42,3 +42,7 @@ fun BusNavHost(
 fun NavHostController.navigateToLineInfo(routeId:Long){
     this.navigate("${LineInfoScreen.route}/$routeId")
 }
+
+fun NavHostController.navigateToSearchScreen(){
+    this.navigate(SearchScreen.route)
+}
