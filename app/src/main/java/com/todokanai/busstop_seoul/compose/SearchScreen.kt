@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -42,7 +41,7 @@ fun SearchScreen(
                 }
             )
         }
-        if(uiState.value.dummyData.isEmpty()){
+        if(uiState.value.results.isEmpty()){
             Text(
                 text = "no result",
                 modifier = Modifier
@@ -51,7 +50,7 @@ fun SearchScreen(
             )
         }else {
             LazyColumn(modifier = Modifier.weight(1f)) {
-                itemsIndexed(items = uiState.value.dummyData) { index, item ->
+                itemsIndexed(items = uiState.value.results) { index, item ->
                     SearchResultHolder(
                         item
                         // searchDataCallback = viewModel.searchDataCallback
