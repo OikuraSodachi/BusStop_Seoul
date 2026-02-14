@@ -199,9 +199,9 @@ class MainViewModel @Inject constructor(
     // Todo: tmX, tmY 값 null 케이스 제거
     private fun StationItem.toStationInfo(): StationInfo {
         return StationInfo(
-            stId = stId.toString(),
-            stNm = stNm.toString(),
-            arsId = arsId.toString(),
+            stId = stId,
+            stNm = stNm,
+            arsId = arsId,
             tmX = tmX?: 0.0,
             tmY = tmY?: 0.0,
             posX = posX,

@@ -39,7 +39,7 @@ class SearchScreenViewModel @Inject constructor(
     suspend fun getSearchData(keyWord:String):List<SearchResult>{
         val stationList = busUseCase.getStationByName(keyWord).map {
             StationSearchResult(
-                it.stNm.toString()
+                it.stNm
             )
         }
         return stationList
