@@ -19,8 +19,14 @@ fun BusNavHost(
         startDestination = MainScreen.route,
         modifier = modifier
     ){
-        composable(route = MainScreen.route){
-            MainScreen(navController = navController)
+        composable(
+            route = MainScreen.route,
+            arguments = MainScreen.arguments
+        ){ backStackEntry ->
+            val stationArgument = backStackEntry.arguments?.getString(MainScreen.stationInfoArg)
+            MainScreen(
+                navController = navController,
+            )
         }
 
         composable(route = SearchScreen.route){
@@ -38,6 +44,14 @@ fun BusNavHost(
         }
     }
 
+}
+
+fun NavHostController.navigateToMainScreen(){
+    this.navigate(MainScreen.route)
+}
+
+fun NavHostController.navigateToMainScreen(stationId:String){
+    this.navigate("${MainScreen.route}/$stationId")
 }
 
 fun NavHostController.navigateToLineInfo(routeId:Long){
