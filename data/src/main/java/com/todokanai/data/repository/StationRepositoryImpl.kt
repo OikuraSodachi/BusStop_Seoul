@@ -119,9 +119,9 @@ class StationRepositoryImpl : StationRepository {
 
     private fun StationByNameItem.convert(): StationItem {
         return StationItem(
-            stId,
-            stNm,
-            arsId,
+            stId.toString(),
+            stNm.toString(),
+            arsId.toString(),
             tmX?.toDouble(),
             tmY?.toDouble(),
             posX,
@@ -131,9 +131,9 @@ class StationRepositoryImpl : StationRepository {
 
     private fun StationByPositionItem.convert() : StationItem{
         return StationItem(
-            stId,
-            stNm,
-            arsId,
+            stId.toString(),
+            stNm.toString(),
+            arsId.toString(),
             tmX?.toDouble(),
             tmY?.toDouble(),
             posX,
