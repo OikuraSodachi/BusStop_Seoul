@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +33,7 @@ class SearchScreenViewModel @Inject constructor(
 
     fun onKeyWordChanged(keyWord:String){
         viewModelScope.launch {
-            this@SearchScreenViewModel.keyWord.value = keyWord      // Todo: value 대신 emit / update 사용 고려하기
+            this@SearchScreenViewModel.keyWord.update{keyWord}
         }
     }
 

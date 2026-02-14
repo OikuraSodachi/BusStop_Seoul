@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,7 +61,7 @@ class MainViewModel @Inject constructor(
         override fun onMarkerClick(markerInfo: MarkerInfo) {
             viewModelScope.launch {
                 val result = markerInfos.value.first{it == markerInfo}
-                targetStation.value = result.stationInfo
+                targetStation.update {result.stationInfo}
             }
         }
 
@@ -69,23 +70,24 @@ class MainViewModel @Inject constructor(
                 val radiusInMeters = getRadiusInMeters(latLngBounds)
                 val isMarkerActive = radiusInMeters<MAP_MARKER_MINIMUM_RADIUS        // marker 기능 활성화 여부 결정
 
-                if(isMarkerActive) {
-                    val result= getVisibleStation(
+                val result = if(isMarkerActive) {
+                    getVisibleStation(
                         tmX = latLngBounds.center.longitude,
                         tmY = latLngBounds.center.latitude,
                         radius = radiusInMeters
-                    )
-                    markerInfos.value = result.map{
+                    ).map {
                         MarkerInfo(
                             stationInfo = it,
                             position = LatLng(it.tmY, it.tmX),
                             title = it.stNm,
                             snippet = null
                         )
+
                     }
                 }else{
-                    markerInfos.value = emptyList()
+                    emptyList()
                 }
+                markerInfos.update{result}
             }
         }
 
@@ -126,7 +128,7 @@ class MainViewModel @Inject constructor(
 
     fun invalidateTargetStation() {
         viewModelScope.launch {
-            targetStation.value = null
+            targetStation.update{null}
         }
     }
 
