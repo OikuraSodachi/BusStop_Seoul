@@ -37,7 +37,7 @@ class LineInfoViewModel @Inject constructor(
 
         val response = busUseCase.getArriveInfoByRouteAll(routeId)
         val stList = response.map{
-            it.stNm.toString()
+            it.stNm
         }           // 노선이 지나는 정류소 목록
 
         fun busPositionCheck(stNm:String):List<String>{

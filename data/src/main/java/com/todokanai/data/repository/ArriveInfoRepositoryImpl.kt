@@ -17,8 +17,18 @@ class ArriveInfoRepositoryImpl: ArriveInfoRepository {
             val responseList = response.body()?.msgBody?.itemList
 
             println("responseList: ${responseList}")
-            responseList?.map { it.convert() } ?: emptyList()
 
+            val result = mutableListOf<ArriveInfoByRouteAllItem>()
+
+            responseList?.forEach {
+                try {
+                    result.add(it.convert())
+                }catch (e:Exception){
+                     e.printStackTrace()
+                }
+            }           //필수 parameter 의 nullable 제거
+
+            result
 
         } catch (e: Exception) {
             Log.d("${this.javaClass}"+".getArriveInfoByRouteAll","onFailure: ${e.message}")
@@ -29,12 +39,12 @@ class ArriveInfoRepositoryImpl: ArriveInfoRepository {
 
     private fun com.todokanai.data.retrofit.busarriveinfo.responsetype.arrinfobyrouteall.ArriveInfoByRouteAllItem.convert(): ArriveInfoByRouteAllItem{
         return ArriveInfoByRouteAllItem(
-            stId,
-            stNm,
-            arsId,
-            staOrd,
-            busRouteId,
-            rtNm,
+            stId!!.toLong(),
+            stNm!!,
+            arsId!!.toLong(),
+            staOrd!!,
+            busRouteId!!.toLong(),
+            rtNm!!,
             arrmsg1,
             vehId1,
             busType1,

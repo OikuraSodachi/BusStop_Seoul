@@ -2,17 +2,17 @@ package com.todokanai.domain.response
 
 data class ArriveInfoByRouteAllItem(
     //--- 기본 정보 ---
-    val stId: String? = null,           // 정류소 ID
+    val stId: Long,           // 정류소 ID
 
-    val stNm: String? = null,           // 정류소명
+    val stNm: String,           // 정류소명
 
-    val arsId: String? = null,          // 정류소 고유번호
+    val arsId: Long,          // 정류소 고유번호
 
-    val staOrd: String? = null,         // 순번
+    val staOrd: String,         // 순번
 
-    val busRouteId: String? = null,     // 노선 ID
+    val busRouteId: Long,     // 노선 ID
 
-    val rtNm: String? = null,           // 노선명
+    val rtNm: String,           // 노선명
 
     //--- 첫번째 도착 예정 버스 정보 ---
     val arrmsg1: String? = null,        // 첫번째 도착 메시지 (예: "5분후[3번째 전]")
