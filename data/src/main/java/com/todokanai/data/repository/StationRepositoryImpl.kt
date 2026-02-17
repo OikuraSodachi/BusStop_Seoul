@@ -12,35 +12,38 @@ import retrofit2.awaitResponse
 
 class StationRepositoryImpl : StationRepository {
 
-    /** Gemini Generated code **/
     override suspend fun getStationArriveInfos(key: Long): List<StationArriveItem> {
-        return try {
-            val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
+        val result = mutableListOf<StationArriveItem>()
+        val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
 
-            val response = service.getStationArrive(key.toString()).awaitResponse()
+        val response = service.getStationArrive(key.toString()).awaitResponse()
 
-            val responseList = response.body()?.stationArriveMsgBody?.itemList
-            responseList?.map { it.convert() } ?: emptyList()
-
-        } catch (e: Exception) {
-            Log.d("${this.javaClass}"+".getStationArriveInfos","onFailure: ${e.message}")
-            emptyList()
+        val responseList = response.body()?.stationArriveMsgBody?.itemList
+        responseList?.forEach {
+            try {
+                result.add(it.convert())
+            }catch (e:Exception) {
+                e.printStackTrace()
+            }
         }
+
+        return result
     }
 
     override suspend fun getStationByName(key: String): List<StationItem> {
-        return try {
-            val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
+        val result = mutableListOf<StationItem>()
+        val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
+        val response = service.getStationByName(key).awaitResponse()
+        val responseList = response.body()?.msgBody?.itemList
 
-            val response = service.getStationByName(key).awaitResponse()
-
-            val responseList = response.body()?.msgBody?.itemList
-
-            responseList?.map{it.convert()}?:emptyList()
-        } catch (e: Exception) {
-            Log.d("${this.javaClass}"+".getStationByName","onFailure: ${e.message}")
-            emptyList()
+        responseList?.forEach{
+            try {
+                result.add(it.convert())
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
         }
+        return result
     }
 
     override suspend fun getStationByPosition(
@@ -48,27 +51,30 @@ class StationRepositoryImpl : StationRepository {
         tmY: String,
         radius: String
     ): List<StationItem> {
-        return try {
-            val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
-            val response = service.getStationByPosition(tmX, tmY, radius).awaitResponse()
+        val result = mutableListOf<StationItem>()
+        val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
+        val response = service.getStationByPosition(tmX, tmY, radius).awaitResponse()
 
-            val responseList = response.body()?.msgBody?.itemList
-            responseList?.map{it.convert()}?:emptyList()
-        } catch (e: Exception) {
-            Log.d("${this.javaClass}"+".getStationByName","onFailure: ${e.message}")
-            emptyList()
+        val responseList = response.body()?.msgBody?.itemList
+        responseList?.forEach{
+            try {
+                result.add(it.convert())
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
         }
+        return result
     }
 
     /** simpleXML Converter 관련 annotation 제거
      *  @return [com.todokanai.domain.response.StationArriveItem] **/
     private fun com.todokanai.data.retrofit.stationinfo.responsetype.stationarrive.StationArriveItem.convert(): StationArriveItem {
         return StationArriveItem(
-            stId,
-            stNm,
-            arsId,
-            busRouteId,
-            rtNm,
+            stId!!,
+            stNm!!,
+            arsId!!,
+            busRouteId!!,
+            rtNm!!,
             busRouteAbrv,
             sectNm,
             gpsX,
@@ -97,7 +103,7 @@ class StationRepositoryImpl : StationRepository {
             isArrive2,
             isLast2,
             busType2,
-            adirection,
+            adirection!!,
             arrmsg1,
             arrmsg2,
             arrmsgSec1,

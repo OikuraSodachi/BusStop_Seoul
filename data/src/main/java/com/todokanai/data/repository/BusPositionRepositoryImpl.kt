@@ -1,6 +1,5 @@
 package com.todokanai.data.repository
 
-import android.util.Log
 import com.todokanai.data.retrofit.busposition.BusPositionRetrofit
 import com.todokanai.data.retrofit.busposition.BusPositionService
 import com.todokanai.data.retrofit.busposition.responsetype.busposbyrouteid.BusPosByRouteIdItem
@@ -11,20 +10,20 @@ import retrofit2.awaitResponse
 class BusPositionRepositoryImpl: BusPositionRepository {
 
     override suspend fun getBusPositions(key: Long): List<BusPositionItem> {
-        return try {
-            val service = BusPositionRetrofit.busPositionRetrofit.create(BusPositionService::class.java)
+        val result = mutableListOf<BusPositionItem>()
+        val service = BusPositionRetrofit.busPositionRetrofit.create(BusPositionService::class.java)
+        val response = service.getBusPositions(key.toString()).awaitResponse()
 
-            val response = service.getBusPositions(key.toString()).awaitResponse()
+        val responseList = response.body()?.msgBody?.itemList
 
-            val responseList = response.body()?.msgBody?.itemList
-
-            responseList?.map { it.convert() } ?: emptyList()
-
-        } catch (e: Exception) {
-            Log.d("${this.javaClass}"+".getBusPositions","onFailure: ${e.message}")
-            emptyList()
-
+        responseList?.forEach {
+            try {
+                result.add(it.convert())
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
         }
+        return result
     }
 
     private fun BusPosByRouteIdItem.convert():BusPositionItem{

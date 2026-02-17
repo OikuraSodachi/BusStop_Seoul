@@ -1,6 +1,5 @@
 package com.todokanai.data.repository
 
-import android.util.Log
 import com.todokanai.data.retrofit.busarriveinfo.BusArriveInfoRetrofit
 import com.todokanai.data.retrofit.busarriveinfo.BusArriveInfoService
 import com.todokanai.domain.ArriveInfoRepository
@@ -9,32 +8,20 @@ import retrofit2.awaitResponse
 
 class ArriveInfoRepositoryImpl: ArriveInfoRepository {
     override suspend fun getArriveInfoByRouteAll(key:Long): List<ArriveInfoByRouteAllItem> {
-        return try {
-            val service = BusArriveInfoRetrofit.busArriveInfoRetrofit.create(BusArriveInfoService::class.java)
+        val result = mutableListOf<ArriveInfoByRouteAllItem>()
+        val service = BusArriveInfoRetrofit.busArriveInfoRetrofit.create(BusArriveInfoService::class.java)
+        val response = service.getArriveInfoByRouteAll(key.toString()).awaitResponse()
+        val responseList = response.body()?.msgBody?.itemList
 
-            val response = service.getArriveInfoByRouteAll(key.toString()).awaitResponse()
+        responseList?.forEach {
+            try {
+                result.add(it.convert())
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+        }           //필수 parameter 의 nullable 제거
 
-            val responseList = response.body()?.msgBody?.itemList
-
-            println("responseList: ${responseList}")
-
-            val result = mutableListOf<ArriveInfoByRouteAllItem>()
-
-            responseList?.forEach {
-                try {
-                    result.add(it.convert())
-                }catch (e:Exception){
-                     e.printStackTrace()
-                }
-            }           //필수 parameter 의 nullable 제거
-
-            result
-
-        } catch (e: Exception) {
-            Log.d("${this.javaClass}"+".getArriveInfoByRouteAll","onFailure: ${e.message}")
-            emptyList()
-
-        }
+        return result
     }
 
     private fun com.todokanai.data.retrofit.busarriveinfo.responsetype.arrinfobyrouteall.ArriveInfoByRouteAllItem.convert(): ArriveInfoByRouteAllItem{
