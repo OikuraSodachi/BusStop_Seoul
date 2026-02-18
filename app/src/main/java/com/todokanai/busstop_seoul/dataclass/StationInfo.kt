@@ -4,11 +4,11 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class StationInfo(
-    val stId: String,          // 정류소 ID
+    val stId: Long,          // 정류소 ID
 
     val stNm: String,          // 정류소 명
 
-    val arsId: String,         // 정류소 고유 번호 (5자리)
+    val arsId: Long,         // 정류소 고유 번호 (5자리)
 
     val tmX: Double,           // 경도 (Longitude)
 

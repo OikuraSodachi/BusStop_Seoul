@@ -1,11 +1,11 @@
 package com.todokanai.domain.response
 
 data class StationArriveItem(
-    val stId: String? = null,          // 정류소 고유 ID
+    val stId: Long,          // 정류소 고유 ID
 
-    val stNm: String? = null,          // 정류소명
+    val stNm: String,          // 정류소명
 
-    val arsId: String? = null,         // 정류소 번호 (5자리)
+    val arsId: Long,         // 정류소 번호 (5자리)
 
     val busRouteId: String? = null,    // 노선 ID
 

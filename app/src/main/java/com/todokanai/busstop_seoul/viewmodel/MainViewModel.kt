@@ -146,7 +146,7 @@ class MainViewModel @Inject constructor(
     private fun StationArriveItem.toStationArriveInfo(): StationArriveInfo {
         return StationArriveInfo(
             stId = stId.toString(),
-            stNm = stNm.toString(),
+            stNm = stNm,
             arsId = arsId.toString(),
             busRouteId = busRouteId.toString(),
             rtNm = rtNm.toString(),

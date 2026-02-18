@@ -1,6 +1,5 @@
 package com.todokanai.data.repository
 
-import android.util.Log
 import com.todokanai.data.retrofit.stationinfo.StationInfoRetrofit
 import com.todokanai.data.retrofit.stationinfo.StationInfoService
 import com.todokanai.data.retrofit.stationinfo.responsetype.stationbyname.StationByNameItem
@@ -70,9 +69,9 @@ class StationRepositoryImpl : StationRepository {
      *  @return [com.todokanai.domain.response.StationArriveItem] **/
     private fun com.todokanai.data.retrofit.stationinfo.responsetype.stationarrive.StationArriveItem.convert(): StationArriveItem {
         return StationArriveItem(
-            stId!!,
+            stId!!.toLong(),
             stNm!!,
-            arsId!!,
+            arsId!!.toLong(),
             busRouteId!!,
             rtNm!!,
             busRouteAbrv,
@@ -125,9 +124,9 @@ class StationRepositoryImpl : StationRepository {
 
     private fun StationByNameItem.convert(): StationItem {
         return StationItem(
-            stId.toString(),
+            stId!!.toLong(),
             stNm.toString(),
-            arsId.toString(),
+            arsId!!.toLong(),
             tmX?.toDouble(),
             tmY?.toDouble(),
             posX,
@@ -137,9 +136,9 @@ class StationRepositoryImpl : StationRepository {
 
     private fun StationByPositionItem.convert() : StationItem{
         return StationItem(
-            stId.toString(),
+            stId!!.toLong(),
             stNm.toString(),
-            arsId.toString(),
+            arsId!!.toLong(),
             tmX?.toDouble(),
             tmY?.toDouble(),
             posX,

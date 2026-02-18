@@ -41,7 +41,7 @@ fun StationInfoScreen(
         scope.launch {
             isRefreshing.value = true
             arriveInfos.value = emptyList()
-            arriveInfos.value = getArriveInfos(targetStation.arsId.toLong())
+            arriveInfos.value = getArriveInfos(targetStation.arsId)
             isRefreshing.value = false
         }
     }
