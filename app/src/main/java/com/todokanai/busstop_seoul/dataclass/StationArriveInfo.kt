@@ -4,13 +4,13 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class StationArriveInfo(
-    val stId: String,          // 정류소 고유 ID
+    val stId: Long,          // 정류소 고유 ID
 
     val stNm: String,          // 정류소명
 
-    val arsId: String,         // 정류소 번호 (5자리)
+    val arsId: Long,         // 정류소 번호 (5자리)
 
-    val busRouteId: String,    // 노선 ID
+    val busRouteId: Long,    // 노선 ID
 
     val rtNm: String,          // 노선명
 
@@ -22,7 +22,7 @@ data class StationArriveInfo(
 
     val gpsY: String? = null,          // Y 좌표 (위도)
 
-    val stationTp: String? = null,     // 정류소 타입
+    val stationTp: Int? = null,     // 정류소 타입
 
     val firstTm: String? = null,       // 첫차 시간
 
@@ -70,7 +70,7 @@ data class StationArriveInfo(
 
     val busType2: String? = null,      // 두번째 도착예정버스 차량 유형
 
-    val adirection: String? = null,    // 방면
+    val adirection: String,    // 방면
 
     val arrmsg1: String? = null,       // 첫번째 도착예정 메시지
 

@@ -73,7 +73,7 @@ fun StationInfoScreen(
                         stationArriveInfo = arriveInfos.value[index],
                         modifier = Modifier
                             .clickable{
-                                toLineInfoScreen(arriveInfos.value[index].busRouteId.toLong())
+                                toLineInfoScreen(arriveInfos.value[index].busRouteId)
                             }
                     )
                     if (index < arriveInfos.value.lastIndex)

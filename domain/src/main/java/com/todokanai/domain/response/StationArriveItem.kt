@@ -7,9 +7,9 @@ data class StationArriveItem(
 
     val arsId: Long,         // 정류소 번호 (5자리)
 
-    val busRouteId: String? = null,    // 노선 ID
+    val busRouteId: Long,    // 노선 ID
 
-    val rtNm: String? = null,          // 노선명
+    val rtNm: String,          // 노선명
 
     val busRouteAbrv: String? = null,  // 노선 약어
 
@@ -19,7 +19,7 @@ data class StationArriveItem(
 
     val gpsY: String? = null,          // Y 좌표 (위도)
 
-    val stationTp: String? = null,     // 정류소 타입
+    val stationTp: Int? = null,     // 정류소 타입
 
     val firstTm: String? = null,       // 첫차 시간
 
@@ -67,7 +67,7 @@ data class StationArriveItem(
 
     val busType2: String? = null,      // 두번째 도착예정버스 차량 유형
 
-    val adirection: String? = null,    // 방면
+    val adirection: String,    // 방면
 
     val arrmsg1: String? = null,       // 첫번째 도착예정 메시지
 
