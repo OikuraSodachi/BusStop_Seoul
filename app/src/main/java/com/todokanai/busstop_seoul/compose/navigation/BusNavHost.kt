@@ -23,7 +23,7 @@ fun BusNavHost(
             route = MainScreen.route,
             arguments = MainScreen.arguments
         ){ backStackEntry ->
-            val stationArgument = backStackEntry.arguments?.getString(MainScreen.stationInfoArg)
+            val stationArgument = backStackEntry.arguments?.getLong(MainScreen.stationInfoArg)
             MainScreen(
                 navController = navController,
             )
