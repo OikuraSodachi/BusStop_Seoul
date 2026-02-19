@@ -78,7 +78,6 @@ fun MainScreen(
             StationInfoScreen(
                 arsId = target.arsId,
                 stName = target.stNm,
-                //targetStation = uiState.value.targetStation!!,
                 getArriveInfos =  {viewModel.getArriveInfos(it)},
                 onClose = { viewModel.invalidateTargetStation() },
                 toLineInfoScreen = { navController.navigateToLineInfo(it) },
