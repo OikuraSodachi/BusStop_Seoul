@@ -50,7 +50,7 @@ fun NavHostController.navigateToMainScreen(){
     this.navigate(MainScreen.route)
 }
 
-fun NavHostController.navigateToMainScreen(stationId:String){
+fun NavHostController.navigateToMainScreen(stationId:Long){
     this.navigate("${MainScreen.route}/$stationId")
 }
 
