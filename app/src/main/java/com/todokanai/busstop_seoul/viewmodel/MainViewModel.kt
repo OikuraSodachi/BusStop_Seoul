@@ -229,5 +229,5 @@ data class MainActivityUiState(
         tiltGesturesEnabled = false,
         zoomGesturesEnabled = false
     ),
-    val targetStation: StationInfo? = null
+    val targetStation: StationInfo? = null      // Todo: 해당 값을 MainScreen 으로 옮길 것
 )
