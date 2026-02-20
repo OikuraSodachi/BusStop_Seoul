@@ -6,7 +6,7 @@ import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 /** interface for [com.todokanai.busstop_seoul.compose.map.MainMap] **/
 interface MainMapInterface {
 
-    fun onMarkerClick(markerInfo: MarkerInfo)
+    //fun onMarkerClick(markerInfo: MarkerInfo)
 
     fun onVisibleRegionChanged(latLngBounds: LatLngBounds)
 

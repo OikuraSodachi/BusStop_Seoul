@@ -16,7 +16,8 @@ fun MainMap(
     cameraPositionState: CameraPositionState,
     uiSettings:MapUiSettings,
     markerInfos:List<MarkerInfo>,
-    mainMapCallback: MainMapInterface
+    mainMapCallback: MainMapInterface,
+    onMarkerClick:(MarkerInfo)->Unit
 ){
 
     GoogleMap(
@@ -33,7 +34,8 @@ fun MainMap(
                 title = markerInfo.title,
                 snippet = markerInfo.snippet,
                 onClick = {
-                    mainMapCallback.onMarkerClick(markerInfo)
+                    //mainMapCallback.onMarkerClick(markerInfo)
+                    onMarkerClick(markerInfo)
                     false
                 }
 

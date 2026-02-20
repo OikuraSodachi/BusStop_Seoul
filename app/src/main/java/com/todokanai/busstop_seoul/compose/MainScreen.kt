@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,6 +23,7 @@ import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
 import com.todokanai.busstop_seoul.compose.navigation.navigateToSearchScreen
+import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 
 @Composable
@@ -29,6 +32,7 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ){
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val targetStation = remember{ mutableStateOf<StationInfo?>(null) }
 
     val seoul =  LatLng(37.532600, 127.024612)
     val cameraPositionState = rememberCameraPositionState {
@@ -45,7 +49,10 @@ fun MainScreen(
                 cameraPositionState = cameraPositionState,
                 uiSettings = uiState.value.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
                 markerInfos = uiState.value.markerInfos,
-                mainMapCallback = viewModel.mainMapCallback
+                mainMapCallback = viewModel.mainMapCallback,
+                onMarkerClick = {
+                    targetStation.value = it.stationInfo
+                }
             )
             MenuButton(
                 toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
@@ -73,8 +80,8 @@ fun MainScreen(
                 }
         }
 
-        if(uiState.value.targetStation != null){
-            val target = uiState.value.targetStation!!
+        if(targetStation.value != null){
+            val target = targetStation.value!!
             cameraPositionState.position =
                 CameraPosition.fromLatLngZoom(
                     LatLng(target.tmY, target.tmX),
@@ -84,7 +91,8 @@ fun MainScreen(
                 arsId = target.arsId,
                 stName = target.stNm,
                 getArriveInfos =  {viewModel.getArriveInfos(it)},
-                onClose = { viewModel.invalidateTargetStation() },
+                //onClose = { viewModel.invalidateTargetStation() },
+                onClose = { targetStation.value = null },
                 toLineInfoScreen = { navController.navigateToLineInfo(it) },
                 modifier = Modifier
                     .height(400.dp)
