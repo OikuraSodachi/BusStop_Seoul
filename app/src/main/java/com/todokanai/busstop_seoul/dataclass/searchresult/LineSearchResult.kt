@@ -1,5 +1,6 @@
 package com.todokanai.busstop_seoul.dataclass.searchresult
 
+import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
@@ -11,7 +12,7 @@ data class LineSearchResult(
     override fun description(): String {
         return lineName
     }
-    override fun onItemClick() {
+    override fun onItemClick(navController: NavHostController) {
         TODO("Not yet implemented")
     }
 

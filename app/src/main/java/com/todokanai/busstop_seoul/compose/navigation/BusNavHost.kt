@@ -20,12 +20,13 @@ fun BusNavHost(
         modifier = modifier
     ){
         composable(
-            route = MainScreen.route,
+            route = MainScreen.routeWithArgs,
             arguments = MainScreen.arguments
         ){ backStackEntry ->
             val stationArgument = backStackEntry.arguments?.getLong(MainScreen.stationInfoArg)
             MainScreen(
                 navController = navController,
+                stationId = stationArgument
             )
         }
 

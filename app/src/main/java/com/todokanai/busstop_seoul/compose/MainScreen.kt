@@ -29,6 +29,7 @@ import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 @Composable
 fun MainScreen(
     navController: NavHostController,
+    stationId:Long? = null,
     viewModel: MainViewModel = hiltViewModel()
 ){
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()

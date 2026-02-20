@@ -21,6 +21,7 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 @Composable
 fun SearchResultHolder(
     data: SearchResult,
+    onItemClick:()->Unit,
     modifier: Modifier = Modifier
 ){
     Row(
@@ -41,7 +42,7 @@ fun SearchResultHolder(
                 .weight(1f)
                 .fillMaxHeight()
                 .clickable{
-                    data.onItemClick()
+                    onItemClick()
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ){
@@ -72,6 +73,7 @@ private fun SearchResultHolderPreview(){
                 lineId = 123,
                 lineName = "123"
             ),
+            onItemClick = {},
             modifier = Modifier.height(100.dp)
         )
     }

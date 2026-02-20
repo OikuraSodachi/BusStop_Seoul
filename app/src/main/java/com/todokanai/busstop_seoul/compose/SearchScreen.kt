@@ -52,7 +52,8 @@ fun SearchScreen(
             LazyColumn(modifier = Modifier.weight(1f)) {
                 itemsIndexed(items = uiState.value.results) { index, item ->
                     SearchResultHolder(
-                        item
+                        item,
+                        onItemClick = {item.onItemClick(navController)}
                         // searchDataCallback = viewModel.searchDataCallback
                     )
                 }
