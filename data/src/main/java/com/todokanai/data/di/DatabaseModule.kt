@@ -43,6 +43,7 @@ class DatabaseModule {
         return SettingsRepositoryImpl(appContext)
     }
 
+    @Singleton
     @Provides
     fun provideMapUseCase(settingsRepository: SettingsRepository): MapUseCase {
         return MapUseCase(settingsRepository)
