@@ -75,6 +75,11 @@ fun MainScreen(
 
         if(uiState.value.targetStation != null){
             val target = uiState.value.targetStation!!
+            cameraPositionState.position =
+                CameraPosition.fromLatLngZoom(
+                    LatLng(target.tmY, target.tmX),
+                    15f
+                )
             StationInfoScreen(
                 arsId = target.arsId,
                 stName = target.stNm,
