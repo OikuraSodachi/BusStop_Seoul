@@ -127,8 +127,8 @@ class StationRepositoryImpl : StationRepository {
             stId!!.toLong(),
             stNm.toString(),
             arsId!!.toLong(),
-            tmX?.toDouble(),
-            tmY?.toDouble(),
+            tmX!!.toDouble(),
+            tmY!!.toDouble(),
             posX,
             posY
         )
@@ -139,8 +139,8 @@ class StationRepositoryImpl : StationRepository {
             stId!!.toLong(),
             stNm.toString(),
             arsId!!.toLong(),
-            tmX?.toDouble(),
-            tmY?.toDouble(),
+            tmX!!.toDouble(),
+            tmY!!.toDouble(),
             posX,
             posY
         )
