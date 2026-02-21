@@ -34,8 +34,8 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ){
 
-//    println("arsId: $arsId")
-//    println("stNm: $stNm")
+    println("arsId: $arsId")
+    println("stNm: $stNm")
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val targetStation = remember{ mutableStateOf<StationInfo?>(null) }
