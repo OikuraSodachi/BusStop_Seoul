@@ -35,9 +35,6 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ){
 
-    println("arsId: $arsId")
-    println("stNm: $stNm")
-
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val targetStation = remember{ mutableStateOf<StationInfo?>(null) }
 
@@ -98,7 +95,6 @@ fun MainScreen(
                 arsId = target.arsId,
                 stName = target.stNm,
                 getArriveInfos =  {viewModel.getArriveInfos(it)},
-                //onClose = { viewModel.invalidateTargetStation() },
                 onClose = { targetStation.value = null },
                 toLineInfoScreen = { navController.navigateToLineInfo(it) },
                 modifier = Modifier
