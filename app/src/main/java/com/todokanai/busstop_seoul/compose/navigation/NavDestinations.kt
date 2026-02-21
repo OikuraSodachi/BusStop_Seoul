@@ -12,7 +12,7 @@ data object MainScreen: NavDestinations{
     const val arsIdArg = "arsIdArg"
     const val stNameArg = "stNameArg"
 
-    val routeWithArgs = "$route?$arsIdArg={$arsIdArg}"
+    val routeWithArgs = "$route?$arsIdArg={$arsIdArg}&$stNameArg={$stNameArg}"
     val arguments = listOf(
         navArgument(arsIdArg) {
             type = NavType.StringType

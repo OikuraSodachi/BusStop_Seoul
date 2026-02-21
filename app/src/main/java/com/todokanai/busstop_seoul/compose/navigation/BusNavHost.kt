@@ -8,8 +8,6 @@ import androidx.navigation.compose.composable
 import com.todokanai.busstop_seoul.compose.LineInfoScreen
 import com.todokanai.busstop_seoul.compose.MainScreen
 import com.todokanai.busstop_seoul.compose.SearchScreen
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @Composable
 fun BusNavHost(
@@ -28,8 +26,6 @@ fun BusNavHost(
             val arsId = backStackEntry.arguments?.getString(MainScreen.arsIdArg)?.toLong()
             val stNm = backStackEntry.arguments?.getString(MainScreen.stNameArg)
 
-//            println("st: $arsId")
-//            println("nm: $stNm")
             MainScreen(
                 navController = navController,
                 arsId = arsId,
@@ -56,8 +52,7 @@ fun BusNavHost(
 
 
 fun NavHostController.navigateToMainScreen(arsId:Long, stNm:String){
-    //val encodedStNm = URLEncoder.encode(stNm, StandardCharsets.UTF_8.toString())
-    this.navigate("${MainScreen.route}?${MainScreen.arsIdArg}=$arsId")
+    this.navigate("${MainScreen.route}?${MainScreen.arsIdArg}=$arsId&${MainScreen.stNameArg}=$stNm")
 
 }
 
