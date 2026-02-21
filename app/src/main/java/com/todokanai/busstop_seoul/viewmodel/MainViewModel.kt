@@ -30,16 +30,14 @@ class MainViewModel @Inject constructor(
     private val busUseCase: BusUseCase
 ): ViewModel()  {
 
-    private val targetStation = MutableStateFlow<StationInfo?>(null)
     private val markerInfos = MutableStateFlow<List<MarkerInfo>>(emptyList())
 
     val uiState = combine(
         mapUseCase.smallMapEnabled(),
         mapUseCase.zoomControlsEnabled(),
         mapUseCase.rotationGesturesEnabled(),
-        markerInfos,
-        targetStation
-    ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled, markers, targetStation ->
+        markerInfos
+    ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled, markers->
         MainActivityUiState(
             isSmallMapEnabled = smallMapEnabled,
             mapUiSettings = MapUiSettings(
