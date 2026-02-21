@@ -9,10 +9,17 @@ sealed interface NavDestinations{
 
 data object MainScreen: NavDestinations{
     override val route: String = "MainScreen"
-    const val stationInfoArg = "stationInfoArg"
-    val routeWithArgs = "$route?$stationInfoArg={$stationInfoArg}"
+    const val arsIdArg = "arsIdArg"
+    const val stNameArg = "stNameArg"
+
+    val routeWithArgs = "$route?$arsIdArg={$arsIdArg}"
     val arguments = listOf(
-        navArgument(stationInfoArg) {
+        navArgument(arsIdArg) {
+            type = NavType.StringType
+            nullable = true
+            defaultValue = null
+        },
+        navArgument(stNameArg){
             type = NavType.StringType
             nullable = true
             defaultValue = null

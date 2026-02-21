@@ -29,9 +29,14 @@ import com.todokanai.busstop_seoul.viewmodel.MainViewModel
 @Composable
 fun MainScreen(
     navController: NavHostController,
-    stationId:Long? = null,
+    arsId:Long? = null,
+    stNm:String?= null,
     viewModel: MainViewModel = hiltViewModel()
 ){
+
+//    println("arsId: $arsId")
+//    println("stNm: $stNm")
+
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val targetStation = remember{ mutableStateOf<StationInfo?>(null) }
 

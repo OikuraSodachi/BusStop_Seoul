@@ -23,10 +23,15 @@ fun BusNavHost(
             route = MainScreen.routeWithArgs,
             arguments = MainScreen.arguments
         ){ backStackEntry ->
-            val stationArgument = backStackEntry.arguments?.getString(MainScreen.stationInfoArg)?.toLong()
+            val arsId = backStackEntry.arguments?.getLong(MainScreen.arsIdArg)
+            val stNm = backStackEntry.arguments?.getString(MainScreen.stNameArg)
+
+            println("st: $arsId")
+            println("nm: $stNm")
             MainScreen(
                 navController = navController,
-                stationId = stationArgument
+                arsId = arsId,
+                stNm = stNm
             )
         }
 
@@ -51,8 +56,8 @@ fun NavHostController.navigateToMainScreen(){
     this.navigate(MainScreen.route)
 }
 
-fun NavHostController.navigateToMainScreen(stationId:Long){
-    this.navigate("${MainScreen.route}?${MainScreen.stationInfoArg}=$stationId")
+fun NavHostController.navigateToMainScreen(arsId:Long, stNm:String){
+    this.navigate("${MainScreen.route}?${MainScreen.arsIdArg}=$arsId?&${MainScreen.stNameArg}=$stNm")
 }
 
 fun NavHostController.navigateToLineInfo(routeId:Long){

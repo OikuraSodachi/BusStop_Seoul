@@ -20,7 +20,7 @@ data class StationSearchResult(
     }
 
     override fun onItemClick(navController: NavHostController) {
-        navController.navigateToMainScreen(arsId)
+        navController.navigateToMainScreen(arsId,stNm)
     }
 
     override fun type(): ResultType {
