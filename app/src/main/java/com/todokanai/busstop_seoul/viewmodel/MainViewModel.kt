@@ -99,6 +99,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    suspend fun getStationInfo(arsId:Long, stNm:String): StationInfo?{
+        val temp = busUseCase.getStationByName(stNm).filter { it.arsId == arsId }
+        return temp[0].toStationInfo()
+    }
+
     private suspend fun getVisibleStation(
         tmX: Double,
         tmY: Double,

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -105,6 +106,13 @@ fun MainScreen(
                     .fillMaxWidth()
             )
         }
+
+        LaunchedEffect(key1 = arsId, key2= stNm){
+            if(arsId!=null && stNm!=null) {
+                targetStation.value = viewModel.getStationInfo(arsId, stNm)
+            }
+        }
+
     }
 
 }
