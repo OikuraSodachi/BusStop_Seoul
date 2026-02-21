@@ -55,13 +55,6 @@ class MainViewModel @Inject constructor(
 
     // Todo: mainMapCallback 을 함수가 아닌 변수 (val) 로서 가지고 있는 것이 메모리 관리상 적절한지 고민해볼 것
     val mainMapCallback = object: MainMapInterface {
-//        override fun onMarkerClick(markerInfo: MarkerInfo) {
-//            viewModelScope.launch {
-//                val result = markerInfos.value.first{it == markerInfo}
-//                targetStation.update {result.stationInfo}
-//            }
-//        }
-
         override fun onVisibleRegionChanged(latLngBounds: LatLngBounds) {
             viewModelScope.launch {
                 val radiusInMeters = getRadiusInMeters(latLngBounds)
