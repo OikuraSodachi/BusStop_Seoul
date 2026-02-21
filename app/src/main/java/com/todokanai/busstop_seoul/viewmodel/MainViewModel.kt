@@ -98,6 +98,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /** Todo: arsId 값만으로 StationInfo 를 가져올 방법은 없는지? **/
     suspend fun getStationInfo(arsId:Long, stNm:String): StationInfo?{
         val temp = busUseCase.getStationByName(stNm).filter { it.arsId == arsId }
         return temp[0].toStationInfo()
