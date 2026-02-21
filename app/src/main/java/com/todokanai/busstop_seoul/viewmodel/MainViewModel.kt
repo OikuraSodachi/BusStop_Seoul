@@ -47,8 +47,7 @@ class MainViewModel @Inject constructor(
                 mapToolbarEnabled = false,
                 rotationGesturesEnabled = rotationGesturesEnabled
             ),
-            markerInfos = markers,
-            targetStation = targetStation
+            markerInfos = markers
         )
     }.stateIn(
         scope = viewModelScope,
@@ -226,6 +225,5 @@ data class MainActivityUiState(
         scrollGesturesEnabled = false,
         tiltGesturesEnabled = false,
         zoomGesturesEnabled = false
-    ),
-    val targetStation: StationInfo? = null      // Todo: 해당 값을 MainScreen 으로 옮길 것
+    )
 )
