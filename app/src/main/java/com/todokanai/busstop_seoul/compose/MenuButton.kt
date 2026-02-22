@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.presets.MyDropdownMenu
 
@@ -29,15 +30,15 @@ fun MenuButton(
         MyDropdownMenu(
             contents = listOf(
                 Pair(
-                    "toggle small map",
+                    stringResource(R.string.toggle_small_map),
                     {toggleSmallMap()}
                 ),
                 Pair(
-                    "enable rotation",
+                    stringResource(R.string.enable_rotation),
                     {enableRotation()}
                 ),
                 Pair(
-                    "to SearchScreen",
+                    stringResource(R.string.to_search_screen),
                 {toSearchScreen()}
                 )
             ),

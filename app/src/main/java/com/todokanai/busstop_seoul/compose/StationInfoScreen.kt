@@ -18,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.holder.StationArriveHolder
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import kotlinx.coroutines.launch
@@ -50,7 +52,7 @@ fun StationInfoScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Close",
+            text = stringResource(R.string.close_station_info),
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {

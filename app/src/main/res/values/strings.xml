@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">BusStop_Seoul</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="close_station_info">Close</string>
+    <string name="toggle_small_map">toggle small map</string>
+    <string name="enable_rotation">enable rotation</string>
+    <string name="to_search_screen">to search screen</string>
+    <string name="search_result_empty">no result</string>
 </resources>

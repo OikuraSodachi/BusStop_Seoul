@@ -17,9 +17,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.holder.SearchResultHolder
 import com.todokanai.busstop_seoul.viewmodel.SearchScreenViewModel
 
@@ -43,7 +45,7 @@ fun SearchScreen(
         }
         if(uiState.value.results.isEmpty()){
             Text(
-                text = "no result",
+                text = stringResource(R.string.search_result_empty),
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize()
@@ -54,7 +56,6 @@ fun SearchScreen(
                     SearchResultHolder(
                         item,
                         onItemClick = {item.onItemClick(navController)}
-                        // searchDataCallback = viewModel.searchDataCallback
                     )
                 }
 
