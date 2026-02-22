@@ -43,7 +43,7 @@ fun BusNavHost(
         ) {
             LineInfoScreen(
                 navController = navController,
-                routeId = it.arguments?.getString(LineInfoScreen.lineInfoArg)?.toLong() ?: 0L,
+                routeId = it.arguments?.getLong(LineInfoScreen.lineInfoArg) ?: 0L,
             )
         }
     }

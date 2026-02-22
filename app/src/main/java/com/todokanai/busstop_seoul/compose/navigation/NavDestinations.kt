@@ -36,6 +36,6 @@ data object LineInfoScreen: NavDestinations{
     const val lineInfoArg = "lineInfoArg"
     val routeWithArgs = "$route/{$lineInfoArg}"
     val arguments = listOf(
-        navArgument(lineInfoArg) { type = NavType.StringType }
+        navArgument(lineInfoArg) { type = NavType.LongType }
     )
 }
