@@ -38,9 +38,8 @@ fun MainScreen(
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val targetStation = remember{ mutableStateOf<StationInfo?>(null) }
 
-    val seoul =  LatLng(37.532600, 127.024612)
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(seoul, 10f)
+        position = CameraPosition.fromLatLngZoom(LatLng(37.532600, 127.024612), 10f)
     }
 
     Column(

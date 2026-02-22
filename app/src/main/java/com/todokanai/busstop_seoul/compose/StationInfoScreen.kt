@@ -40,7 +40,6 @@ fun StationInfoScreen(
     fun onRefresh(){
         scope.launch {
             isRefreshing.value = true
-            arriveInfos.value = emptyList()
             arriveInfos.value = getArriveInfos(arsId)
             isRefreshing.value = false
         }
