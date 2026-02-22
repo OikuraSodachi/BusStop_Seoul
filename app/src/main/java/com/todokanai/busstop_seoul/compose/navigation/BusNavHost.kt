@@ -50,10 +50,15 @@ fun BusNavHost(
 
 }
 
+fun NavHostController.navigateToMainScreen(){
+    this.navigate(MainScreen.route)
+}
 
+/** SearchScreen 의 StationInfo 조회 상황에 호출
+ *
+ * Todo: 해당 StationInfo 의 Marker 선택 동작 구현 **/
 fun NavHostController.navigateToMainScreen(arsId:Long, stNm:String){
     this.navigate("${MainScreen.route}?${MainScreen.arsIdArg}=$arsId&${MainScreen.stNameArg}=$stNm")
-
 }
 
 fun NavHostController.navigateToLineInfo(routeId:Long){
