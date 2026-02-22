@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,7 +38,7 @@ fun MainScreen(
 ){
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    val targetStation = remember{ mutableStateOf<StationInfo?>(null) }
+    var targetStation by remember { mutableStateOf<StationInfo?>(null) }
 
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(37.532600, 127.024612), 10f)
@@ -54,7 +56,7 @@ fun MainScreen(
                 markerInfos = uiState.value.markerInfos,
                 mainMapCallback = viewModel.mainMapCallback,
                 onMarkerClick = {
-                    targetStation.value = it.stationInfo
+                    targetStation = it.stationInfo
                 }
             )
             MenuButton(
@@ -83,8 +85,8 @@ fun MainScreen(
                 }
         }
 
-        if(targetStation.value != null){
-            val target = targetStation.value!!
+        if(targetStation != null){
+            val target = targetStation!!
             cameraPositionState.position =
                 CameraPosition.fromLatLngZoom(
                     LatLng(target.tmY, target.tmX),
@@ -94,7 +96,7 @@ fun MainScreen(
                 arsId = target.arsId,
                 stName = target.stNm,
                 getArriveInfos =  {viewModel.getArriveInfos(it)},
-                onClose = { targetStation.value = null },
+                onClose = { targetStation = null },
                 toLineInfoScreen = { navController.navigateToLineInfo(it) },
                 modifier = Modifier
                     .height(400.dp)
@@ -104,7 +106,7 @@ fun MainScreen(
 
         LaunchedEffect(key1 = arsId, key2= stNm){
             if(arsId!=null && stNm!=null) {
-                targetStation.value = viewModel.getStationInfo(arsId, stNm)
+                targetStation = viewModel.getStationInfo(arsId, stNm)
             }
         }
 
