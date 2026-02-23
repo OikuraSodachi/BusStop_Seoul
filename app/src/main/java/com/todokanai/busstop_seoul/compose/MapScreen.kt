@@ -31,14 +31,14 @@ import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
 import com.todokanai.busstop_seoul.compose.navigation.navigateToSearchScreen
 import com.todokanai.busstop_seoul.dataclass.StationInfo
-import com.todokanai.busstop_seoul.viewmodel.MainViewModel
+import com.todokanai.busstop_seoul.viewmodel.MapViewModel
 
 @Composable
-fun MainScreen(
+fun MapScreen(
     navController: NavHostController,
     arsId:Long? = null,
     stNm:String?= null,
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MapViewModel = hiltViewModel()
 ){
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()

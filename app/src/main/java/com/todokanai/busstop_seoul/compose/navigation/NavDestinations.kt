@@ -7,8 +7,8 @@ sealed interface NavDestinations{
     val route: String
 }
 
-data object MainScreen: NavDestinations{
-    override val route: String = "MainScreen"
+data object MapScreen: NavDestinations{
+    override val route: String = "MapScreen"
     const val arsIdArg = "arsIdArg"
     const val stNameArg = "stNameArg"
 

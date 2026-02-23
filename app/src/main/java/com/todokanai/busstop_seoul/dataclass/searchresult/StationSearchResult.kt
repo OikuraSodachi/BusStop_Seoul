@@ -1,7 +1,7 @@
 package com.todokanai.busstop_seoul.dataclass.searchresult
 
 import androidx.navigation.NavHostController
-import com.todokanai.busstop_seoul.compose.navigation.navigateToMainScreen
+import com.todokanai.busstop_seoul.compose.navigation.navigateToMapScreen
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
@@ -20,7 +20,7 @@ data class StationSearchResult(
     }
 
     override fun onItemClick(navController: NavHostController) {
-        navController.navigateToMainScreen(arsId,stNm)
+        navController.navigateToMapScreen(arsId,stNm)
     }
 
     override fun type(): ResultType {
