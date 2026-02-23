@@ -38,7 +38,7 @@ class MapViewModel @Inject constructor(
         mapUseCase.rotationGesturesEnabled(),
         markerInfos
     ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled, markers->
-        MainActivityUiState(
+        MapScreenUiState(
             isSmallMapEnabled = smallMapEnabled,
             mapUiSettings = MapUiSettings(
                 zoomControlsEnabled = zoomControlsEnabled,
@@ -50,7 +50,7 @@ class MapViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = MainActivityUiState()
+        initialValue = MapScreenUiState()
     )
 
     // Todo: mainMapCallback 을 함수가 아닌 변수 (val) 로서 가지고 있는 것이 메모리 관리상 적절한지 고민해볼 것
@@ -203,7 +203,7 @@ class MapViewModel @Inject constructor(
 
 }
 
-data class MainActivityUiState(
+data class MapScreenUiState(
     val isSmallMapEnabled: Boolean = false,
     val mapUiSettings: MapUiSettings = MapUiSettings(),
     val markerInfos:List<MarkerInfo> = emptyList(),
