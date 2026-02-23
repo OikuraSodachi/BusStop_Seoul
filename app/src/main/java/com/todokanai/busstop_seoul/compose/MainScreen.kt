@@ -22,6 +22,10 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.todokanai.busstop_seoul.Constants.DEFAULT_LATITUDE
+import com.todokanai.busstop_seoul.Constants.DEFAULT_LONGITUDE
+import com.todokanai.busstop_seoul.Constants.DEFAULT_ZOOM
+import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
@@ -41,7 +45,7 @@ fun MainScreen(
     var targetStation by remember { mutableStateOf<StationInfo?>(null) }
 
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(LatLng(37.532600, 127.024612), 10f)
+        position = CameraPosition.fromLatLngZoom(LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE), DEFAULT_ZOOM)
     }
 
     Column(
@@ -90,7 +94,7 @@ fun MainScreen(
             cameraPositionState.position =
                 CameraPosition.fromLatLngZoom(
                     LatLng(target.tmY, target.tmX),
-                    15f
+                    ZOOM_ON_MARKER_CLICK
                 )
             StationInfoScreen(
                 arsId = target.arsId,
