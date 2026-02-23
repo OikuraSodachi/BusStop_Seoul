@@ -16,9 +16,14 @@ fun BusNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = MapScreen.route,
+        startDestination = SearchScreen.route,
         modifier = modifier
     ){
+
+        composable(route = SearchScreen.route){
+            SearchScreen(navController = navController)
+        }
+
         composable(
             route = MapScreen.routeWithArgs,
             arguments = MapScreen.arguments
@@ -31,10 +36,6 @@ fun BusNavHost(
                 arsId = arsId,
                 stNm = stNm
             )
-        }
-
-        composable(route = SearchScreen.route){
-            SearchScreen(navController = navController)
         }
 
         composable(
