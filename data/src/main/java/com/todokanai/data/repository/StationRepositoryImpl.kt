@@ -11,11 +11,11 @@ import retrofit2.awaitResponse
 
 class StationRepositoryImpl : StationRepository {
 
-    override suspend fun getStationArriveInfos(key: Long): List<StationArriveItem> {
+    override suspend fun getStationArriveInfos(arsId: Long): List<StationArriveItem> {
         val result = mutableListOf<StationArriveItem>()
         val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
 
-        val response = service.getStationArrive(key.toString()).awaitResponse()
+        val response = service.getStationArrive(arsId.toString()).awaitResponse()
 
         val responseList = response.body()?.stationArriveMsgBody?.itemList
         responseList?.forEach {
@@ -29,10 +29,10 @@ class StationRepositoryImpl : StationRepository {
         return result
     }
 
-    override suspend fun getStationByName(key: String): List<StationItem> {
+    override suspend fun getStationByName(stNm: String): List<StationItem> {
         val result = mutableListOf<StationItem>()
         val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
-        val response = service.getStationByName(key).awaitResponse()
+        val response = service.getStationByName(stNm).awaitResponse()
         val responseList = response.body()?.msgBody?.itemList
 
         responseList?.forEach{

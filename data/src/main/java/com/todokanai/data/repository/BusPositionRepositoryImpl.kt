@@ -9,10 +9,10 @@ import retrofit2.awaitResponse
 
 class BusPositionRepositoryImpl: BusPositionRepository {
 
-    override suspend fun getBusPositions(key: Long): List<BusPositionItem> {
+    override suspend fun getBusPositions(routeId: Long): List<BusPositionItem> {
         val result = mutableListOf<BusPositionItem>()
         val service = BusPositionRetrofit.busPositionRetrofit.create(BusPositionService::class.java)
-        val response = service.getBusPositions(key.toString()).awaitResponse()
+        val response = service.getBusPositions(routeId.toString()).awaitResponse()
 
         val responseList = response.body()?.msgBody?.itemList
 

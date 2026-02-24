@@ -12,24 +12,24 @@ class BusUseCase @Inject constructor(
     private val arriveInfoRepository: ArriveInfoRepository
 ) {
 
-    suspend fun getArriveInfos(key:Long):List<StationArriveItem>{
-        return stationRepository.getStationArriveInfos(key)
+    suspend fun getArriveInfos(arsId:Long):List<StationArriveItem>{
+        return stationRepository.getStationArriveInfos(arsId)
     }
 
-    suspend fun getStationByName(key:String):List<StationItem>{
-        return stationRepository.getStationByName(key)
+    suspend fun getStationByName(stNm:String):List<StationItem>{
+        return stationRepository.getStationByName(stNm)
     }
 
     suspend fun getStationByPosition(tmX: Double, tmY: Double, radius:Int):List<StationItem>{
         return stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
     }
 
-    suspend fun getBusPositions(key: Long): List<BusPositionItem> {
-        return busPositionRepository.getBusPositions(key)
+    suspend fun getBusPositions(routeId: Long): List<BusPositionItem> {
+        return busPositionRepository.getBusPositions(routeId)
     }
 
-    suspend fun getArriveInfoByRouteAll(key:Long):List<ArriveInfoByRouteAllItem>{
-        return arriveInfoRepository.getArriveInfoByRouteAll(key)
+    suspend fun getArriveInfoByRouteAll(busRouteId:Long):List<ArriveInfoByRouteAllItem>{
+        return arriveInfoRepository.getArriveInfoByRouteAll(busRouteId)
 
     }
 }

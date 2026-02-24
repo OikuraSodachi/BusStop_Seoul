@@ -17,11 +17,11 @@ class LineInfoViewModel @Inject constructor(
 ): ViewModel() {
 
     private val lineInfos = MutableStateFlow<List<LineInfo>>(emptyList())
-    private val routeId = MutableStateFlow<Long>(0L)
+    private val busRouteId = MutableStateFlow<Long>(0L)
 
     val uiState = combine(
         lineInfos,
-        routeId
+        busRouteId
     ){ lineInfo, id ->
         LineInfoScreenUiState(
             lineInfos = getLineInfos(id)
@@ -33,9 +33,9 @@ class LineInfoViewModel @Inject constructor(
         initialValue = LineInfoScreenUiState()
     )
 
-    suspend fun getLineInfos(routeId:Long): List<LineInfo> {
+    suspend fun getLineInfos(busRouteId:Long): List<LineInfo> {
 
-        val response = busUseCase.getArriveInfoByRouteAll(routeId)
+        val response = busUseCase.getArriveInfoByRouteAll(busRouteId)
         val stList = response.map{
             it.stNm
         }           // 노선이 지나는 정류소 목록
@@ -55,7 +55,7 @@ class LineInfoViewModel @Inject constructor(
     }
 
     fun setRouteId(id:Long){
-        routeId.value = id
+        busRouteId.value = id
     }
 }
 

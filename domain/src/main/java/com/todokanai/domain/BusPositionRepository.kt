@@ -4,5 +4,5 @@ import com.todokanai.domain.response.BusPositionItem
 
 interface BusPositionRepository {
 
-    suspend fun getBusPositions(key:Long): List<BusPositionItem>
+    suspend fun getBusPositions(routeId:Long): List<BusPositionItem>
 }

@@ -7,10 +7,10 @@ import com.todokanai.domain.response.ArriveInfoByRouteAllItem
 import retrofit2.awaitResponse
 
 class ArriveInfoRepositoryImpl: ArriveInfoRepository {
-    override suspend fun getArriveInfoByRouteAll(key:Long): List<ArriveInfoByRouteAllItem> {
+    override suspend fun getArriveInfoByRouteAll(busRouteId:Long): List<ArriveInfoByRouteAllItem> {
         val result = mutableListOf<ArriveInfoByRouteAllItem>()
         val service = BusArriveInfoRetrofit.busArriveInfoRetrofit.create(BusArriveInfoService::class.java)
-        val response = service.getArriveInfoByRouteAll(key.toString()).awaitResponse()
+        val response = service.getArriveInfoByRouteAll(busRouteId.toString()).awaitResponse()
         val responseList = response.body()?.msgBody?.itemList
 
         responseList?.forEach {
