@@ -2,6 +2,7 @@ package com.todokanai.busstop_seoul.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 import com.todokanai.domain.BusUseCase
@@ -50,6 +51,7 @@ class SearchScreenViewModel @Inject constructor(
                 it.stationTp
             )
         }
+        // Todo: 다른 type 의 SearchResult 도 추가
         return stationList
     }
 
