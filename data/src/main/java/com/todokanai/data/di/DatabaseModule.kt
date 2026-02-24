@@ -7,6 +7,7 @@ import com.todokanai.data.repository.BusPositionRepositoryImpl
 import com.todokanai.data.repository.LocalDataRepository
 import com.todokanai.data.repository.SettingsRepositoryImpl
 import com.todokanai.data.repository.StationRepositoryImpl
+import com.todokanai.data.room.BusLineItemDao
 import com.todokanai.data.room.MyDatabase
 import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.ArriveInfoRepository
@@ -62,6 +63,11 @@ class DatabaseModule {
     @Provides
     fun provideStationItemDao(myDatabase: MyDatabase): StationItemDao {
         return myDatabase.stationItemDao()
+    }
+
+    @Provides
+    fun provideBusLineItemDao(myDatabase: MyDatabase): BusLineItemDao {
+        return myDatabase.busLineItemDao()
     }
 
     @Provides
