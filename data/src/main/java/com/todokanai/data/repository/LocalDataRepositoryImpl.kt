@@ -1,13 +1,18 @@
 package com.todokanai.data.repository
 
+import com.todokanai.data.room.BusLineItemDao
 import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.LocalDataRepository
+import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.response.StationItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class LocalDataRepositoryImpl @Inject constructor(private val stationItemDao: StationItemDao) : LocalDataRepository{
+class LocalDataRepositoryImpl @Inject constructor(
+    private val stationItemDao: StationItemDao,
+    private val busLineItemDao: BusLineItemDao
+) : LocalDataRepository{
 
     override fun getAllStations(): Flow<List<StationItem>> {
         return stationItemDao.getAll().map {
@@ -30,6 +35,28 @@ class LocalDataRepositoryImpl @Inject constructor(private val stationItemDao: St
 
     override suspend fun deleteAllStations() {
         stationItemDao.deleteAll()
+    }
+
+    override fun getAllBusLines(): Flow<List<BusLineItem>> {
+        return busLineItemDao.getAll().map {
+            it.map {
+                it.convert()
+            }
+        }
+    }
+
+    override suspend fun getAllBusLinesNonFlow(): List<BusLineItem> {
+        return busLineItemDao.getAllNonFlow().map{
+            it.convert()
+        }
+    }
+
+    override suspend fun insertBusLine(busLineItem: BusLineItem) {
+        busLineItemDao.insert(busLineItem.convert())
+    }
+
+    override suspend fun deleteAllBusLines() {
+        busLineItemDao.deleteAll()
     }
 
     private fun StationItem.convert(): com.todokanai.data.room.StationItem{
@@ -56,4 +83,17 @@ class LocalDataRepositoryImpl @Inject constructor(private val stationItemDao: St
         )
     }
 
+    private fun BusLineItem.convert(): com.todokanai.data.room.BusLineItem{
+        return com.todokanai.data.room.BusLineItem(
+            busRouteId = busRouteId,
+            rtNm = rtNm
+        )
+    }
+
+    private fun com.todokanai.data.room.BusLineItem.convert(): BusLineItem{
+        return BusLineItem(
+            busRouteId = busRouteId,
+            rtNm = rtNm
+        )
+    }
 }
