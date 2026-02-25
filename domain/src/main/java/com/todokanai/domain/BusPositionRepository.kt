@@ -1,6 +1,6 @@
 package com.todokanai.domain
 
-import com.todokanai.domain.response.BusPositionItem
+import com.todokanai.domain.dataclass.BusPositionItem
 
 interface BusPositionRepository {
 

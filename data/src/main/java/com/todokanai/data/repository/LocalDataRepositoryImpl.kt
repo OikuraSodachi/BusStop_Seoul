@@ -4,7 +4,7 @@ import com.todokanai.data.room.BusLineItemDao
 import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.LocalDataRepository
 import com.todokanai.domain.dataclass.BusLineItem
-import com.todokanai.domain.response.StationItem
+import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

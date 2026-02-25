@@ -1,6 +1,6 @@
 package com.todokanai.domain
 
-import com.todokanai.domain.response.ArriveInfoByRouteAllItem
+import com.todokanai.domain.dataclass.ArriveInfoByRouteAllItem
 
 interface ArriveInfoRepository {
 

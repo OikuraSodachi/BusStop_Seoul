@@ -1,4 +1,4 @@
-package com.todokanai.domain.response
+package com.todokanai.domain.dataclass
 
 data class StationItem(
     val stId: Long,          // 정류소 ID

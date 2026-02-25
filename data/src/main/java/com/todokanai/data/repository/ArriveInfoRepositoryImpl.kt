@@ -3,7 +3,7 @@ package com.todokanai.data.repository
 import com.todokanai.data.retrofit.busarriveinfo.BusArriveInfoRetrofit
 import com.todokanai.data.retrofit.busarriveinfo.BusArriveInfoService
 import com.todokanai.domain.ArriveInfoRepository
-import com.todokanai.domain.response.ArriveInfoByRouteAllItem
+import com.todokanai.domain.dataclass.ArriveInfoByRouteAllItem
 import retrofit2.awaitResponse
 
 class ArriveInfoRepositoryImpl: ArriveInfoRepository {

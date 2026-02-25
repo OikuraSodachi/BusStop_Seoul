@@ -1,7 +1,7 @@
 package com.todokanai.domain
 
-import com.todokanai.domain.response.StationArriveItem
-import com.todokanai.domain.response.StationItem
+import com.todokanai.domain.dataclass.StationArriveItem
+import com.todokanai.domain.dataclass.StationItem
 
 interface StationRepository {
 

@@ -4,9 +4,9 @@ import com.todokanai.data.retrofit.stationinfo.StationInfoRetrofit
 import com.todokanai.data.retrofit.stationinfo.StationInfoService
 import com.todokanai.data.retrofit.stationinfo.responsetype.stationbyname.StationByNameItem
 import com.todokanai.data.retrofit.stationinfo.responsetype.stationbyposition.StationByPositionItem
-import com.todokanai.domain.response.StationArriveItem
+import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.StationRepository
-import com.todokanai.domain.response.StationItem
+import com.todokanai.domain.dataclass.StationItem
 import retrofit2.awaitResponse
 
 class StationRepositoryImpl : StationRepository {
@@ -66,7 +66,7 @@ class StationRepositoryImpl : StationRepository {
     }
 
     /** simpleXML Converter 관련 annotation 제거
-     *  @return [com.todokanai.domain.response.StationArriveItem] **/
+     *  @return [StationArriveItem] **/
     private fun com.todokanai.data.retrofit.stationinfo.responsetype.stationarrive.StationArriveItem.convert(): StationArriveItem {
         return StationArriveItem(
             stId!!.toLong(),

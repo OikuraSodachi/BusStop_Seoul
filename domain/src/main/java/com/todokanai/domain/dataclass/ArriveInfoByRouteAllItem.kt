@@ -1,4 +1,4 @@
-package com.todokanai.domain.response
+package com.todokanai.domain.dataclass
 
 data class ArriveInfoByRouteAllItem(
     //--- 기본 정보 ---

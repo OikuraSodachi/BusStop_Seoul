@@ -1,9 +1,9 @@
 package com.todokanai.domain
 
-import com.todokanai.domain.response.ArriveInfoByRouteAllItem
-import com.todokanai.domain.response.BusPositionItem
-import com.todokanai.domain.response.StationArriveItem
-import com.todokanai.domain.response.StationItem
+import com.todokanai.domain.dataclass.ArriveInfoByRouteAllItem
+import com.todokanai.domain.dataclass.BusPositionItem
+import com.todokanai.domain.dataclass.StationArriveItem
+import com.todokanai.domain.dataclass.StationItem
 import javax.inject.Inject
 
 class BusUseCase @Inject constructor(

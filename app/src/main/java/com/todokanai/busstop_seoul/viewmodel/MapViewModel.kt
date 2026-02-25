@@ -13,8 +13,8 @@ import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.MapUseCase
-import com.todokanai.domain.response.StationArriveItem
-import com.todokanai.domain.response.StationItem
+import com.todokanai.domain.dataclass.StationArriveItem
+import com.todokanai.domain.dataclass.StationItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

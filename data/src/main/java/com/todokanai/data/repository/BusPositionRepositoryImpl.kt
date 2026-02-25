@@ -4,7 +4,7 @@ import com.todokanai.data.retrofit.busposition.BusPositionRetrofit
 import com.todokanai.data.retrofit.busposition.BusPositionService
 import com.todokanai.data.retrofit.busposition.responsetype.busposbyrouteid.BusPosByRouteIdItem
 import com.todokanai.domain.BusPositionRepository
-import com.todokanai.domain.response.BusPositionItem
+import com.todokanai.domain.dataclass.BusPositionItem
 import retrofit2.awaitResponse
 
 class BusPositionRepositoryImpl: BusPositionRepository {
