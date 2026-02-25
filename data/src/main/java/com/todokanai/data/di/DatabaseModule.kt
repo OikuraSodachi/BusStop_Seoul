@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.todokanai.data.repository.ArriveInfoRepositoryImpl
 import com.todokanai.data.repository.BusPositionRepositoryImpl
-import com.todokanai.data.repository.LocalDataRepository
+import com.todokanai.data.repository.LocalDataRepositoryImpl
 import com.todokanai.data.repository.SettingsRepositoryImpl
 import com.todokanai.data.repository.StationRepositoryImpl
 import com.todokanai.data.room.BusLineItemDao
@@ -13,6 +13,7 @@ import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.ArriveInfoRepository
 import com.todokanai.domain.BusPositionRepository
 import com.todokanai.domain.BusUseCase
+import com.todokanai.domain.LocalDataRepository
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.SettingsRepository
 import com.todokanai.domain.StationRepository
@@ -71,8 +72,8 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideLocalDataRepository(stationItemDao: StationItemDao): LocalDataRepository{
-        return LocalDataRepository(stationItemDao)
+    fun provideLocalDataRepository(stationItemDao: StationItemDao): LocalDataRepository {
+        return LocalDataRepositoryImpl(stationItemDao)
     }
 
     @Provides
