@@ -1,6 +1,7 @@
 package com.todokanai.domain
 
 import com.todokanai.domain.dataclass.ArriveInfoByRouteAllItem
+import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.BusPositionItem
 import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.dataclass.StationItem
@@ -9,7 +10,8 @@ import javax.inject.Inject
 class BusUseCase @Inject constructor(
     private val stationRepository: StationRepository,
     private val busPositionRepository: BusPositionRepository,
-    private val arriveInfoRepository: ArriveInfoRepository
+    private val arriveInfoRepository: ArriveInfoRepository,
+    private val localDataRepository: LocalDataRepository
 ) {
 
     suspend fun getArriveInfos(arsId:Long):List<StationArriveItem>{
@@ -32,4 +34,22 @@ class BusUseCase @Inject constructor(
         return arriveInfoRepository.getArriveInfoByRouteAll(busRouteId)
 
     }
+
+    suspend fun getLineInfosFromKeyWord(keyWord:String):List<BusLineItem>{
+        val result = mutableListOf<BusLineItem>()
+        val lineList = localDataRepository.getAllBusLinesNonFlow()  // 전체 노선 정보 가져오기
+
+        lineList.forEach {
+            if(it.rtNm.contains(keyWord)){
+                result.add(
+                    BusLineItem(
+                        it.busRouteId,
+                        it.rtNm
+                    )
+                )
+            }
+        }
+        return result
+    }
+
 }
