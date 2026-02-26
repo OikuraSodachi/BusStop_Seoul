@@ -72,8 +72,14 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideLocalDataRepository(stationItemDao: StationItemDao): LocalDataRepository {
-        return LocalDataRepositoryImpl(stationItemDao)
+    fun provideLocalDataRepository(
+        stationItemDao: StationItemDao,
+        busLineItemDao: BusLineItemDao
+    ): LocalDataRepository {
+        return LocalDataRepositoryImpl(
+            stationItemDao,
+            busLineItemDao
+        )
     }
 
     @Provides
@@ -85,12 +91,14 @@ class DatabaseModule {
     fun provideBusUseCase(
         stationRepository: StationRepository,
         busPositionRepository: BusPositionRepository,
-        arriveInfoRepository: ArriveInfoRepository
+        arriveInfoRepository: ArriveInfoRepository,
+        localDataRepository: LocalDataRepository
     ): BusUseCase{
         return BusUseCase(
             stationRepository,
             busPositionRepository,
-            arriveInfoRepository
+            arriveInfoRepository,
+            localDataRepository
         )
     }
 
