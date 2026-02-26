@@ -39,20 +39,39 @@ class SearchScreenViewModel @Inject constructor(
     }
 
     suspend fun getSearchData(keyWord:String):List<SearchResult>{
-        val stationList = busUseCase.getStationByName(keyWord).map {
-            StationSearchResult(
-                it.stId,
-                it.stNm,
-                it.arsId,
-                it.tmX,
-                it.tmY,
-                it.posX,
-                it.posY,
-                it.stationTp
+        val result = mutableListOf<SearchResult>()
+
+        val stationList = busUseCase.getStationByName(keyWord)
+
+        stationList.forEach {
+            result.add(
+                StationSearchResult(
+                    it.stId,
+                    it.stNm,
+                    it.arsId,
+                    it.tmX,
+                    it.tmY,
+                    it.posX,
+                    it.posY,
+                    it.stationTp
+                )
             )
         }
         // Todo: 다른 type 의 SearchResult 도 추가. keyWord 에서 routeId 추출과정에는 room 활용하기
-        return stationList
+
+        val lineList = busUseCase.getLineInfosFromKeyWord(keyWord)
+
+        lineList.forEach {
+            result.add(
+                LineSearchResult(
+                    it.busRouteId,
+                    it.rtNm
+                )
+            )
+        }
+
+
+        return result
     }
 
 }
