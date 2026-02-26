@@ -45,6 +45,7 @@ dependencies {
 
     implementation(libs.androidx.datastore.preferences)       // enable DataStore
     implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     implementation("com.squareup.retrofit2:converter-simplexml:2.9.0") {
         exclude(group = "stax", module = "stax-api")
         exclude(group = "stax", module = "stax")
