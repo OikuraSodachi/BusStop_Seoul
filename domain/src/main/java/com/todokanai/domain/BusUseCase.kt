@@ -18,12 +18,21 @@ class BusUseCase @Inject constructor(
         return stationRepository.getStationArriveInfos(arsId)
     }
 
+    // Todo: insert 작업 완료 후에 return 하는 것이 바람직한 방향인지?
     suspend fun getStationByName(stNm:String):List<StationItem>{
-        return stationRepository.getStationByName(stNm)
+        val response = stationRepository.getStationByName(stNm)
+        response.forEach {
+            localDataRepository.insertStation(it)
+        }
+        return response
     }
 
     suspend fun getStationByPosition(tmX: Double, tmY: Double, radius:Int):List<StationItem>{
-        return stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
+        val response = stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
+        response.forEach {
+            localDataRepository.insertStation(it)
+        }
+        return response
     }
 
     suspend fun getBusPositions(routeId: Long): List<BusPositionItem> {
