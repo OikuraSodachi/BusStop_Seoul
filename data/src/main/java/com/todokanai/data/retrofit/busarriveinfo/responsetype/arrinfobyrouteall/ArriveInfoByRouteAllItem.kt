@@ -3,6 +3,26 @@ package com.todokanai.data.retrofit.busarriveinfo.responsetype.arrinfobyrouteall
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
+/**
+ * @param stId 정류소 ID
+ * @param stNm 정류소명
+ * @param arsId 정류소 고유번호
+ * @param staOrd 순번
+ * @param busRouteId 노선 ID
+ * @param rtNm 노선명
+ * @param arrmsg1 첫번째 도착 메시지 (예: "5분후[3번째 전]")
+ * @param vehId1 첫번째 버스 ID
+ * @param busType1 첫번째 버스 타입 (0:일반, 1:저상)
+ * @param plainNo1 첫번째 버스 차량번호
+ * @param arrmsg2 두번째 도착 메시지
+ * @param vehId2 두번째 버스 ID
+ * @param busType2 두번째 버스 타입
+ * @param plainNo2 두번째 버스 차량번호
+ * @param mkTm 데이터 생성시각
+ * @param routeType 노선 타입
+ * @param term 배차간격
+ * @param firstTm 첫차시간
+ * @param lastTm 막차시간 */
 @Root(name = "itemList", strict = false)
 data class ArriveInfoByRouteAllItem(
     //--- 기본 정보 ---

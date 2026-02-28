@@ -3,6 +3,58 @@ package com.todokanai.data.retrofit.stationinfo.responsetype.stationarrive
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
+/**
+ * @param stId 정류소 고유 ID
+ * @param stNm 정류소명
+ * @param arsId 정류소 번호
+ * @param busRouteId 노선 ID
+ * @param rtNm 노선명
+ * @param busRouteAbrv 노선 약어
+ * @param sectNm 구간명
+ * @param gpsX X 좌표 (경도)
+ * @param gpsY Y 좌표 (위도)
+ * @param stationTp 정류소 타입
+ * @param firstTm 첫차 시간
+ * @param lastTm 막차 시간
+ * @param term 배차 간격
+ * @param routeType 노선 유형
+ * @param nextBus 다음 버스 정보
+ * @param staOrd 정류소 순번
+ * @param vehId1 첫번째 도착예정버스 ID
+ * @param sectOrd1 첫번째 도착예정버스 구간 순번
+ * @param stationNm1 첫번째 도착예정버스 현재 위치
+ * @param traTime1 첫번째 도착예정버스 도착 예상 시간(초)
+ * @param traSpd1 첫번째 도착예정버스 속도
+ * @param isArrive1 첫번째 도착예정버스 도착 구분
+ * @param repTm1 첫번째 도착예정버스 최종 보고 시간
+ * @param isLast1 첫번째 도착예정버스 막차 여부
+ * @param busType1 첫번째 도착예정버스 차량 유형
+ * @param vehId2 두번째 도착예정버스 ID
+ * @param sectOrd2 두번째 도착예정버스 구간 순번
+ * @param stationNm2 두번째 도착예정버스 현재 위치
+ * @param traTime2 두번째 도착예정버스 도착 예상 시간(초)
+ * @param traSpd2 두번째 도착예정버스 속도
+ * @param isArrive2 두번째 도착예정버스 도착 구분
+ * @param isLast2 두번째 도착예정버스 막차 여부
+ * @param busType2 두번째 도착예정버스 차량 유형
+ * @param adirection 방면
+ * @param arrmsg1 첫번째 도착예정 메시지
+ * @param arrmsg2 두번째 도착예정 메시지
+ * @param arrmsgSec1 첫번째 도착예정 메시지 (초 포함)
+ * @param arrmsgSec2 두번째 도착예정 메시지 (초 포함)
+ * @param nxtStn 다음 정류장
+ * @param rerdieDiv1 우회 구분
+ * @param rerdieDiv2 우회 구분
+ * @param rerideNum1 우회 번호
+ * @param rerideNum2 우회 번호
+ * @param isFullFlag1 첫번째 버스 만차 여부
+ * @param isFullFlag2 두번째 버스 만차 여부
+ * @param deTourAt 우회 여부
+ * @param congestion1 첫번째 버스 혼잡도
+ * @param congestion2 두번째 버스 혼잡도
+ * @param remndrNmpr1
+ * @param remndrNmpr2
+ */
 @Root(name = "itemList", strict = false)
 data class StationArriveItem(
     @field:Element(name = "stId", required = false)

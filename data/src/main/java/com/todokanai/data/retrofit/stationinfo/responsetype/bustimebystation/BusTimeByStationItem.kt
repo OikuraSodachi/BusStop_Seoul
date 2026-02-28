@@ -3,6 +3,15 @@ package com.todokanai.data.retrofit.stationinfo.responsetype.bustimebystation
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
+/**
+ * @param busRouteId 노선 ID
+ * @param busRouteNm 노선명
+ * @param busRouteAbrv 노선 약어
+ * @param arsId 정류소 번호
+ * @param stationNm 정류소 이름
+ * @param firstBusTm 첫차 시간
+ * @param lastBusTm 막차 시간
+ */
 @Root(name = "itemList", strict = false)
 data class BusTimeByStationItem(
     @field:Element(name = "busRouteId", required = false)

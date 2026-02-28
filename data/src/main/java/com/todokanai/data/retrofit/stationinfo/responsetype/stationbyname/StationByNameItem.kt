@@ -3,6 +3,15 @@ package com.todokanai.data.retrofit.stationinfo.responsetype.stationbyname
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
+/**
+ * @param stId 정류소 ID
+ * @param stNm 정류소명
+ * @param arsId 정류소 고유번호
+ * @param tmX 경도 (Longitude)
+ * @param tmY 위도 (Latitude)
+ * @param posX 좌표 X (GRS80)
+ * @param posY 좌표 Y (GRS80)
+ */
 @Root(name = "itemList", strict = false)
 data class StationByNameItem(
     @field:Element(name = "stId", required = false)

@@ -3,6 +3,18 @@ package com.todokanai.data.retrofit.busposition.responsetype.busposbyrouteid
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
+/**
+ * @param vehId 버스 ID
+ * @param plainNo 차량 번호
+ * @param busType 버스 타입 (0:일반, 1:저상, 2:굴절)
+ * @param lastStnId 최근 정류소 ID
+ * @param congetion 혼잡도 (3:여유, 4:보통, 5:혼잡)
+ * @param sectOrd 구간 순서
+ * @param gpsX 경도 (WGS84)
+ * @param gpsY 위도 (WGS84)
+ * @param isFullFlag 만차 여부 (0:여유, 1:만차)
+ * @param stopFlag 정류소 정차 여부 (0:운행중, 1:정차)
+ */
 @Root(name = "itemList", strict = false)
 data class BusPosByRouteIdItem(
 
