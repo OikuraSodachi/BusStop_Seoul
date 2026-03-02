@@ -50,6 +50,7 @@ dependencies {
         exclude(group = "stax", module = "stax")
         exclude(group = "xpp3", module = "xpp3")
     }
+    implementation(libs.opencsv)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
