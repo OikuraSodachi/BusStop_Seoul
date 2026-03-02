@@ -16,7 +16,6 @@ hilt = "2.48"
 ksp = "2.0.0-1.0.22"
 jetbrainsKotlinJvm = "2.0.0"
 navigationCompose = "2.9.7"
-opencsv = "4.4"
 playServicesMaps = "19.2.0"
 retrofit = "2.9.0"
 retrofitConverterSimplexml = "2.9.0"
@@ -46,7 +45,6 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-opencsv = { module = "com.opencsv:opencsv", version.ref = "opencsv" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
