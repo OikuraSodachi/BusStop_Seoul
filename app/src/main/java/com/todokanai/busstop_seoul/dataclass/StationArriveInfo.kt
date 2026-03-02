@@ -4,7 +4,7 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class StationArriveInfo(
-    val stId: Long,          // 정류소 고유 ID
+    //val stId: Long,          // 정류소 고유 ID
 
     val stNm: String,          // 정류소명
 

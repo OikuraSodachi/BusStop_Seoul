@@ -15,7 +15,21 @@ class BusUseCase @Inject constructor(
 ) {
 
     suspend fun getArriveInfos(arsId:Long):List<StationArriveItem>{
+        val result = mutableListOf<StationArriveItem>()
+
         val lineList = stationRepository.getRouteByStationList(arsId)
+        lineList.forEach {
+            result.add(
+                StationArriveItem(
+                    stId = 0,
+                    stNm = "",
+                    arsId = arsId,
+                    busRouteId = it.busRouteId,
+                    rtNm = it.rtNm,
+                    adirection = ""
+                )
+            )
+        }
 
         return stationRepository.getStationArriveInfos(arsId)
     }

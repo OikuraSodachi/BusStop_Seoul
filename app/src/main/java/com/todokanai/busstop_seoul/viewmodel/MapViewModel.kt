@@ -135,7 +135,7 @@ class MapViewModel @Inject constructor(
 
     private fun StationArriveItem.toStationArriveInfo(): StationArriveInfo {
         return StationArriveInfo(
-            stId = stId,
+//            stId = stId,
             stNm = stNm,
             arsId = arsId,
             busRouteId = busRouteId,
