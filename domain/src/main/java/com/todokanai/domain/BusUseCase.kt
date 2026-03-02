@@ -15,6 +15,8 @@ class BusUseCase @Inject constructor(
 ) {
 
     suspend fun getArriveInfos(arsId:Long):List<StationArriveItem>{
+        val lineList = stationRepository.getRouteByStationList(arsId)
+
         return stationRepository.getStationArriveInfos(arsId)
     }
 

@@ -2,10 +2,12 @@ package com.todokanai.data.repository
 
 import com.todokanai.data.retrofit.stationinfo.StationInfoRetrofit
 import com.todokanai.data.retrofit.stationinfo.StationInfoService
+import com.todokanai.data.retrofit.stationinfo.responsetype.routebystation.RouteByStationItem
 import com.todokanai.data.retrofit.stationinfo.responsetype.stationbyname.StationByNameItem
 import com.todokanai.data.retrofit.stationinfo.responsetype.stationbyposition.StationByPositionItem
 import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.StationRepository
+import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
 import retrofit2.awaitResponse
 
@@ -59,6 +61,22 @@ class StationRepositoryImpl : StationRepository {
             try {
                 result.add(it.convert())
             }catch (e:Exception){
+                e.printStackTrace()
+            }
+        }
+        return result
+    }
+
+    override suspend fun getRouteByStationList(arsId: Long): List<BusLineItem> {
+        val result = mutableListOf<BusLineItem>()
+        val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
+        val response = service.getRouteByStation(arsId.toString()).awaitResponse()
+
+        val responseList = response.body()?.msgBody?.itemList
+        responseList?.forEach {
+            try {
+                result.add(it.convert())
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -143,6 +161,13 @@ class StationRepositoryImpl : StationRepository {
             tmY!!.toDouble(),
             posX,
             posY
+        )
+    }
+
+    private fun RouteByStationItem.convert(): BusLineItem{
+        return BusLineItem(
+            busRouteId!!.toLong(),
+            busRouteNm.toString()
         )
     }
 
