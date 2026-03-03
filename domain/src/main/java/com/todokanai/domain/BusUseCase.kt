@@ -15,33 +15,15 @@ class BusUseCase @Inject constructor(
 ) {
 
     suspend fun getArriveInfos(arsId:Long):List<StationArriveItem>{
-        val result = mutableListOf<StationArriveItem>()
-
-        val lineList = stationRepository.getRouteByStationList(arsId)
-        lineList.forEach {
-            result.add(
-                StationArriveItem(
-                    stId = 0,
-                    stNm = "",
-                    arsId = arsId,
-                    busRouteId = it.busRouteId,
-                    rtNm = it.rtNm,
-                    adirection = ""
-                )       // Todo: UseCase 단에 convert 로직을 두는게 맞는지?
-            )
-        }
-
         return stationRepository.getStationArriveInfos(arsId)
     }
 
     suspend fun getStationByName(stNm:String):List<StationItem>{
-        val response = stationRepository.getStationByName(stNm)
-        return response
+        return stationRepository.getStationByName(stNm)
     }
 
     suspend fun getStationByPosition(tmX: Double, tmY: Double, radius:Int):List<StationItem>{
-        val response = stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
-        return response
+        return stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
     }
 
     suspend fun getBusPositions(routeId: Long): List<BusPositionItem> {
@@ -50,7 +32,6 @@ class BusUseCase @Inject constructor(
 
     suspend fun getArriveInfoByRouteAll(busRouteId:Long):List<ArriveInfoByRouteAllItem>{
         return arriveInfoRepository.getArriveInfoByRouteAll(busRouteId)
-
     }
 
     suspend fun getLineInfosFromKeyWord(keyWord:String):List<BusLineItem>{
