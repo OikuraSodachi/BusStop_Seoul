@@ -40,36 +40,34 @@ class SearchScreenViewModel @Inject constructor(
 
     suspend fun getSearchData(keyWord:String):List<SearchResult>{
         val result = mutableListOf<SearchResult>()
-
-        val stationList = busUseCase.getStationByName(keyWord)
-
-        stationList.forEach {
-            result.add(
-                StationSearchResult(
-                    it.stId,
-                    it.stNm,
-                    it.arsId,
-                    it.tmX,
-                    it.tmY,
-                    it.posX,
-                    it.posY,
-                    it.stationTp
+        if(keyWord.isNotBlank()) {
+            val stationList = busUseCase.getStationByName(keyWord)
+            stationList.forEach {
+                result.add(
+                    StationSearchResult(
+                        it.stId,
+                        it.stNm,
+                        it.arsId,
+                        it.tmX,
+                        it.tmY,
+                        it.posX,
+                        it.posY,
+                        it.stationTp
+                    )
                 )
-            )
-        }
-        // Todo: 다른 type 의 SearchResult 도 추가. keyWord 에서 routeId 추출과정에는 room 활용하기
+            }
+            // Todo: 다른 type 의 SearchResult 도 추가. keyWord 에서 routeId 추출과정에는 room 활용하기
 
-        val lineList = busUseCase.getLineInfosFromKeyWord(keyWord)
-
-        lineList.forEach {
-            result.add(
-                LineSearchResult(
-                    it.busRouteId,
-                    it.rtNm
+            val lineList = busUseCase.getLineInfosFromKeyWord(keyWord)
+            lineList.forEach {
+                result.add(
+                    LineSearchResult(
+                        it.busRouteId,
+                        it.rtNm
+                    )
                 )
-            )
+            }
         }
-
 
         return result
     }
