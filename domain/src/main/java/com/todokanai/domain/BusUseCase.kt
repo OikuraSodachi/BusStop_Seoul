@@ -27,27 +27,20 @@ class BusUseCase @Inject constructor(
                     busRouteId = it.busRouteId,
                     rtNm = it.rtNm,
                     adirection = ""
-                )
+                )       // Todo: UseCase 단에 convert 로직을 두는게 맞는지?
             )
         }
 
         return stationRepository.getStationArriveInfos(arsId)
     }
 
-    // Todo: insert 작업 완료 후에 return 하는 것이 바람직한 방향인지?
     suspend fun getStationByName(stNm:String):List<StationItem>{
         val response = stationRepository.getStationByName(stNm)
-//        response.forEach {
-//            localDataRepository.insertStation(it)
-//        }
         return response
     }
 
     suspend fun getStationByPosition(tmX: Double, tmY: Double, radius:Int):List<StationItem>{
         val response = stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
-//        response.forEach {
-//            localDataRepository.insertStation(it)
-//        }
         return response
     }
 
@@ -66,12 +59,7 @@ class BusUseCase @Inject constructor(
 
         lineList.forEach {
             if(it.rtNm.contains(keyWord)){
-                result.add(
-                    BusLineItem(
-                        it.busRouteId,
-                        it.rtNm
-                    )
-                )
+                result.add(it)
             }
         }
         return result

@@ -86,14 +86,28 @@ class LocalDataRepositoryImpl @Inject constructor(
     private fun BusLineItem.convert(): com.todokanai.data.room.BusLineItem{
         return com.todokanai.data.room.BusLineItem(
             busRouteId = busRouteId,
-            rtNm = rtNm
+            rtNm = rtNm,
+            routeAbrv = routeAbrv,
+            routeType = routeType,
+            stBegin = stBegin,
+            stEnd = stEnd,
+            term = term,
+            firstBusTm = firstBusTm,
+            lastBusTm = lastBusTm
         )
     }
 
     private fun com.todokanai.data.room.BusLineItem.convert(): BusLineItem{
         return BusLineItem(
             busRouteId = busRouteId,
-            rtNm = rtNm
+            rtNm = rtNm,
+            routeAbrv = routeAbrv,
+            routeType = routeType,
+            stBegin = stBegin,
+            stEnd = stEnd,
+            term = term,
+            firstBusTm = firstBusTm,
+            lastBusTm = lastBusTm
         )
     }
 }

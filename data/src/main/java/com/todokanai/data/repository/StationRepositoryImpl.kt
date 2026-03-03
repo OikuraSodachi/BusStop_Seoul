@@ -167,7 +167,14 @@ class StationRepositoryImpl : StationRepository {
     private fun RouteByStationItem.convert(): BusLineItem{
         return BusLineItem(
             busRouteId!!.toLong(),
-            busRouteNm.toString()
+            busRouteNm.toString(),
+            busRouteAbrv,
+            busRouteType,
+            stBegin,
+            stEnd,
+            term!!,
+            firstBusTm!!,
+            lastBusTm!!
         )
     }
 
