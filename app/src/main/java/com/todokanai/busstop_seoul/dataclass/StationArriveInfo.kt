@@ -2,6 +2,7 @@ package com.todokanai.busstop_seoul.dataclass
 
 import androidx.compose.runtime.Stable
 
+/** data class for [com.todokanai.busstop_seoul.compose.holder.StationArriveHolder]**/
 @Stable
 data class StationArriveInfo(
     //val stId: Long,          // 정류소 고유 ID
