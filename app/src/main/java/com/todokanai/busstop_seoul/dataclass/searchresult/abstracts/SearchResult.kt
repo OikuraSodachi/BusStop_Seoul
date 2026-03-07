@@ -9,7 +9,6 @@ abstract class SearchResult {
 
     abstract fun onItemClick(navController: NavHostController)
 
-    /** Todo: enum class 사용하기? **/
     abstract fun type():ResultType
 
 }
