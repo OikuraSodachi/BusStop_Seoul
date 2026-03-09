@@ -33,13 +33,7 @@ fun SearchResultHolder(
     ) {
 
         // Todo: result type icon
-        Box(
-            modifier = Modifier
-                .width(50.dp)
-        )
-        {
-
-        }
+        Box(modifier = Modifier.width(50.dp))
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -56,14 +50,10 @@ fun SearchResultHolder(
             )
         }
 
-        // Todo: 더보기 버튼
-        Box(
-            modifier = Modifier
-                .width(30.dp)
-        ){
+        Box(modifier = Modifier.width(30.dp)){
             Image(
                 painter = painterResource(R.drawable.outline_more_vert_24),
-                contentDescription = "더보기",
+                contentDescription = null,
             )
         }
     }
