@@ -1,5 +1,6 @@
 package com.todokanai.busstop_seoul.compose.holder
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
@@ -58,7 +61,10 @@ fun SearchResultHolder(
             modifier = Modifier
                 .width(30.dp)
         ){
-
+            Image(
+                painter = painterResource(R.drawable.outline_more_vert_24),
+                contentDescription = "더보기",
+            )
         }
     }
 
