@@ -67,7 +67,7 @@ fun MainScreen(
 
 //@Preview
 @Composable
-private fun SearchScreenPreview(){
+private fun MainScreenPreview(){
     Surface{
         MainScreen(
             navController = NavHostController(LocalContext.current)
