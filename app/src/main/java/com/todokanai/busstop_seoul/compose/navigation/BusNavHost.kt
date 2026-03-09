@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.todokanai.busstop_seoul.compose.LineInfoScreen
 import com.todokanai.busstop_seoul.compose.MapScreen
-import com.todokanai.busstop_seoul.compose.SearchScreen
+import com.todokanai.busstop_seoul.compose.MainScreen
 
 @Composable
 fun BusNavHost(
@@ -21,7 +21,7 @@ fun BusNavHost(
     ){
 
         composable(route = SearchScreen.route){
-            SearchScreen(navController = navController)
+            MainScreen(navController = navController)
         }
 
         composable(

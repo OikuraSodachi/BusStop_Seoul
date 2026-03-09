@@ -23,12 +23,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.holder.SearchResultHolder
-import com.todokanai.busstop_seoul.viewmodel.SearchScreenViewModel
+import com.todokanai.busstop_seoul.viewmodel.MainScreenViewModel
 
 @Composable
-fun SearchScreen(
+fun MainScreen(
     navController: NavHostController,
-    viewModel: SearchScreenViewModel = hiltViewModel()
+    viewModel: MainScreenViewModel = hiltViewModel()
 ){
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     var text by remember { mutableStateOf("") }
@@ -69,7 +69,7 @@ fun SearchScreen(
 @Composable
 private fun SearchScreenPreview(){
     Surface{
-        SearchScreen(
+        MainScreen(
             navController = NavHostController(LocalContext.current)
         )
     }

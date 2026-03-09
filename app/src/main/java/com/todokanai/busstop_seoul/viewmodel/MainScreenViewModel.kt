@@ -16,25 +16,25 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchScreenViewModel @Inject constructor(
+class MainScreenViewModel @Inject constructor(
     private val busUseCase: BusUseCase
 ): ViewModel(){
 
     private val keyWord = MutableStateFlow<String>("")
 
     val uiState = keyWord.map{ word->
-        SearchScreenUiState(
+        MainScreenUiState(
             results = getSearchData(word)
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = SearchScreenUiState()
+        initialValue = MainScreenUiState()
     )
 
     fun onKeyWordChanged(keyWord:String){
         viewModelScope.launch {
-            this@SearchScreenViewModel.keyWord.update{keyWord}
+            this@MainScreenViewModel.keyWord.update{keyWord}
         }
     }
 
@@ -74,6 +74,6 @@ class SearchScreenViewModel @Inject constructor(
 
 }
 
-data class SearchScreenUiState(
+data class MainScreenUiState(
     val results:List<SearchResult> = emptyList()
 )
