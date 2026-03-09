@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -29,7 +30,7 @@ fun SearchTab(
 ){
     var text by remember { mutableStateOf("") }
 
-    Column(){
+    Column{
         Row(modifier = Modifier.fillMaxWidth()) {
             TextField(
                 value = text,
@@ -53,6 +54,8 @@ fun SearchTab(
                         item,
                         onItemClick = {item.onItemClick(navController)}
                     )
+                    if(index < results.lastIndex)
+                        HorizontalDivider()
                 }
 
             }

@@ -24,7 +24,8 @@ class MainScreenViewModel @Inject constructor(
 
     val uiState = keyWord.map{ word->
         MainScreenUiState(
-            results = getSearchData(word)
+            results = getSearchData(word),
+            favorites = emptyList()
         )
     }.stateIn(
         scope = viewModelScope,
@@ -75,5 +76,6 @@ class MainScreenViewModel @Inject constructor(
 }
 
 data class MainScreenUiState(
-    val results:List<SearchResult> = emptyList()
+    val results:List<SearchResult> = emptyList(),
+    val favorites:List<SearchResult> = emptyList()
 )
