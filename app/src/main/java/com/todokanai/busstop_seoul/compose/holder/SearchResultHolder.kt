@@ -63,7 +63,7 @@ fun SearchResultHolder(
 
         Box(modifier = Modifier.width(30.dp)){
             Image(
-                painter = painterResource(R.drawable.outline_more_vert_24),
+                painter = painterResource(R.drawable.outline_more_vert_24),     // Todo: dark theme 에서도 검은색임
                 contentDescription = null,
                 modifier = Modifier
                     .clickable{
