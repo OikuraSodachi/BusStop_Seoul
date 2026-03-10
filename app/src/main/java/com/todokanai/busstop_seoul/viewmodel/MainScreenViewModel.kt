@@ -6,10 +6,12 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 import com.todokanai.domain.BusUseCase
+import com.todokanai.domain.dataclass.BusLineItem
+import com.todokanai.domain.dataclass.StationItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,10 +24,14 @@ class MainScreenViewModel @Inject constructor(
 
     private val keyWord = MutableStateFlow<String>("")
 
-    val uiState = keyWord.map{ word->
+    val uiState = combine(
+        keyWord,
+        busUseCase.getSavedStationItems(),
+        busUseCase.getSavedBusLineItems()
+    ) { word , stations,lines->
         MainScreenUiState(
             results = getSearchData(word),
-            favorites = emptyList()
+            favorites = getFavorites(stations, lines)
         )
     }.stateIn(
         scope = viewModelScope,
@@ -70,6 +76,39 @@ class MainScreenViewModel @Inject constructor(
             }
         }
 
+        return result
+    }
+
+    /** Todo: viewModel 에 있을 내용이 맞는지? **/
+    private fun getFavorites(
+        stations:List<StationItem>,
+        lines:List<BusLineItem>
+    ):List<SearchResult>{
+        val result = mutableListOf<SearchResult>()
+
+        stations.forEach {
+            result.add(
+                StationSearchResult(
+                    it.stId,
+                    it.stNm,
+                    it.arsId,
+                    it.tmX,
+                    it.tmY,
+                    it.posX,
+                    it.posY,
+                    it.stationTp
+                )
+            )
+        }
+
+        lines.forEach {
+            result.add(
+                LineSearchResult(
+                    it.busRouteId,
+                    it.rtNm
+                )
+            )
+        }
         return result
     }
 
