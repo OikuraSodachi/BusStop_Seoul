@@ -5,4 +5,5 @@
     <string name="enable_rotation">enable rotation</string>
     <string name="to_search_screen">to search screen</string>
     <string name="search_result_empty">no result</string>
+    <string name="add_to_favorites">즐겨찾기 추가</string>
 </resources>

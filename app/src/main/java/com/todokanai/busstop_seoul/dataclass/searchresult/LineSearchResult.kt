@@ -13,10 +13,14 @@ data class LineSearchResult(
         return lineName
     }
     override fun onItemClick(navController: NavHostController) {
-        TODO("Not yet implemented")
+
     }
 
     override fun type() : ResultType {
         return ResultType.LINE
+    }
+
+    override fun addToFavorite() {
+
     }
 }

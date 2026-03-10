@@ -27,4 +27,8 @@ data class StationSearchResult(
         return ResultType.STATION
     }
 
+    override fun addToFavorite() {
+
+    }
+
 }

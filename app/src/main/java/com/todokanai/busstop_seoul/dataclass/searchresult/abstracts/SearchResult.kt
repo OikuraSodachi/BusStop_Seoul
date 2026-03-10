@@ -11,6 +11,8 @@ abstract class SearchResult {
 
     abstract fun type():ResultType
 
+    abstract fun addToFavorite()
+
 }
 
 enum class ResultType(val code:Int){
