@@ -27,12 +27,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
+import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
 @Composable
 fun SearchResultHolder(
     data: SearchResult,
-    onItemClick:()->Unit,
+    toStationInfo: ()->Unit,
+    toLineInfo: ()->Unit,
     modifier: Modifier = Modifier
 ){
 
@@ -50,12 +52,19 @@ fun SearchResultHolder(
                 .weight(1f)
                 .fillMaxHeight()
                 .clickable{
-                    onItemClick()
+                    when(data.type){
+                        ResultType.STATION -> {
+                            toStationInfo()
+                        }
+                        ResultType.LINE -> {
+                            toLineInfo()
+                        }
+                    }
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(
-                text = data.description(),
+                text = data.description,
                 modifier = Modifier
                     .padding(vertical = 8.dp)
             )
@@ -78,7 +87,7 @@ fun SearchResultHolder(
             ) {
                 DropdownMenuItem(
                     text = { Text(stringResource(R.string.add_to_favorites)) },
-                    onClick = { data.addToFavorite() }
+                    onClick = {  }
                 )
             }
 
@@ -96,7 +105,8 @@ private fun SearchResultHolderPreview(){
                 lineId = 123,
                 lineName = "123"
             ),
-            onItemClick = {},
+            toStationInfo = {},
+            toLineInfo = {},
             modifier = Modifier.height(100.dp)
         )
     }

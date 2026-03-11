@@ -17,16 +17,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.holder.SearchResultHolder
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
 @Composable
 fun SearchTab(
-    navController: NavHostController,
     onKeyWordChanged:(String)->Unit,
-    results:List<SearchResult>
+    results:List<SearchResult>,
+    toStationInfo: (SearchResult)->Unit,
+    toLineInfo: (SearchResult)->Unit
 ){
     var text by remember { mutableStateOf("") }
 
@@ -52,7 +52,8 @@ fun SearchTab(
                 itemsIndexed(items = results) { index, item ->
                     SearchResultHolder(
                         item,
-                        onItemClick = {item.onItemClick(navController)}
+                        toStationInfo = {toStationInfo(item)},
+                        toLineInfo = {toLineInfo(item)}
                     )
                     if(index < results.lastIndex)
                         HorizontalDivider()

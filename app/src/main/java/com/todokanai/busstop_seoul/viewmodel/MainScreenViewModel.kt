@@ -45,6 +45,14 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
+    fun saveSearchData(data:SearchResult){
+
+    }
+
+    fun deleteSearchData(data:SearchResult){
+
+    }
+
     suspend fun getSearchData(keyWord:String):List<SearchResult>{
         val result = mutableListOf<SearchResult>()
         if(keyWord.isNotBlank()) {
