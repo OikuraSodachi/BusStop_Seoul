@@ -7,6 +7,8 @@ abstract class SearchResult(
     val description:String,
     val type:ResultType
 ){
+
+    /** Todo: navController 가 여기서 보이는 게 적절한지? **/
     abstract fun onItemClick(navController: NavHostController)
 }
 
