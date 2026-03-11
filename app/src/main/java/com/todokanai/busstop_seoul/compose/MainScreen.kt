@@ -56,16 +56,14 @@ fun MainScreen(
         }
         if(currentTab == 0){
             SearchTab(
+                navController = navController,
                 onKeyWordChanged = {viewModel.onKeyWordChanged(it)},
-                results = uiState.value.results,
-                toStationInfo = {},
-                toLineInfo = {}
+                results = uiState.value.results
             )
         }else{
             FavoritesTab(
-                results = uiState.value.favorites,
-                toStationInfo = {},
-                toLineInfo = {}
+                navController = navController,
+                results = uiState.value.favorites
             )
         }
     }
