@@ -6,4 +6,5 @@
     <string name="to_search_screen">to search screen</string>
     <string name="search_result_empty">no result</string>
     <string name="add_to_favorites">즐겨찾기 추가</string>
+    <string name="delete_from_favorites">즐겨찾기 삭제</string>
 </resources>

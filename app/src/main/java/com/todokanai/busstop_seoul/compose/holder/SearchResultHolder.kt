@@ -32,6 +32,8 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 fun SearchResultHolder(
     data: SearchResult,
     onItemClick:()->Unit,
+    saveToFavorites:()->Unit,
+    deleteFromFavorites:()->Unit,
     modifier: Modifier = Modifier
 ){
 
@@ -73,10 +75,18 @@ fun SearchResultHolder(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                DropdownMenuItem(
-                    text = { Text(stringResource(R.string.add_to_favorites)) },
-                    onClick = {  }
-                )
+
+                if(data.isFavorite){
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.delete_from_favorites))},
+                        onClick = { deleteFromFavorites() }
+                    )
+                }else {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.add_to_favorites)) },
+                        onClick = { saveToFavorites() }
+                    )
+                }
             }
 
         }
@@ -98,6 +108,8 @@ private fun SearchResultHolderPreview(){
                 favorite = false
             ),
             onItemClick = {},
+            saveToFavorites = {},
+            deleteFromFavorites = {},
             modifier = Modifier.height(100.dp)
         )
     }

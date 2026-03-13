@@ -26,7 +26,9 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 fun SearchTab(
     navController: NavHostController,
     onKeyWordChanged:(String)->Unit,
-    results:List<SearchResult>
+    results:List<SearchResult>,
+    deleteFromFavorites:(SearchResult)->Unit,
+    saveToFavorites:(SearchResult)->Unit
 ){
     var text by remember { mutableStateOf("") }
 
@@ -51,8 +53,10 @@ fun SearchTab(
             LazyColumn(modifier = Modifier.weight(1f)) {
                 itemsIndexed(items = results) { index, item ->
                     SearchResultHolder(
-                        item,
-                        {item.onItemClick(navController)}
+                        data = item,
+                        onItemClick = {item.onItemClick(navController)},
+                        saveToFavorites = {saveToFavorites(item)},
+                        deleteFromFavorites = {deleteFromFavorites(item)}
                     )
                     if(index < results.lastIndex)
                         HorizontalDivider()

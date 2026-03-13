@@ -58,12 +58,16 @@ fun MainScreen(
             SearchTab(
                 navController = navController,
                 onKeyWordChanged = {viewModel.onKeyWordChanged(it)},
-                results = uiState.value.results
+                results = uiState.value.results,
+                saveToFavorites = {viewModel.saveSearchData(it)},
+                deleteFromFavorites = {viewModel.deleteSearchData(it)}
             )
         }else{
             FavoritesTab(
                 navController = navController,
-                results = uiState.value.favorites
+                results = uiState.value.favorites,
+                saveToFavorites = {viewModel.saveSearchData(it)},
+                deleteFromFavorites = {viewModel.deleteSearchData(it)}
             )
         }
     }

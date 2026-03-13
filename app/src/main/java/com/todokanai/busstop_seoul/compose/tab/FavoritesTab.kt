@@ -18,7 +18,9 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 @Composable
 fun FavoritesTab(
     navController: NavHostController,
-    results:List<SearchResult>
+    results:List<SearchResult>,
+    deleteFromFavorites:(SearchResult)->Unit,
+    saveToFavorites:(SearchResult)->Unit
 ){
 
     if(results.isEmpty()){
@@ -32,7 +34,9 @@ fun FavoritesTab(
         LazyColumn {
             itemsIndexed(items = results) { index, item ->
                 SearchResultHolder(
-                    item,
+                    data = item,
+                    saveToFavorites = { saveToFavorites(item) },
+                    deleteFromFavorites = { deleteFromFavorites(item) },
                     onItemClick = {item.onItemClick(navController)}
                 )
                 if (index < results.lastIndex)
