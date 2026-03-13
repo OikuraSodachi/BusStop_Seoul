@@ -50,10 +50,33 @@ class MainScreenViewModel @Inject constructor(
         viewModelScope.launch {
             when(data.type){
                 ResultType.STATION -> {
-                    //busUseCase.saveStationItem()
+                    val temp  = data as StationSearchResult
+                    val item = StationItem(
+                        stId = temp.stId,
+                        stNm = temp.stNm,
+                        arsId = temp.arsId,
+                        tmX = temp.tmX,
+                        tmY = temp.tmY,
+                        posX = temp.posX,
+                        posY = temp.posY,
+                        stationTp = temp.stationTp
+                    )
+                    busUseCase.saveStationItem(item)
                 }
                 ResultType.LINE -> {
-                    //busUseCase.saveBusLineItem()
+                    val temp  = data as LineSearchResult
+                    val item = BusLineItem(
+                        busRouteId = temp.busRouteId,
+                        rtNm = temp.rtNm,
+                        routeAbrv = temp.routeAbrv,
+                        routeType = temp.routeType,
+                        stBegin = temp.stBegin,
+                        stEnd = temp.stEnd,
+                        term = temp.term,
+                        firstBusTm = temp.firstBusTm,
+                        lastBusTm = temp.lastBusTm
+                    )
+                    busUseCase.saveBusLineItem(item)
                 }
             }
         }
@@ -63,10 +86,12 @@ class MainScreenViewModel @Inject constructor(
         viewModelScope.launch {
             when(data.type){
                 ResultType.STATION -> {
-                    //busUseCase.deleteStationItem()
+                    val item = data as StationSearchResult
+                    busUseCase.deleteStationItem(item.stId)
                 }
                 ResultType.LINE -> {
-                    //busUseCase.deleteBusLineItem()
+                    val item = data as LineSearchResult
+                    busUseCase.deleteBusLineItem(item.busRouteId)
                 }
             }
         }
