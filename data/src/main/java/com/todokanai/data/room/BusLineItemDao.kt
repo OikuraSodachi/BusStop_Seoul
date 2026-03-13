@@ -18,8 +18,11 @@ interface BusLineItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(busLineItem: BusLineItem)
 
+    @Query("delete from busLineItem where busRouteId = :busRouteId")
+    suspend fun delete(busRouteId: Long)
+
     @Query("select * from busLineItem where busRouteId = :busRouteId")
-    suspend fun getBusLineById(busRouteId: String): BusLineItem
+    suspend fun getBusLineById(busRouteId: Long): BusLineItem
 
     @Query("delete from busLineItem")
     suspend fun deleteAll()

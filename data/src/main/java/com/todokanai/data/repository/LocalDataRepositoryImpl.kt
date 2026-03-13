@@ -33,6 +33,10 @@ class LocalDataRepositoryImpl @Inject constructor(
         stationItemDao.insert(stationItem.convert())
     }
 
+    override suspend fun deleteStation(stationId: Long) {
+        stationItemDao.delete(stationId)
+    }
+
     override suspend fun deleteAllStations() {
         stationItemDao.deleteAll()
     }
@@ -53,6 +57,10 @@ class LocalDataRepositoryImpl @Inject constructor(
 
     override suspend fun insertBusLine(busLineItem: BusLineItem) {
         busLineItemDao.insert(busLineItem.convert())
+    }
+
+    override suspend fun deleteBusLine(busRouteId: Long) {
+        busLineItemDao.delete(busRouteId)
     }
 
     override suspend fun deleteAllBusLines() {

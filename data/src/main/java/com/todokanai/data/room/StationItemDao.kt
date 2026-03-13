@@ -18,8 +18,11 @@ interface StationItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(stationItem: StationItem)
 
+    @Query("delete from stationItem where stId = :stId")
+    suspend fun delete(stId: Long)
+
     @Query("select * from stationItem where stId = :stId")
-    suspend fun getStationById(stId: String): StationItem
+    suspend fun getStationById(stId: Long): StationItem
 
     @Query("delete from stationItem")
     suspend fun deleteAll()
