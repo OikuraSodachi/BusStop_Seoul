@@ -55,4 +55,12 @@ class BusUseCase @Inject constructor(
         return localDataRepository.getAllStations()
     }
 
+    suspend fun saveBusLineItem(busLine: BusLineItem){
+        localDataRepository.insertBusLine(busLine)
+    }
+
+    suspend fun saveStationItem(station: StationItem){
+        localDataRepository.insertStation(station)
+    }
+
 }

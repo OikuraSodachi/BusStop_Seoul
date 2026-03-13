@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
+import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.dataclass.BusLineItem
@@ -46,11 +47,29 @@ class MainScreenViewModel @Inject constructor(
     }
 
     fun saveSearchData(data:SearchResult){
-
+        viewModelScope.launch {
+            when(data.type){
+                ResultType.STATION -> {
+                    //busUseCase.saveStationItem()
+                }
+                ResultType.LINE -> {
+                    //busUseCase.saveBusLineItem()
+                }
+            }
+        }
     }
 
     fun deleteSearchData(data:SearchResult){
-
+        viewModelScope.launch {
+            when(data.type){
+                ResultType.STATION -> {
+                    //busUseCase.deleteStationItem()
+                }
+                ResultType.LINE -> {
+                    //busUseCase.deleteBusLineItem()
+                }
+            }
+        }
     }
 
     suspend fun getSearchData(keyWord:String):List<SearchResult>{
