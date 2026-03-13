@@ -13,9 +13,11 @@ data class StationSearchResult(
     val tmY:Double,
     val posX:String?,
     val posY:String?,
-    val stationTp:Int?
+    val stationTp:Int?,
+    val favorite:Boolean
 ): SearchResult(
     description = stNm,
+    isFavorite = favorite,
     type = ResultType.STATION
 ){
     override fun onItemClick(navController: NavHostController) {

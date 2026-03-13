@@ -99,6 +99,13 @@ class MainScreenViewModel @Inject constructor(
 
     suspend fun getSearchData(keyWord:String):List<SearchResult>{
         val result = mutableListOf<SearchResult>()
+        val favoriteStations = busUseCase.getSavedStationItemsNonFlow().map{
+            it.stId
+        }
+        val favoriteLines = busUseCase.getSavedBusLineItemsNonFlow().map{
+            it.busRouteId
+        }
+
         if(keyWord.isNotBlank()) {
             val stationList = busUseCase.getStationByName(keyWord)
             stationList.forEach {
@@ -111,7 +118,8 @@ class MainScreenViewModel @Inject constructor(
                         it.tmY,
                         it.posX,
                         it.posY,
-                        it.stationTp
+                        it.stationTp,
+                        favoriteStations.contains(it.stId)
                     )
                 )
             }
@@ -129,7 +137,8 @@ class MainScreenViewModel @Inject constructor(
                         it.stEnd,
                         it.term,
                         it.firstBusTm,
-                        it.lastBusTm
+                        it.lastBusTm,
+                        favoriteLines.contains(it.busRouteId)
                     )
                 )
             }
@@ -154,7 +163,8 @@ class MainScreenViewModel @Inject constructor(
                     it.tmY,
                     it.posX,
                     it.posY,
-                    it.stationTp
+                    it.stationTp,
+                    true
                 )
             )
         }
@@ -170,7 +180,8 @@ class MainScreenViewModel @Inject constructor(
                     it.stEnd,
                     it.term,
                     it.firstBusTm,
-                    it.lastBusTm
+                    it.lastBusTm,
+                    true
                 )
             )
         }

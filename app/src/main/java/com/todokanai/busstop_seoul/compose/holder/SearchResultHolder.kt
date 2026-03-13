@@ -94,7 +94,8 @@ private fun SearchResultHolderPreview(){
                 rtNm = "123",
                 term = "123",
                 firstBusTm = "123",
-                lastBusTm = "123"
+                lastBusTm = "123",
+                favorite = false
             ),
             onItemClick = {},
             modifier = Modifier.height(100.dp)

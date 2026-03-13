@@ -14,9 +14,11 @@ data class LineSearchResult(
     val stEnd: String? = null,
     val term: String,
     val firstBusTm: String,
-    val lastBusTm: String
+    val lastBusTm: String,
+    val favorite:Boolean
 ): SearchResult(
     description = rtNm,
+    isFavorite = favorite,
     type = ResultType.LINE
 ){
     override fun onItemClick(navController: NavHostController) {

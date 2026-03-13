@@ -51,8 +51,16 @@ class BusUseCase @Inject constructor(
         return localDataRepository.getAllBusLines()
     }
 
+    suspend fun getSavedBusLineItemsNonFlow():List<BusLineItem>{
+        return localDataRepository.getAllBusLinesNonFlow()
+    }
+
     fun getSavedStationItems():Flow<List<StationItem>>{
         return localDataRepository.getAllStations()
+    }
+
+    suspend fun getSavedStationItemsNonFlow():List<StationItem>{
+        return localDataRepository.getAllStationsNonFlow()
     }
 
     suspend fun saveBusLineItem(busLine: BusLineItem){

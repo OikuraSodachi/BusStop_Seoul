@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 /** [com.todokanai.busstop_seoul.compose.holder.SearchResultHolder] 에 사용할 abstract class **/
 abstract class SearchResult(
     val description:String,
+    val isFavorite:Boolean,
     val type:ResultType
 ){
 
