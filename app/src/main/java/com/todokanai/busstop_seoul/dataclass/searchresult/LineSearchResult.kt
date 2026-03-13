@@ -6,13 +6,20 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
 data class LineSearchResult(
-    val lineId:Long,
-    val lineName:String
+    val busRouteId:Long,
+    val rtNm:String,
+    val routeAbrv: String? = null,
+    val routeType: String? = null,
+    val stBegin: String? = null,
+    val stEnd: String? = null,
+    val term: String,
+    val firstBusTm: String,
+    val lastBusTm: String
 ): SearchResult(
-    description = lineName,
+    description = rtNm,
     type = ResultType.LINE
 ){
     override fun onItemClick(navController: NavHostController) {
-        navController.navigateToLineInfo(routeId = lineId)
+        navController.navigateToLineInfo(routeId = busRouteId)
     }
 }

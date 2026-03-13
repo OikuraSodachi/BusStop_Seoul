@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
@@ -91,8 +90,11 @@ private fun SearchResultHolderPreview(){
     Surface {
         SearchResultHolder(
             data = LineSearchResult(
-                lineId = 123,
-                lineName = "123"
+                busRouteId = 123,
+                rtNm = "123",
+                term = "123",
+                firstBusTm = "123",
+                lastBusTm = "123"
             ),
             onItemClick = {},
             modifier = Modifier.height(100.dp)

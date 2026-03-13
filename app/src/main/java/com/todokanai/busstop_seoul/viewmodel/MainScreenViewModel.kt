@@ -97,7 +97,14 @@ class MainScreenViewModel @Inject constructor(
                 result.add(
                     LineSearchResult(
                         it.busRouteId,
-                        it.rtNm
+                        it.rtNm,
+                        it.routeAbrv,
+                        it.routeType,
+                        it.stBegin,
+                        it.stEnd,
+                        it.term,
+                        it.firstBusTm,
+                        it.lastBusTm
                     )
                 )
             }
@@ -131,7 +138,14 @@ class MainScreenViewModel @Inject constructor(
             result.add(
                 LineSearchResult(
                     it.busRouteId,
-                    it.rtNm
+                    it.rtNm,
+                    it.routeAbrv,
+                    it.routeType,
+                    it.stBegin,
+                    it.stEnd,
+                    it.term,
+                    it.firstBusTm,
+                    it.lastBusTm
                 )
             )
         }
