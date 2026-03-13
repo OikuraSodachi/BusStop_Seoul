@@ -106,7 +106,6 @@ class MainScreenViewModel @Inject constructor(
         return result
     }
 
-    /** Todo: viewModel 에 있을 내용이 맞는지? **/
     private fun getFavorites(
         stations:List<StationItem>,
         lines:List<BusLineItem>
