@@ -36,16 +36,7 @@ class BusUseCase @Inject constructor(
     }
 
     suspend fun getLineInfosFromKeyWord(keyWord:String):List<BusLineItem>{
-        val result = mutableListOf<BusLineItem>()
-        val lineList = localDataRepository.getAllBusLineItems()
-//        val lineList = localDataRepository.getAllBusLinesNonFlow()  // 전체 노선 정보 가져오기
-
-        lineList.forEach {
-            if(it.rtNm.contains(keyWord)){
-                result.add(it)
-            }
-        }
-        return result
+        return busLineKeyWordFilter(keyWord, localDataRepository.getAllBusLineItems())
     }
 
     fun getSavedBusLineItems(): Flow<List<BusLineItem>> {
@@ -78,6 +69,16 @@ class BusUseCase @Inject constructor(
 
     suspend fun deleteStationItem(stationId:Long){
         localDataRepository.deleteStation(stationId)
+    }
+
+    private fun busLineKeyWordFilter(keyWord:String, lines:List<BusLineItem>):List<BusLineItem>{
+        val result = mutableListOf<BusLineItem>()
+        lines.forEach {
+            if(it.rtNm.contains(keyWord)){
+                result.add(it)
+            }
+        }
+        return result
     }
 
 }
