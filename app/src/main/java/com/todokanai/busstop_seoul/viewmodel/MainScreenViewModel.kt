@@ -51,7 +51,8 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
-    fun saveSearchData(data:SearchResult){
+    fun saveToFavorite(data:SearchResult){
+        /*
         viewModelScope.launch {
             when(data.type){
                 ResultType.STATION -> {
@@ -84,6 +85,14 @@ class MainScreenViewModel @Inject constructor(
                     busUseCase.saveBusLineItem(item)
                 }
             }
+        }
+
+         */
+    }
+
+    fun saveCsvData(){
+        viewModelScope.launch {
+
         }
     }
 
