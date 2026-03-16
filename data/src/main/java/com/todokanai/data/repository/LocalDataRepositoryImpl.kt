@@ -70,8 +70,34 @@ class LocalDataRepositoryImpl @Inject constructor(
         busLineItemDao.deleteAll()
     }
 
-    override suspend fun readCsvData(inputStream: InputStream):List<Array<String>> {
-        return csvManager.readCsvData(inputStream)
+//    override suspend fun readCsvData(inputStream: InputStream):List<Array<String>> {
+//        return csvManager.readCsvData(inputStream)
+//    }
+
+    override suspend fun getAllStationItems(inputStream: InputStream): List<StationItem> {
+        val data = csvManager.readCsvData(inputStream)
+        val list = data.mapNotNull {
+            try {
+                convertToStationItem(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+        return list
+    }
+
+    override suspend fun getAllBusLineItems(inputStream: InputStream): List<BusLineItem> {
+        val data = csvManager.readCsvData(inputStream)
+        val list = data.mapNotNull {
+            try {
+                convertToBusLineItem(it)
+            }catch (e:Exception){
+                e.printStackTrace()
+                null
+            }
+        }
+        return list
     }
 
     private fun StationItem.convert(): com.todokanai.data.room.StationItem{
@@ -123,6 +149,24 @@ class LocalDataRepositoryImpl @Inject constructor(
             term = term,
             firstBusTm = firstBusTm,
             lastBusTm = lastBusTm
+        )
+    }
+
+    private fun convertToStationItem(data:Array<String>): StationItem{
+        return StationItem(
+            stId = data[0].toLong(),
+            stNm = data[2],
+            arsId = data[1].toLong(),
+            tmX = data[3].toDouble(),
+            tmY = data[4].toDouble(),
+            stationTp = data[5]
+        )
+    }
+
+    private fun convertToBusLineItem(data:Array<String>):BusLineItem{
+        return BusLineItem(
+            busRouteId = data[0].toLong(),
+            rtNm = data[1]
         )
     }
 }

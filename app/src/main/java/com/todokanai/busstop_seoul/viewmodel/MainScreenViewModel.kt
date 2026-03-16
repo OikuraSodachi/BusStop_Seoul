@@ -204,9 +204,9 @@ class MainScreenViewModel @Inject constructor(
     fun test(assetManager: AssetManager){
         viewModelScope.launch {
             val csv = assetManager.open("SeoulBusStation.csv")
-
+            val test = busUseCase.test(csv)
             //busUseCase.readCsvData(csv)
-            busUseCase.test(csv)
+         //   busUseCase.test(csv)
         }
     }
 }

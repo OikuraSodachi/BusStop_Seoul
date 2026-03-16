@@ -12,9 +12,9 @@ data class LineSearchResult(
     val routeType: String? = null,
     val stBegin: String? = null,
     val stEnd: String? = null,
-    val term: String,
-    val firstBusTm: String,
-    val lastBusTm: String,
+    val term: String? = null,
+    val firstBusTm: String? = null,
+    val lastBusTm: String? = null,
     val favorite:Boolean
 ): SearchResult(
     description = rtNm,
