@@ -6,6 +6,7 @@ import com.todokanai.domain.dataclass.BusPositionItem
 import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
+import java.io.InputStream
 import javax.inject.Inject
 
 class BusUseCase @Inject constructor(
@@ -77,6 +78,10 @@ class BusUseCase @Inject constructor(
 
     suspend fun deleteStationItem(stationId:Long){
         localDataRepository.deleteStation(stationId)
+    }
+
+    suspend fun readCsvData(inputStream: InputStream){
+        localDataRepository.readCsvData(inputStream)
     }
 
 }

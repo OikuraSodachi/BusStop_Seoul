@@ -1,5 +1,6 @@
 package com.todokanai.data.repository
 
+import com.todokanai.data.CsvManager
 import com.todokanai.data.room.BusLineItemDao
 import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.LocalDataRepository
@@ -7,11 +8,13 @@ import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.io.InputStream
 import javax.inject.Inject
 
 class LocalDataRepositoryImpl @Inject constructor(
     private val stationItemDao: StationItemDao,
-    private val busLineItemDao: BusLineItemDao
+    private val busLineItemDao: BusLineItemDao,
+    private val csvManager: CsvManager
 ) : LocalDataRepository{
 
     override fun getAllStations(): Flow<List<StationItem>> {
@@ -65,6 +68,10 @@ class LocalDataRepositoryImpl @Inject constructor(
 
     override suspend fun deleteAllBusLines() {
         busLineItemDao.deleteAll()
+    }
+
+    override suspend fun readCsvData(inputStream: InputStream) {
+        csvManager.readCsvData(inputStream)
     }
 
     private fun StationItem.convert(): com.todokanai.data.room.StationItem{

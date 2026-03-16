@@ -1,5 +1,6 @@
 package com.todokanai.busstop_seoul.viewmodel
 
+import android.content.res.AssetManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
@@ -188,6 +189,14 @@ class MainScreenViewModel @Inject constructor(
         return result
     }
 
+
+    fun test(assetManager: AssetManager){
+        viewModelScope.launch {
+            val csv = assetManager.open("SeoulBusLine.csv")
+
+            busUseCase.readCsvData(csv)
+        }
+    }
 }
 
 data class MainScreenUiState(
