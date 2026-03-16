@@ -97,6 +97,7 @@ class MainScreenViewModel @Inject constructor(
     }
 
     fun deleteSearchData(data:SearchResult){
+        /*
         viewModelScope.launch {
             when(data.type){
                 ResultType.STATION -> {
@@ -109,16 +110,19 @@ class MainScreenViewModel @Inject constructor(
                 }
             }
         }
+         */
     }
 
     suspend fun getSearchData(keyWord:String):List<SearchResult>{
         val result = mutableListOf<SearchResult>()
-        val favoriteStations = busUseCase.getSavedStationItemsNonFlow().map{
-            it.stId
-        }
-        val favoriteLines = busUseCase.getSavedBusLineItemsNonFlow().map{
-            it.busRouteId
-        }
+//        val favoriteStations = busUseCase.getSavedStationItemsNonFlow().map{
+//            it.stId
+//        }
+//        val favoriteLines = busUseCase.getSavedBusLineItemsNonFlow().map{
+//            it.busRouteId
+//        }
+        val favoriteStations = emptyList<Long>()
+        val favoriteLines = emptyList<Long>()
 
         if(keyWord.isNotBlank()) {
             val stationList = busUseCase.getStationByName(keyWord)
