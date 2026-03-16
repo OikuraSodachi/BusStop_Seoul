@@ -27,6 +27,6 @@ interface LocalDataRepository {
 
     suspend fun deleteAllBusLines()
 
-    suspend fun readCsvData(inputStream: InputStream)
+    suspend fun readCsvData(inputStream: InputStream) : List<Array<String>>
 
 }

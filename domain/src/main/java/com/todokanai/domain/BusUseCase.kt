@@ -84,4 +84,31 @@ class BusUseCase @Inject constructor(
         localDataRepository.readCsvData(inputStream)
     }
 
+    suspend fun test(inputStream: InputStream){
+        val data = localDataRepository.readCsvData(inputStream)
+        val list = data.mapNotNull {
+            try {
+                convertToStationItem(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+        list.forEach {
+            println(it)
+            //saveStationItem(it)
+        }
+    }
+
+    private fun convertToStationItem(data:Array<String>): StationItem{
+        return StationItem(
+            stId = data[0].toLong(),
+            stNm = data[2],
+            arsId = data[1].toLong(),
+            tmX = data[3].toDouble(),
+            tmY = data[4].toDouble(),
+            stationTp = data[5]
+        )
+    }
+
 }

@@ -70,8 +70,8 @@ class LocalDataRepositoryImpl @Inject constructor(
         busLineItemDao.deleteAll()
     }
 
-    override suspend fun readCsvData(inputStream: InputStream) {
-        csvManager.readCsvData(inputStream)
+    override suspend fun readCsvData(inputStream: InputStream):List<Array<String>> {
+        return csvManager.readCsvData(inputStream)
     }
 
     private fun StationItem.convert(): com.todokanai.data.room.StationItem{

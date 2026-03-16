@@ -198,7 +198,8 @@ class MainScreenViewModel @Inject constructor(
         viewModelScope.launch {
             val csv = assetManager.open("SeoulBusStation.csv")
 
-            busUseCase.readCsvData(csv)
+            //busUseCase.readCsvData(csv)
+            busUseCase.test(csv)
         }
     }
 }
