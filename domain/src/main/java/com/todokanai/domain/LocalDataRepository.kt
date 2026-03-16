@@ -3,7 +3,6 @@ package com.todokanai.domain
 import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
-import java.io.InputStream
 
 interface LocalDataRepository {
 
@@ -27,10 +26,8 @@ interface LocalDataRepository {
 
     suspend fun deleteAllBusLines()
 
-//    suspend fun readCsvData(inputStream: InputStream) : List<Array<String>>
+    suspend fun getAllStationItems() : List<StationItem>
 
-    suspend fun getAllStationItems(inputStream: InputStream) : List<StationItem>
-
-    suspend fun getAllBusLineItems(inputStream: InputStream) : List<BusLineItem>
+    suspend fun getAllBusLineItems() : List<BusLineItem>
 
 }

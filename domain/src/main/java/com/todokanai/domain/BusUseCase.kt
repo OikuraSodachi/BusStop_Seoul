@@ -6,7 +6,6 @@ import com.todokanai.domain.dataclass.BusPositionItem
 import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
-import java.io.InputStream
 import javax.inject.Inject
 
 class BusUseCase @Inject constructor(
@@ -38,7 +37,8 @@ class BusUseCase @Inject constructor(
 
     suspend fun getLineInfosFromKeyWord(keyWord:String):List<BusLineItem>{
         val result = mutableListOf<BusLineItem>()
-        val lineList = localDataRepository.getAllBusLinesNonFlow()  // 전체 노선 정보 가져오기
+        val lineList = localDataRepository.getAllBusLineItems()
+//        val lineList = localDataRepository.getAllBusLinesNonFlow()  // 전체 노선 정보 가져오기
 
         lineList.forEach {
             if(it.rtNm.contains(keyWord)){
@@ -79,20 +79,5 @@ class BusUseCase @Inject constructor(
     suspend fun deleteStationItem(stationId:Long){
         localDataRepository.deleteStation(stationId)
     }
-
-    suspend fun test(inputStream: InputStream):List<StationItem>{
-        return localDataRepository.getAllStationItems(inputStream)
-    }
-
-//    private fun convertToStationItem(data:Array<String>): StationItem{
-//        return StationItem(
-//            stId = data[0].toLong(),
-//            stNm = data[2],
-//            arsId = data[1].toLong(),
-//            tmX = data[3].toDouble(),
-//            tmY = data[4].toDouble(),
-//            stationTp = data[5]
-//        )
-//    }
 
 }

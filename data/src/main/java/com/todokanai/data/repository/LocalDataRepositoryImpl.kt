@@ -1,5 +1,6 @@
 package com.todokanai.data.repository
 
+import android.content.res.AssetManager
 import com.todokanai.data.CsvManager
 import com.todokanai.data.room.BusLineItemDao
 import com.todokanai.data.room.StationItemDao
@@ -8,13 +9,13 @@ import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.io.InputStream
 import javax.inject.Inject
 
 class LocalDataRepositoryImpl @Inject constructor(
     private val stationItemDao: StationItemDao,
     private val busLineItemDao: BusLineItemDao,
-    private val csvManager: CsvManager
+    private val csvManager: CsvManager,
+    private val assetManager: AssetManager
 ) : LocalDataRepository{
 
     override fun getAllStations(): Flow<List<StationItem>> {
@@ -70,12 +71,9 @@ class LocalDataRepositoryImpl @Inject constructor(
         busLineItemDao.deleteAll()
     }
 
-//    override suspend fun readCsvData(inputStream: InputStream):List<Array<String>> {
-//        return csvManager.readCsvData(inputStream)
-//    }
-
-    override suspend fun getAllStationItems(inputStream: InputStream): List<StationItem> {
-        val data = csvManager.readCsvData(inputStream)
+    override suspend fun getAllStationItems(): List<StationItem> {
+        val csv = assetManager.open("SeoulBusStation.csv")
+        val data = csvManager.readCsvData(csv)
         val list = data.mapNotNull {
             try {
                 convertToStationItem(it)
@@ -87,8 +85,9 @@ class LocalDataRepositoryImpl @Inject constructor(
         return list
     }
 
-    override suspend fun getAllBusLineItems(inputStream: InputStream): List<BusLineItem> {
-        val data = csvManager.readCsvData(inputStream)
+    override suspend fun getAllBusLineItems(): List<BusLineItem> {
+        val csv = assetManager.open("SeoulBusLine.csv")
+        val data = csvManager.readCsvData(csv)
         val list = data.mapNotNull {
             try {
                 convertToBusLineItem(it)
