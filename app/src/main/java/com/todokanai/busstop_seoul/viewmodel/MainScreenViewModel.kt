@@ -90,12 +90,6 @@ class MainScreenViewModel @Inject constructor(
          */
     }
 
-    fun saveCsvData(){
-        viewModelScope.launch {
-
-        }
-    }
-
     fun deleteSearchData(data:SearchResult){
         /*
         viewModelScope.launch {
