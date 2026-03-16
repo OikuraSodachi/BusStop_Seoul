@@ -7,6 +7,7 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
+import com.todokanai.busstop_seoul.di.MyApplication.Companion.appContext
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
@@ -24,6 +25,9 @@ class MainScreenViewModel @Inject constructor(
     private val busUseCase: BusUseCase
 ): ViewModel(){
 
+    init {
+        test(appContext.assets)
+    }
     private val keyWord = MutableStateFlow<String>("")
 
     val uiState = combine(
@@ -192,7 +196,7 @@ class MainScreenViewModel @Inject constructor(
 
     fun test(assetManager: AssetManager){
         viewModelScope.launch {
-            val csv = assetManager.open("SeoulBusLine.csv")
+            val csv = assetManager.open("SeoulBusStation.csv")
 
             busUseCase.readCsvData(csv)
         }
