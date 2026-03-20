@@ -135,7 +135,6 @@ class MainScreenViewModel @Inject constructor(
                     )
                 )
             }
-            // Todo: 다른 type 의 SearchResult 도 추가. keyWord 에서 routeId 추출과정에는 room 활용하기
 
             val lineList = busUseCase.getLineInfosFromKeyWord(keyWord)
             lineList.forEach {
