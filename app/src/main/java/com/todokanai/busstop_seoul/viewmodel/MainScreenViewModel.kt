@@ -25,9 +25,6 @@ class MainScreenViewModel @Inject constructor(
     private val busUseCase: BusUseCase
 ): ViewModel(){
 
-    init {
-        test(appContext.assets)
-    }
     private val keyWord = MutableStateFlow<String>("")
 
     val uiState = combine(
