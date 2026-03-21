@@ -46,6 +46,7 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
+    // Todo: 즐겨찾기 저장 room entity 에서 routeId,stationId 이외 parameter 제거하기
     fun saveToFavorite(data:SearchResult){
         viewModelScope.launch {
             when(data.type){
