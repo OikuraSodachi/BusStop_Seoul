@@ -50,6 +50,8 @@ fun SearchTab(
                     .wrapContentSize()
             )
         }else {
+
+            // Todo: LazyColumn itemList 최적화
             LazyColumn(modifier = Modifier.weight(1f)) {
                 itemsIndexed(items = results) { index, item ->
                     SearchResultHolder(
