@@ -1,13 +1,11 @@
 package com.todokanai.busstop_seoul.viewmodel
 
-import android.content.res.AssetManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
-import com.todokanai.busstop_seoul.di.MyApplication.Companion.appContext
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
@@ -49,42 +47,21 @@ class MainScreenViewModel @Inject constructor(
     }
 
     fun saveToFavorite(data:SearchResult){
-        /*
         viewModelScope.launch {
             when(data.type){
                 ResultType.STATION -> {
                     val temp  = data as StationSearchResult
-                    val item = StationItem(
-                        stId = temp.stId,
-                        stNm = temp.stNm,
-                        arsId = temp.arsId,
-                        tmX = temp.tmX,
-                        tmY = temp.tmY,
-                        posX = temp.posX,
-                        posY = temp.posY,
-                        stationTp = temp.stationTp
-                    )
-                    busUseCase.saveStationItem(item)
+                    val item = temp.convert()
+                    //busUseCase.saveStationItem(item)
                 }
                 ResultType.LINE -> {
                     val temp  = data as LineSearchResult
-                    val item = BusLineItem(
-                        busRouteId = temp.busRouteId,
-                        rtNm = temp.rtNm,
-                        routeAbrv = temp.routeAbrv,
-                        routeType = temp.routeType,
-                        stBegin = temp.stBegin,
-                        stEnd = temp.stEnd,
-                        term = temp.term,
-                        firstBusTm = temp.firstBusTm,
-                        lastBusTm = temp.lastBusTm
-                    )
-                    busUseCase.saveBusLineItem(item)
+                    val item = temp.convert()
+                    ///busUseCase.saveBusLineItem(item)
                 }
             }
         }
 
-         */
     }
 
     fun deleteSearchData(data:SearchResult){
@@ -196,15 +173,34 @@ class MainScreenViewModel @Inject constructor(
         return result
     }
 
-
-    fun test(assetManager: AssetManager){
-        viewModelScope.launch {
-            val csv = assetManager.open("SeoulBusStation.csv")
-          //  val test = busUseCase.test(csv)
-            //busUseCase.readCsvData(csv)
-         //   busUseCase.test(csv)
-        }
+    private fun LineSearchResult.convert():BusLineItem{
+        return BusLineItem(
+            busRouteId = busRouteId,
+            rtNm = rtNm,
+            routeAbrv = routeAbrv,
+            routeType = routeType,
+            stBegin = stBegin,
+            stEnd = stEnd,
+            term = term,
+            firstBusTm = firstBusTm,
+            lastBusTm = lastBusTm
+        )
     }
+
+    private fun StationSearchResult.convert():StationItem{
+        return StationItem(
+            stId = stId,
+            stNm = stNm,
+            arsId = arsId,
+            tmX = tmX,
+            tmY = tmY,
+            posX = posX,
+            posY = posY,
+            stationTp = stationTp
+        )
+    }
+
+
 }
 
 data class MainScreenUiState(
