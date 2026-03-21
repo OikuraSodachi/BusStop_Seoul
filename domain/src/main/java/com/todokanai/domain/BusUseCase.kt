@@ -18,7 +18,13 @@ class BusUseCase @Inject constructor(
     }
 
     suspend fun getStationByName(stNm:String):List<StationItem>{
-        return stationRepository.getStationByName(stNm)
+        val result = mutableListOf<StationItem>()
+        localDataRepository.getAllStationItemsFromCsv().map{
+            if(it.stNm.contains(stNm)){
+                result.add(it)
+            }
+        }
+        return result
     }
 
     suspend fun getStationByPosition(startLatitude:Double, endLatitude:Double,startLongitude:Double ,endLongitude:Double):List<StationItem>{
