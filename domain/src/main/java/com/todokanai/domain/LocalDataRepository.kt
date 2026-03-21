@@ -26,8 +26,8 @@ interface LocalDataRepository {
 
     suspend fun deleteAllBusLines()
 
-    suspend fun getAllStationItems() : List<StationItem>
+    suspend fun getAllStationItemsFromCsv() : List<StationItem>
 
-    suspend fun getAllBusLineItems() : List<BusLineItem>
+    suspend fun getAllBusLineItemsFromCsv() : List<BusLineItem>
 
 }

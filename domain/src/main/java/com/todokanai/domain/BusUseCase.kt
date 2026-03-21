@@ -30,7 +30,7 @@ class BusUseCase @Inject constructor(
     }
 
     suspend fun getLineInfosFromKeyWord(keyWord:String):List<BusLineItem>{
-        return busLineKeyWordFilter(keyWord, localDataRepository.getAllBusLineItems())
+        return busLineKeyWordFilter(keyWord, localDataRepository.getAllBusLineItemsFromCsv())
     }
 
     fun getSavedBusLineItems(): Flow<List<BusLineItem>> {

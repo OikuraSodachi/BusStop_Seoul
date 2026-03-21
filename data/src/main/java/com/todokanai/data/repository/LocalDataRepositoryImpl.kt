@@ -71,7 +71,7 @@ class LocalDataRepositoryImpl @Inject constructor(
         busLineItemDao.deleteAll()
     }
 
-    override suspend fun getAllStationItems(): List<StationItem> {
+    override suspend fun getAllStationItemsFromCsv(): List<StationItem> {
         val csv = assetManager.open("SeoulBusStation.csv")
         val data = csvManager.readCsvData(csv)
         val list = data.mapNotNull {
@@ -85,7 +85,7 @@ class LocalDataRepositoryImpl @Inject constructor(
         return list
     }
 
-    override suspend fun getAllBusLineItems(): List<BusLineItem> {
+    override suspend fun getAllBusLineItemsFromCsv(): List<BusLineItem> {
         val csv = assetManager.open("SeoulBusLine.csv")
         val data = csvManager.readCsvData(csv)
         val result = mutableListOf<BusLineItem>()
