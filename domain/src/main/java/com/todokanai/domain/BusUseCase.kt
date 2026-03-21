@@ -21,8 +21,14 @@ class BusUseCase @Inject constructor(
         return stationRepository.getStationByName(stNm)
     }
 
-    suspend fun getStationByPosition(tmX: Double, tmY: Double, radius:Int):List<StationItem>{
-        return stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
+    suspend fun getStationByPosition(startLatitude:Double, endLatitude:Double,startLongitude:Double ,endLongitude:Double):List<StationItem>{
+        val result = mutableListOf<StationItem>()
+        localDataRepository.getAllStationItemsFromCsv().forEach {
+            if(it.tmX < endLongitude && it.tmX > startLongitude && it.tmY < endLatitude && it.tmY > startLatitude){
+                result.add(it)
+            }
+        }
+        return result
     }
 
     suspend fun getArriveInfoByRouteAll(busRouteId:Long):List<ArriveInfoByRouteAllItem>{
