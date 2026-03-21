@@ -2,7 +2,6 @@ package com.todokanai.domain
 
 import com.todokanai.domain.dataclass.ArriveInfoByRouteAllItem
 import com.todokanai.domain.dataclass.BusLineItem
-import com.todokanai.domain.dataclass.BusPositionItem
 import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
@@ -10,7 +9,6 @@ import javax.inject.Inject
 
 class BusUseCase @Inject constructor(
     private val stationRepository: StationRepository,
-    private val busPositionRepository: BusPositionRepository,
     private val arriveInfoRepository: ArriveInfoRepository,
     private val localDataRepository: LocalDataRepository
 ) {
@@ -27,10 +25,6 @@ class BusUseCase @Inject constructor(
         return stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
     }
 
-    suspend fun getBusPositions(routeId: Long): List<BusPositionItem> {
-        return busPositionRepository.getBusPositions(routeId)
-    }
-
     suspend fun getArriveInfoByRouteAll(busRouteId:Long):List<ArriveInfoByRouteAllItem>{
         return arriveInfoRepository.getArriveInfoByRouteAll(busRouteId)
     }
@@ -43,32 +37,8 @@ class BusUseCase @Inject constructor(
         return localDataRepository.getAllBusLines()
     }
 
-    suspend fun getSavedBusLineItemsNonFlow():List<BusLineItem>{
-        return localDataRepository.getAllBusLinesNonFlow()
-    }
-
     fun getSavedStationItems():Flow<List<StationItem>>{
         return localDataRepository.getAllStations()
-    }
-
-    suspend fun getSavedStationItemsNonFlow():List<StationItem>{
-        return localDataRepository.getAllStationsNonFlow()
-    }
-
-    suspend fun saveBusLineItem(busLine: BusLineItem){
-        localDataRepository.insertBusLine(busLine)
-    }
-
-    suspend fun saveStationItem(station: StationItem){
-        localDataRepository.insertStation(station)
-    }
-
-    suspend fun deleteBusLineItem(busRouteId:Long){
-        localDataRepository.deleteBusLine(busRouteId)
-    }
-
-    suspend fun deleteStationItem(stationId:Long){
-        localDataRepository.deleteStation(stationId)
     }
 
     private fun busLineKeyWordFilter(keyWord:String, lines:List<BusLineItem>):List<BusLineItem>{
