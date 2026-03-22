@@ -61,7 +61,11 @@ class MapViewModel @Inject constructor(
                 val isMarkerActive = radiusInMeters<MAP_MARKER_MINIMUM_RADIUS        // marker 기능 활성화 여부 결정
 
                 val result = if(isMarkerActive) {
-                    getVisibleStation(latLngBounds).map {
+                    getVisibleStation(
+                        tmX = latLngBounds.center.longitude,
+                        tmY = latLngBounds.center.latitude,
+                        radius = radiusInMeters
+                    ).map {
                         MarkerInfo(
                             stationInfo = it,
                             position = LatLng(it.tmY, it.tmX),
@@ -92,13 +96,14 @@ class MapViewModel @Inject constructor(
     }
 
     private suspend fun getVisibleStation(
-        latLngBounds: LatLngBounds
+        tmX: Double,
+        tmY: Double,
+        radius: Int
     ): List<StationInfo> {
         val result = busUseCase.getStationByPosition(
-            latLngBounds.southwest.latitude,
-            latLngBounds.northeast.latitude,
-            latLngBounds.southwest.longitude,
-            latLngBounds.northeast.longitude
+            tmX = tmX,
+            tmY = tmY,
+            radius = radius
         ).map{
             it.toStationInfo()
         }

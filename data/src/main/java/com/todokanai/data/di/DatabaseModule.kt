@@ -96,11 +96,13 @@ class DatabaseModule {
     @Provides
     fun provideBusUseCase(
         stationRepository: StationRepository,
+        busPositionRepository: BusPositionRepository,
         arriveInfoRepository: ArriveInfoRepository,
         localDataRepository: LocalDataRepository
     ): BusUseCase{
         return BusUseCase(
             stationRepository,
+            busPositionRepository,
             arriveInfoRepository,
             localDataRepository
         )
@@ -112,9 +114,10 @@ class DatabaseModule {
         return CsvManager()
     }
 
+    @Singleton
     @Provides
-    fun provideAssetManager(@ApplicationContext appContext: Context): AssetManager {
-        return appContext.assets
+    fun provideAssetManager(@ApplicationContext context: Context): AssetManager{
+        return context.assets
     }
 
 }

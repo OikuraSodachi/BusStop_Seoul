@@ -2,13 +2,16 @@ package com.todokanai.domain
 
 import com.todokanai.domain.dataclass.ArriveInfoByRouteAllItem
 import com.todokanai.domain.dataclass.BusLineItem
+import com.todokanai.domain.dataclass.BusPositionItem
 import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
+import java.io.InputStream
 import javax.inject.Inject
 
 class BusUseCase @Inject constructor(
     private val stationRepository: StationRepository,
+    private val busPositionRepository: BusPositionRepository,
     private val arriveInfoRepository: ArriveInfoRepository,
     private val localDataRepository: LocalDataRepository
 ) {
@@ -18,23 +21,15 @@ class BusUseCase @Inject constructor(
     }
 
     suspend fun getStationByName(stNm:String):List<StationItem>{
-        val result = mutableListOf<StationItem>()
-        localDataRepository.getAllStationItemsFromCsv().map{
-            if(it.stNm.contains(stNm)){
-                result.add(it)
-            }
-        }
-        return result
+        return stationRepository.getStationByName(stNm)
     }
 
-    suspend fun getStationByPosition(startLatitude:Double, endLatitude:Double,startLongitude:Double ,endLongitude:Double):List<StationItem>{
-        val result = mutableListOf<StationItem>()
-        localDataRepository.getAllStationItemsFromCsv().forEach {
-            if(it.tmX < endLongitude && it.tmX > startLongitude && it.tmY < endLatitude && it.tmY > startLatitude){
-                result.add(it)
-            }
-        }
-        return result
+    suspend fun getStationByPosition(tmX: Double, tmY: Double, radius:Int):List<StationItem>{
+        return stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
+    }
+
+    suspend fun getBusPositions(routeId: Long): List<BusPositionItem> {
+        return busPositionRepository.getBusPositions(routeId)
     }
 
     suspend fun getArriveInfoByRouteAll(busRouteId:Long):List<ArriveInfoByRouteAllItem>{
@@ -42,25 +37,62 @@ class BusUseCase @Inject constructor(
     }
 
     suspend fun getLineInfosFromKeyWord(keyWord:String):List<BusLineItem>{
-        return busLineKeyWordFilter(keyWord, localDataRepository.getAllBusLineItemsFromCsv())
-    }
-
-    fun getSavedBusLineItems(): Flow<List<BusLineItem>> {
-        return localDataRepository.getAllBusLines()
-    }
-
-    fun getSavedStationItems():Flow<List<StationItem>>{
-        return localDataRepository.getAllStations()
-    }
-
-    private fun busLineKeyWordFilter(keyWord:String, lines:List<BusLineItem>):List<BusLineItem>{
         val result = mutableListOf<BusLineItem>()
-        lines.forEach {
+        val lineList = localDataRepository.getAllBusLinesNonFlow()  // 전체 노선 정보 가져오기
+
+        lineList.forEach {
             if(it.rtNm.contains(keyWord)){
                 result.add(it)
             }
         }
         return result
     }
+
+    fun getSavedBusLineItems(): Flow<List<BusLineItem>> {
+        return localDataRepository.getAllBusLines()
+    }
+
+    suspend fun getSavedBusLineItemsNonFlow():List<BusLineItem>{
+        return localDataRepository.getAllBusLinesNonFlow()
+    }
+
+    fun getSavedStationItems():Flow<List<StationItem>>{
+        return localDataRepository.getAllStations()
+    }
+
+    suspend fun getSavedStationItemsNonFlow():List<StationItem>{
+        return localDataRepository.getAllStationsNonFlow()
+    }
+
+    suspend fun saveBusLineItem(busLine: BusLineItem){
+        localDataRepository.insertBusLine(busLine)
+    }
+
+    suspend fun saveStationItem(station: StationItem){
+        localDataRepository.insertStation(station)
+    }
+
+    suspend fun deleteBusLineItem(busRouteId:Long){
+        localDataRepository.deleteBusLine(busRouteId)
+    }
+
+    suspend fun deleteStationItem(stationId:Long){
+        localDataRepository.deleteStation(stationId)
+    }
+
+    suspend fun test(inputStream: InputStream):List<StationItem>{
+        return localDataRepository.getAllStationItems()
+    }
+
+//    private fun convertToStationItem(data:Array<String>): StationItem{
+//        return StationItem(
+//            stId = data[0].toLong(),
+//            stNm = data[2],
+//            arsId = data[1].toLong(),
+//            tmX = data[3].toDouble(),
+//            tmY = data[4].toDouble(),
+//            stationTp = data[5]
+//        )
+//    }
 
 }
