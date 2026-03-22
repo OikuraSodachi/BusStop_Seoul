@@ -81,7 +81,7 @@ class BusUseCase @Inject constructor(
     }
 
     suspend fun test(inputStream: InputStream):List<StationItem>{
-        return localDataRepository.getAllStationItems()
+        return localDataRepository.getAllStationItems(inputStream)
     }
 
 //    private fun convertToStationItem(data:Array<String>): StationItem{

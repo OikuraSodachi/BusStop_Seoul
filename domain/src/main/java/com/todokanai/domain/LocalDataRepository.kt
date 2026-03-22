@@ -29,8 +29,8 @@ interface LocalDataRepository {
 
 //    suspend fun readCsvData(inputStream: InputStream) : List<Array<String>>
 
-    suspend fun getAllStationItems() : List<StationItem>
+    suspend fun getAllStationItems(inputStream: InputStream) : List<StationItem>
 
-    suspend fun getAllBusLineItems() : List<BusLineItem>
+    suspend fun getAllBusLineItems(inputStream: InputStream) : List<BusLineItem>
 
 }

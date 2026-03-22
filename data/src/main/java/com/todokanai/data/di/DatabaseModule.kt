@@ -1,7 +1,6 @@
 package com.todokanai.data.di
 
 import android.content.Context
-import android.content.res.AssetManager
 import androidx.room.Room
 import com.todokanai.data.CsvManager
 import com.todokanai.data.repository.ArriveInfoRepositoryImpl
@@ -77,14 +76,12 @@ class DatabaseModule {
     fun provideLocalDataRepository(
         stationItemDao: StationItemDao,
         busLineItemDao: BusLineItemDao,
-        csvManager: CsvManager,
-        assetManager: AssetManager
+        csvManager: CsvManager
     ): LocalDataRepository {
         return LocalDataRepositoryImpl(
             stationItemDao,
             busLineItemDao,
-            csvManager,
-            assetManager
+            csvManager
         )
     }
 
@@ -112,12 +109,6 @@ class DatabaseModule {
     @Provides
     fun provideCsvManager(): CsvManager{
         return CsvManager()
-    }
-
-    @Singleton
-    @Provides
-    fun provideAssetManager(@ApplicationContext context: Context): AssetManager{
-        return context.assets
     }
 
 }
