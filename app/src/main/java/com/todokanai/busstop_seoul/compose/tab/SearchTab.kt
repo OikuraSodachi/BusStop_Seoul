@@ -31,7 +31,8 @@ fun SearchTab(
     saveToFavorites:(SearchResult)->Unit
 ){
     var text by remember { mutableStateOf("") }
-    // Todo: commit 528123f8 에서 textField 렉 없이 작동 확인됨
+    // Todo: commit 5deb71ce 에서 textField 렉 없이 작동 확인됨
+    // Todo: commit b545a904 부터 textField 렉 확인됨
     Column{
         Row(modifier = Modifier.fillMaxWidth()) {
             TextField(
