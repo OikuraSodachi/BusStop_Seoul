@@ -1,12 +1,10 @@
 package com.todokanai.busstop_seoul.viewmodel
 
-import android.content.res.AssetManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
-import com.todokanai.busstop_seoul.di.MyApplication.Companion.appContext
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
@@ -24,9 +22,6 @@ class MainScreenViewModel @Inject constructor(
     private val busUseCase: BusUseCase
 ): ViewModel(){
 
-    init {
-        test(appContext.assets)
-    }
     private val keyWord = MutableStateFlow<String>("")
 
     val uiState = combine(
@@ -146,13 +141,6 @@ class MainScreenViewModel @Inject constructor(
         return result
     }
 
-
-    fun test(assetManager: AssetManager){
-        viewModelScope.launch {
-            val csv = assetManager.open("SeoulBusStation.csv")
-            val test = busUseCase.test(csv)
-        }
-    }
 }
 
 data class MainScreenUiState(

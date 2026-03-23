@@ -5,7 +5,6 @@ import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
-import java.io.InputStream
 import javax.inject.Inject
 
 class BusUseCase @Inject constructor(
@@ -48,10 +47,6 @@ class BusUseCase @Inject constructor(
 
     fun getSavedStationItems():Flow<List<StationItem>>{
         return localDataRepository.getAllStations()
-    }
-
-    suspend fun test(inputStream: InputStream):List<StationItem>{
-        return localDataRepository.getAllStationItems(inputStream)
     }
 
 }
