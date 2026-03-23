@@ -31,7 +31,6 @@ class LocalDataRepositoryImpl @Inject constructor(
         }
     }
 
-
     override suspend fun insertStation(stationItem: StationItem) {
         stationItemDao.insert(stationItem.convert())
     }
@@ -69,10 +68,6 @@ class LocalDataRepositoryImpl @Inject constructor(
     override suspend fun deleteAllBusLines() {
         busLineItemDao.deleteAll()
     }
-
-//    override suspend fun readCsvData(inputStream: InputStream):List<Array<String>> {
-//        return csvManager.readCsvData(inputStream)
-//    }
 
     override suspend fun getAllStationItems(inputStream: InputStream): List<StationItem> {
         val data = csvManager.readCsvData(inputStream)
