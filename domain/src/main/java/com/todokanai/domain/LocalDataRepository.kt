@@ -3,7 +3,6 @@ package com.todokanai.domain
 import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
-import java.io.InputStream
 
 interface LocalDataRepository {
 
