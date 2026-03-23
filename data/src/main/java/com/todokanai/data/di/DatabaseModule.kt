@@ -93,13 +93,11 @@ class DatabaseModule {
     @Provides
     fun provideBusUseCase(
         stationRepository: StationRepository,
-        busPositionRepository: BusPositionRepository,
         arriveInfoRepository: ArriveInfoRepository,
         localDataRepository: LocalDataRepository
     ): BusUseCase{
         return BusUseCase(
             stationRepository,
-            busPositionRepository,
             arriveInfoRepository,
             localDataRepository
         )
