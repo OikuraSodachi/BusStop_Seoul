@@ -1,7 +1,8 @@
 package com.todokanai.data.repository
 
 import android.content.res.AssetManager
-import com.todokanai.data.CsvManager
+import com.opencsv.CSVReader
+import com.todokanai.data.BuildConfig
 import com.todokanai.data.room.BusLineItemDao
 import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.LocalDataRepository
@@ -9,12 +10,13 @@ import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.io.IOException
+import java.io.InputStream
 import javax.inject.Inject
 
 class LocalDataRepositoryImpl @Inject constructor(
     private val stationItemDao: StationItemDao,
     private val busLineItemDao: BusLineItemDao,
-    private val csvManager: CsvManager,
     private val assetManager: AssetManager
 ) : LocalDataRepository{
 
@@ -72,7 +74,7 @@ class LocalDataRepositoryImpl @Inject constructor(
 
     override suspend fun getAllStationItems(): List<StationItem> {
         val inputStream = assetManager.open("SeoulBusStation.csv")
-        val data = csvManager.readCsvData(inputStream)
+        val data = readCsvData(inputStream)
         val list = data.mapNotNull {
             try {
                 convertToStationItem(it)
@@ -86,7 +88,7 @@ class LocalDataRepositoryImpl @Inject constructor(
 
     override suspend fun getAllBusLineItems(): List<BusLineItem> {
         val inputStream = assetManager.open("SeoulBusLine.csv")
-        val data = csvManager.readCsvData(inputStream)
+        val data = readCsvData(inputStream)
         val list = data.mapNotNull {
             try {
                 convertToBusLineItem(it)
@@ -166,5 +168,16 @@ class LocalDataRepositoryImpl @Inject constructor(
             busRouteId = data[0].toLong(),
             rtNm = data[1]
         )
+    }
+
+    fun readCsvData(inputStream: InputStream) : List<Array<String>> {
+        return try {
+            CSVReader(inputStream.reader()).readAll()
+        } catch (e: IOException) {
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace()
+            }
+            listOf()
+        }
     }
 }
