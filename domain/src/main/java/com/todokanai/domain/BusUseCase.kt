@@ -18,7 +18,14 @@ class BusUseCase @Inject constructor(
     }
 
     suspend fun getStationByName(stNm:String):List<StationItem>{
-        return stationRepository.getStationByName(stNm)
+        val result = mutableListOf<StationItem>()
+        val allStations = localDataRepository.getAllStationItems()
+        allStations.forEach {
+            if(it.stNm.contains(stNm)){
+                result.add(it)
+            }
+        }
+        return result
     }
 
     suspend fun getStationByPosition(tmX: Double, tmY: Double, radius:Int):List<StationItem>{
@@ -31,7 +38,7 @@ class BusUseCase @Inject constructor(
 
     suspend fun getLineInfosFromKeyWord(keyWord:String):List<BusLineItem>{
         val result = mutableListOf<BusLineItem>()
-        val lineList = localDataRepository.getAllBusLinesNonFlow()  // 전체 노선 정보 가져오기
+        val lineList = localDataRepository.getAllBusLineItems()  // 전체 노선 정보 가져오기
 
         lineList.forEach {
             if(it.rtNm.contains(keyWord)){
