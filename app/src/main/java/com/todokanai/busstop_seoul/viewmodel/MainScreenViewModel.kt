@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
-import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 import com.todokanai.busstop_seoul.di.MyApplication.Companion.appContext
 import com.todokanai.domain.BusUseCase
@@ -52,69 +51,16 @@ class MainScreenViewModel @Inject constructor(
     }
 
     fun saveToFavorite(data:SearchResult){
-        /*
-        viewModelScope.launch {
-            when(data.type){
-                ResultType.STATION -> {
-                    val temp  = data as StationSearchResult
-                    val item = StationItem(
-                        stId = temp.stId,
-                        stNm = temp.stNm,
-                        arsId = temp.arsId,
-                        tmX = temp.tmX,
-                        tmY = temp.tmY,
-                        posX = temp.posX,
-                        posY = temp.posY,
-                        stationTp = temp.stationTp
-                    )
-                    busUseCase.saveStationItem(item)
-                }
-                ResultType.LINE -> {
-                    val temp  = data as LineSearchResult
-                    val item = BusLineItem(
-                        busRouteId = temp.busRouteId,
-                        rtNm = temp.rtNm,
-                        routeAbrv = temp.routeAbrv,
-                        routeType = temp.routeType,
-                        stBegin = temp.stBegin,
-                        stEnd = temp.stEnd,
-                        term = temp.term,
-                        firstBusTm = temp.firstBusTm,
-                        lastBusTm = temp.lastBusTm
-                    )
-                    busUseCase.saveBusLineItem(item)
-                }
-            }
-        }
 
-         */
     }
 
     fun deleteSearchData(data:SearchResult){
-        /*
-        viewModelScope.launch {
-            when(data.type){
-                ResultType.STATION -> {
-                    val item = data as StationSearchResult
-                    busUseCase.deleteStationItem(item.stId)
-                }
-                ResultType.LINE -> {
-                    val item = data as LineSearchResult
-                    busUseCase.deleteBusLineItem(item.busRouteId)
-                }
-            }
-        }
-         */
+
     }
 
     suspend fun getSearchData(keyWord:String):List<SearchResult>{
         val result = mutableListOf<SearchResult>()
-//        val favoriteStations = busUseCase.getSavedStationItemsNonFlow().map{
-//            it.stId
-//        }
-//        val favoriteLines = busUseCase.getSavedBusLineItemsNonFlow().map{
-//            it.busRouteId
-//        }
+
         val favoriteStations = emptyList<Long>()
         val favoriteLines = emptyList<Long>()
 
@@ -205,8 +151,6 @@ class MainScreenViewModel @Inject constructor(
         viewModelScope.launch {
             val csv = assetManager.open("SeoulBusStation.csv")
             val test = busUseCase.test(csv)
-            //busUseCase.readCsvData(csv)
-         //   busUseCase.test(csv)
         }
     }
 }
