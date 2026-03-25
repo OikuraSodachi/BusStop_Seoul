@@ -28,12 +28,6 @@ class LocalDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllStationsNonFlow(): List<StationItem> {
-        return stationItemDao.getAllNonFlow().mapNotNull {
-            it.convert(getAllStationItems())
-        }
-    }
-
     override suspend fun insertStation(stationItem: StationItem) {
         stationItemDao.insert(stationItem.convert())
     }
@@ -51,12 +45,6 @@ class LocalDataRepositoryImpl @Inject constructor(
             it.map {
                 it.convert()
             }
-        }
-    }
-
-    override suspend fun getAllBusLinesNonFlow(): List<BusLineItem> {
-        return busLineItemDao.getAllNonFlow().map{
-            it.convert()
         }
     }
 
