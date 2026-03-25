@@ -22,15 +22,15 @@ class LocalDataRepositoryImpl @Inject constructor(
 
     override fun getAllStations(): Flow<List<StationItem>> {
         return stationItemDao.getAll().map {
-            it.map {
-                it.convert()
+            it.mapNotNull {
+                it.convert(getAllStationItems())
             }
         }
     }
 
     override suspend fun getAllStationsNonFlow(): List<StationItem> {
-        return stationItemDao.getAllNonFlow().map {
-            it.convert()
+        return stationItemDao.getAllNonFlow().mapNotNull {
+            it.convert(getAllStationItems())
         }
     }
 
@@ -102,26 +102,12 @@ class LocalDataRepositoryImpl @Inject constructor(
 
     private fun StationItem.convert(): com.todokanai.data.room.StationItem{
         return com.todokanai.data.room.StationItem(
-            stId = stId,
-            stNm = stNm,
-            arsId = arsId,
-            tmX = tmX,
-            tmY = tmY,
-            posX = posX,
-            posY = posY
+            stId = stId
         )
     }
 
-    private fun com.todokanai.data.room.StationItem.convert(): StationItem{
-        return StationItem(
-            stId = stId,
-            stNm = stNm,
-            arsId = arsId,
-            tmX = tmX,
-            tmY = tmY,
-            posX = posX,
-            posY = posY
-        )
+    private fun com.todokanai.data.room.StationItem.convert(infos:List<StationItem>): StationItem?{
+        return infos.find { it.stId == stId }
     }
 
     private fun BusLineItem.convert(): com.todokanai.data.room.BusLineItem{
