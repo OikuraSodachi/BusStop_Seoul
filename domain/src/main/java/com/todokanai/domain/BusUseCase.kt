@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 class BusUseCase @Inject constructor(
     private val stationRepository: StationRepository,
+    private val busPositionRepository: BusPositionRepository,
     private val arriveInfoRepository: ArriveInfoRepository,
     private val localDataRepository: LocalDataRepository
 ) {
