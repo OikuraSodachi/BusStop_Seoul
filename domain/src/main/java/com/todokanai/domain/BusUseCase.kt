@@ -61,6 +61,22 @@ class BusUseCase @Inject constructor(
         return result
     }
 
+    suspend fun saveBusStation(stationItem: StationItem){
+        localDataRepository.insertStation(stationItem)
+    }
+
+    suspend fun saveBusLine(busLineItem: BusLineItem){
+        localDataRepository.insertBusLine(busLineItem)
+    }
+
+    suspend fun deleteBusStation(stationId: Long){
+        localDataRepository.deleteStation(stationId)
+    }
+
+    suspend fun deleteBusLine(busRouteId: Long){
+        localDataRepository.deleteBusLine(busRouteId)
+    }
+
     fun getSavedBusLineItems(): Flow<List<BusLineItem>> {
         return localDataRepository.getAllBusLines()
     }

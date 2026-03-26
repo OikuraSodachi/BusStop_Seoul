@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
+import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.dataclass.BusLineItem
@@ -46,11 +47,57 @@ class MainScreenViewModel @Inject constructor(
     }
 
     fun saveToFavorite(data:SearchResult){
+        viewModelScope.launch {
+            when(data.type){
+                ResultType.STATION -> {
+                    val item = data as StationSearchResult
+                    busUseCase.saveBusStation(
+                        StationItem(
+                            item.stId,
+                            item.stNm,
+                            item.arsId,
+                            item.tmX,
+                            item.tmY,
+                            item.posX,
+                            item.posY,
+                            item.stationTp
+                        )
+                    )
+                }
+                ResultType.LINE -> {
+                    val item = data as LineSearchResult
+                    busUseCase.saveBusLine(
+                        BusLineItem(
+                            item.busRouteId,
+                            item.rtNm,
+                            item.routeAbrv,
+                            item.routeType,
+                            item.stBegin,
+                            item.stEnd,
+                            item.term,
+                            item.firstBusTm,
+                            item.lastBusTm
+                        )
+                    )
+                }
 
+            }
+        }
     }
 
     fun deleteSearchData(data:SearchResult){
-
+        viewModelScope.launch {
+            when(data.type){
+                ResultType.STATION -> {
+                    val item = data as StationSearchResult
+                    busUseCase.deleteBusStation(item.stId)
+                }
+                ResultType.LINE -> {
+                    val item = data as LineSearchResult
+                    busUseCase.deleteBusLine(item.busRouteId)
+                }
+            }
+        }
     }
 
     suspend fun getSearchData(keyWord:String):List<SearchResult>{
