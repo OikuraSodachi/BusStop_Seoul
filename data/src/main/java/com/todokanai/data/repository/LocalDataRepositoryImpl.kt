@@ -28,8 +28,10 @@ class LocalDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertStation(stationItem: StationItem) {
-        stationItemDao.insert(stationItem.convert())
+    override suspend fun insertStation(stationId: Long) {
+        stationItemDao.insert(
+            com.todokanai.data.room.StationItem(stId = stationId)
+        )
     }
 
     override suspend fun deleteStation(stationId: Long) {
@@ -48,8 +50,10 @@ class LocalDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertBusLine(busLineItem: BusLineItem) {
-        busLineItemDao.insert(busLineItem.convert())
+    override suspend fun insertBusLine(busRouteId: Long) {
+        busLineItemDao.insert(
+            com.todokanai.data.room.BusLineItem(busRouteId = busRouteId)
+        )
     }
 
     override suspend fun deleteBusLine(busRouteId: Long) {
@@ -88,20 +92,8 @@ class LocalDataRepositoryImpl @Inject constructor(
         return list
     }
 
-    private fun StationItem.convert(): com.todokanai.data.room.StationItem{
-        return com.todokanai.data.room.StationItem(
-            stId = stId
-        )
-    }
-
     private fun com.todokanai.data.room.StationItem.convert(infos:List<StationItem>): StationItem?{
         return infos.find { it.stId == stId }
-    }
-
-    private fun BusLineItem.convert(): com.todokanai.data.room.BusLineItem{
-        return com.todokanai.data.room.BusLineItem(
-            busRouteId = busRouteId
-        )
     }
 
     private fun com.todokanai.data.room.BusLineItem.convert(infos:List<BusLineItem>): BusLineItem?{

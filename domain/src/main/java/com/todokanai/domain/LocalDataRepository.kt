@@ -8,7 +8,7 @@ interface LocalDataRepository {
 
     fun getAllStations(): Flow<List<StationItem>>
 
-    suspend fun insertStation(stationItem: StationItem)
+    suspend fun insertStation(stationId: Long)
 
     suspend fun deleteStation(stationId: Long)
 
@@ -16,7 +16,7 @@ interface LocalDataRepository {
 
     fun getAllBusLines() : Flow<List<BusLineItem>>
 
-    suspend fun insertBusLine(busLineItem: BusLineItem)
+    suspend fun insertBusLine(busRouteId: Long)
 
     suspend fun deleteBusLine(busRouteId: Long)
 

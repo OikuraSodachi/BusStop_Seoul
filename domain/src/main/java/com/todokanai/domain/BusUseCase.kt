@@ -62,11 +62,11 @@ class BusUseCase @Inject constructor(
     }
 
     suspend fun saveBusStation(stationItem: StationItem){
-        localDataRepository.insertStation(stationItem)
+        localDataRepository.insertStation(stationItem.stId)
     }
 
     suspend fun saveBusLine(busLineItem: BusLineItem){
-        localDataRepository.insertBusLine(busLineItem)
+        localDataRepository.insertBusLine(busLineItem.busRouteId)
     }
 
     suspend fun deleteBusStation(stationId: Long){
