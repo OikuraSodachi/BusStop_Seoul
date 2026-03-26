@@ -8,7 +8,7 @@ data class BusPositionItem(
 
     val busType: String? = null,        // 버스 타입 (0:일반, 1:저상, 2:굴절)
 
-    val lastStnId: String? = null,      // 최근 정류소 ID
+    val lastStnId: Long? = null,      // 최근 정류소 ID
 
     val congetion: String? = null,      // 혼잡도 (3:여유, 4:보통, 5:혼잡)
 

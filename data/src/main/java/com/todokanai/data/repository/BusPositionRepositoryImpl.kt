@@ -31,7 +31,7 @@ class BusPositionRepositoryImpl: BusPositionRepository {
             vehId,
             plainNo,
             busType,
-            lastStnId,
+            lastStnId!!.toLong(),
             congetion,
             sectOrd,
             gpsX,
