@@ -28,7 +28,6 @@ class LineInfoViewModel @Inject constructor(
         LineInfoScreenUiState(
             lineInfos = getLineInfos(id)
         )
-
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -36,33 +35,15 @@ class LineInfoViewModel @Inject constructor(
     )
 
     suspend fun getLineInfos(busRouteId:Long): List<LineInfo> {
-        val response = busUseCase.getArriveInfoByRouteAll(busRouteId)
-        val stList = response.map{
-            it.stNm
-        }           // 노선이 지나는 정류소 목록
-
+        val busRouteArriveInfo = busUseCase.getArriveInfoByRouteAll(busRouteId)
         val busPositions = busUseCase.getBusPositions(busRouteId)
 
-        fun busPositionCheck(stId:Long,busPosition: List<BusPositionItem>):List<String>{
-            val result = mutableListOf<String>()
-            busPosition.forEach {
-                if(it.lastStnId == stId){
-                    result.add(it.plainNo.toString())
-                }
-            }
-            return result
-        }
-        val result = mutableListOf<LineInfo>()
-        response.forEach {
-            result.add(
-                LineInfo(
-                    stNm = it.stNm,
-                    busInfo = busPositionCheck(it.stId,busPositions)
-                )
+        return busRouteArriveInfo.map {
+            LineInfo(
+                stNm = it.stNm,
+                busInfo = busPositionCheck(it.stId,busPositions)
             )
         }
-
-        return result
     }
 
     fun setRouteId(id:Long){
@@ -70,6 +51,17 @@ class LineInfoViewModel @Inject constructor(
             busRouteId.value = id
         }
     }
+
+    private fun busPositionCheck(stId:Long,busPosition: List<BusPositionItem>):List<String>{
+        val result = mutableListOf<String>()
+        busPosition.forEach {
+            if(it.lastStnId == stId){
+                result.add(it.plainNo.toString())
+            }
+        }
+        return result
+    }
+
 }
 
 data class LineInfoScreenUiState(
