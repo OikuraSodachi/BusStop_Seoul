@@ -2,6 +2,7 @@ package com.todokanai.domain
 
 import com.todokanai.domain.dataclass.ArriveInfoByRouteAllItem
 import com.todokanai.domain.dataclass.BusLineItem
+import com.todokanai.domain.dataclass.BusPositionItem
 import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.dataclass.StationItem
 import kotlinx.coroutines.CoroutineScope
@@ -48,6 +49,10 @@ class BusUseCase @Inject constructor(
 
     suspend fun getArriveInfoByRouteAll(busRouteId:Long):List<ArriveInfoByRouteAllItem>{
         return arriveInfoRepository.getArriveInfoByRouteAll(busRouteId)
+    }
+
+    suspend fun getBusPositions(routeId:Long):List<BusPositionItem>{
+        return busPositionRepository.getBusPositions(routeId)
     }
 
     suspend fun getLineInfosFromKeyWord(keyWord:String):List<BusLineItem>{
