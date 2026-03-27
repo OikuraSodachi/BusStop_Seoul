@@ -8,6 +8,6 @@ import retrofit2.http.Query
 
 interface BusPositionService {
 
-    @GET("getBusPosByRtid?serviceKey=${BuildConfig.REST_API_KEY}")
+    @GET("getBusPosByRtidList?serviceKey=${BuildConfig.REST_API_KEY}")
     fun getBusPositions(@Query("routeId") routeId: String) : Call<BusPosByRouteIdResponse>
 }
