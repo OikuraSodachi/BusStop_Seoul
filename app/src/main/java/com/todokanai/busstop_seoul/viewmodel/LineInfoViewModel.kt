@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.todokanai.busstop_seoul.dataclass.LineInfo
 import com.todokanai.domain.BusUseCase
+import com.todokanai.domain.dataclass.BusPositionItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,23 +36,32 @@ class LineInfoViewModel @Inject constructor(
     )
 
     suspend fun getLineInfos(busRouteId:Long): List<LineInfo> {
-
         val response = busUseCase.getArriveInfoByRouteAll(busRouteId)
         val stList = response.map{
             it.stNm
         }           // 노선이 지나는 정류소 목록
 
-        fun busPositionCheck(stNm:String):List<String>{
-            // Todo: response 로부터, 해당 정류소에 위차한 버스 목록 가져오기. REST API 호출 횟수 최적화에 주의.
-            return emptyList()
-        }
-        val result = stList.map{
-            LineInfo(
-                stNm = it,
-                busInfo = busPositionCheck(it)
-            )
+        val busPositions = busUseCase.getBusPositions(busRouteId)
 
+        fun busPositionCheck(stId:Long,busPosition: List<BusPositionItem>):List<String>{
+            val result = mutableListOf<String>()
+            busPosition.forEach {
+                if(it.lastStnId == stId){
+                    result.add(it.plainNo.toString())
+                }
+            }
+            return result
         }
+        val result = mutableListOf<LineInfo>()
+        response.forEach {
+            result.add(
+                LineInfo(
+                    stNm = it.stNm,
+                    busInfo = busPositionCheck(it.stId,busPositions)
+                )
+            )
+        }
+
         return result
     }
 
