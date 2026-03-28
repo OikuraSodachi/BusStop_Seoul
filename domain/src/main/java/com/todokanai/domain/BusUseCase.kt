@@ -43,6 +43,11 @@ class BusUseCase @Inject constructor(
         return result
     }
 
+    suspend fun getStationById(stId:Long):StationItem?{
+        return allStations.find{it.stId == stId}
+    }
+
+
     suspend fun getStationByPosition(tmX: Double, tmY: Double, radius:Int):List<StationItem>{
         return stationRepository.getStationByPosition(tmX.toString(), tmY.toString(), radius.toString())
     }

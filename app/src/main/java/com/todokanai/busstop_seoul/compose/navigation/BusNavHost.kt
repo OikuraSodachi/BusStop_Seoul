@@ -28,13 +28,14 @@ fun BusNavHost(
             route = MapScreen.routeWithArgs,
             arguments = MapScreen.arguments
         ){ backStackEntry ->
-            val arsId = backStackEntry.arguments?.getString(MapScreen.arsIdArg)?.toLong()
-            val stNm = backStackEntry.arguments?.getString(MapScreen.stNameArg)
-
+//            val arsId = backStackEntry.arguments?.getString(MapScreen.arsIdArg)?.toLong()
+//            val stNm = backStackEntry.arguments?.getString(MapScreen.stNameArg)
+            val stId = backStackEntry.arguments?.getString(MapScreen.stIdArg)?.toLong()
             MapScreen(
                 navController = navController,
-                arsId = arsId,
-                stNm = stNm
+                stId = stId
+//                arsId = arsId,
+//                stNm = stNm
             )
         }
 
@@ -55,11 +56,18 @@ fun NavHostController.navigateToMapScreen(){
     this.navigate(MapScreen.route)
 }
 
+///** SearchScreen 의 StationInfo 조회 상황에 호출
+// *
+// * Todo: 해당 StationInfo 의 Marker 선택 동작 구현 **/
+//fun NavHostController.navigateToMapScreen(arsId:Long, stNm:String){
+//    this.navigate("${MapScreen.route}?${MapScreen.arsIdArg}=$arsId&${MapScreen.stNameArg}=$stNm")
+//}
+
 /** SearchScreen 의 StationInfo 조회 상황에 호출
  *
  * Todo: 해당 StationInfo 의 Marker 선택 동작 구현 **/
-fun NavHostController.navigateToMapScreen(arsId:Long, stNm:String){
-    this.navigate("${MapScreen.route}?${MapScreen.arsIdArg}=$arsId&${MapScreen.stNameArg}=$stNm")
+fun NavHostController.navigateToMapScreen(stId:Long){
+    this.navigate("${MapScreen.route}?${MapScreen.stIdArg}=$stId")
 }
 
 fun NavHostController.navigateToLineInfo(routeId:Long){

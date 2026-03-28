@@ -21,6 +21,6 @@ data class StationSearchResult(
     type = ResultType.STATION
 ){
     override fun onItemClick(navController: NavHostController) {
-        navController.navigateToMapScreen(arsId = arsId,stNm = stNm)
+        navController.navigateToMapScreen(stId = stId)
     }
 }

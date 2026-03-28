@@ -9,21 +9,28 @@ sealed interface NavDestinations{
 
 data object MapScreen: NavDestinations{
     override val route: String = "MapScreen"
+    const val stIdArg = "stIdArg"
     const val arsIdArg = "arsIdArg"
     const val stNameArg = "stNameArg"
 
-    val routeWithArgs = "$route?$arsIdArg={$arsIdArg}&$stNameArg={$stNameArg}"
+    //val routeWithArgs = "$route?$arsIdArg={$arsIdArg}&$stNameArg={$stNameArg}"
+    val routeWithArgs = "$route?$stIdArg={$stIdArg}"
     val arguments = listOf(
-        navArgument(arsIdArg) {
+        navArgument(stIdArg){
             type = NavType.StringType
             nullable = true
             defaultValue = null
         },
-        navArgument(stNameArg){
-            type = NavType.StringType
-            nullable = true
-            defaultValue = null
-        }
+//        navArgument(arsIdArg) {
+//            type = NavType.StringType
+//            nullable = true
+//            defaultValue = null
+//        },
+//        navArgument(stNameArg){
+//            type = NavType.StringType
+//            nullable = true
+//            defaultValue = null
+//        }
     )
 }
 
