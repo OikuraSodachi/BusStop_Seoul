@@ -38,8 +38,6 @@ import com.todokanai.busstop_seoul.viewmodel.MapViewModel
 fun MapScreen(
     navController: NavHostController,
     stId:Long? = null,
-//    arsId:Long? = null,
-//    stNm:String?= null,
     viewModel: MapViewModel = hiltViewModel()
 ){
 
@@ -116,11 +114,6 @@ fun MapScreen(
             )
         }
 
-//        LaunchedEffect(key1 = arsId, key2= stNm){
-//            if(arsId!=null && stNm!=null) {
-//                targetStation = viewModel.getStationInfo(arsId, stNm)
-//            }
-//        }
         LaunchedEffect(key1 = stId){
             if(stId != null) {
                 targetStation = viewModel.getStationInfo(stId)
