@@ -34,7 +34,6 @@ fun MainMap(
                 title = markerInfo.title,
                 snippet = markerInfo.snippet,
                 onClick = {
-                    //mainMapCallback.onMarkerClick(markerInfo)
                     onMarkerClick(markerInfo)
                     false
                 }
@@ -43,9 +42,7 @@ fun MainMap(
         }
 
         if(!cameraPositionState.isMoving) {
-            cameraPositionState.projection?.visibleRegion?.latLngBounds?.let{
-                mainMapCallback.onVisibleRegionChanged(it)
-            }
+            mainMapCallback.onCameraPositionChanged(cameraPositionState)
         }
     }
 

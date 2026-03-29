@@ -1,13 +1,10 @@
 package com.todokanai.busstop_seoul.interfaces.compose
 
-import com.google.android.gms.maps.model.LatLngBounds
-import com.todokanai.busstop_seoul.dataclass.MarkerInfo
+import com.google.maps.android.compose.CameraPositionState
 
 /** interface for [com.todokanai.busstop_seoul.compose.map.MainMap] **/
 interface MainMapInterface {
 
-    //fun onMarkerClick(markerInfo: MarkerInfo)
-
-    fun onVisibleRegionChanged(latLngBounds: LatLngBounds)
+    fun onCameraPositionChanged(cameraPositionState: CameraPositionState)
 
 }

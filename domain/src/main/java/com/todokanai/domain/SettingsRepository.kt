@@ -24,6 +24,18 @@ interface SettingsRepository {
 
     fun zoomGesturesEnabled(): Flow<Boolean>
 
+    fun lastKnownLatitude(): Double
+
+    fun lastKnownLongitude(): Double
+
+    fun lastKnownZoomLevel(): Float
+
+    suspend fun saveZoomLevel(value:Float)
+
+    suspend fun saveLastKnownLatitude(value: Double)
+
+    suspend fun saveLastKnownLongitude(value: Double)
+
     suspend fun saveSmallMapEnabled(value: Boolean)
 
     suspend fun saveZoomControlsEnabled(value: Boolean)

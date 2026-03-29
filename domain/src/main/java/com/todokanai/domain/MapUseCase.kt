@@ -6,6 +6,12 @@ class MapUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) {
 
+    fun lastKnownLatitude() = settingsRepository.lastKnownLatitude()
+
+    fun lastKnownLongitude() = settingsRepository.lastKnownLongitude()
+
+    fun lastKnownZoomLevel() = settingsRepository.lastKnownZoomLevel()
+
     fun smallMapEnabled() = settingsRepository.smallMapEnabled()
 
     fun zoomControlsEnabled() = settingsRepository.zoomControlsEnabled()
@@ -64,6 +70,18 @@ class MapUseCase @Inject constructor(
 
     suspend fun saveZoomGesturesEnabled(value: Boolean) {
         settingsRepository.saveZoomGesturesEnabled(value)
+    }
+
+    suspend fun saveLastKnownLatitude(value: Double) {
+        settingsRepository.saveLastKnownLatitude(value)
+    }
+
+    suspend fun saveLastKnownLongitude(value: Double) {
+        settingsRepository.saveLastKnownLongitude(value)
+    }
+
+    suspend fun saveLastKnownZoomLevel(value: Float) {
+        settingsRepository.saveZoomLevel(value)
     }
 
 }

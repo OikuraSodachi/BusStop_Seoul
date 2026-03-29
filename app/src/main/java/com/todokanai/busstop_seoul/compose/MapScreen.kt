@@ -45,7 +45,7 @@ fun MapScreen(
     var targetStation by remember { mutableStateOf<StationInfo?>(null) }
 
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE), DEFAULT_ZOOM)
+        position = CameraPosition.fromLatLngZoom(viewModel.lastKnownLatLng(), viewModel.lastKnownZoomLevel())
     }
 
     Column(
