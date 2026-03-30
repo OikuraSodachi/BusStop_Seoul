@@ -65,15 +65,6 @@ class MapViewModel @Inject constructor(
         return mapUseCase.lastKnownZoomLevel()
     }
 
-    suspend fun saveLastKnownLatLng(latitude: Double, longitude: Double){
-        mapUseCase.saveLastKnownLatitude(latitude)
-        mapUseCase.saveLastKnownLongitude(longitude)
-    }
-
-    suspend fun saveLastKnownZoomLevel(value: Float){
-        mapUseCase.saveLastKnownZoomLevel(value)
-    }
-
     // Todo: mainMapCallback 을 함수가 아닌 변수 (val) 로서 가지고 있는 것이 메모리 관리상 적절한지 고민해볼 것
     val mainMapCallback = object: MainMapInterface {
 
@@ -107,9 +98,10 @@ class MapViewModel @Inject constructor(
                     }
                     markerInfos.update { result }
 
-                    saveLastKnownLatLng(latitude, longitude)
+                    mapUseCase.saveLastKnownLatitude(latitude)
+                    mapUseCase.saveLastKnownLongitude(longitude)
                 }
-                saveLastKnownZoomLevel(cameraPositionState.position.zoom)
+                mapUseCase.saveLastKnownZoomLevel(cameraPositionState.position.zoom)
             }
         }
 
