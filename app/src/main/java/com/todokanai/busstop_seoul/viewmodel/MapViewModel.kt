@@ -113,8 +113,14 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    suspend fun getStationInfo(stId:Long):StationInfo?{
-        return busUseCase.getStationById(stId)?.toStationInfo()
+    suspend fun getStationInfo(stId:Long?):StationInfo?{
+        val result =
+            if(stId != null){
+                busUseCase.getStationById(stId)?.toStationInfo()
+            }else{
+                null
+            }
+        return result
     }
 
     private suspend fun getVisibleStation(

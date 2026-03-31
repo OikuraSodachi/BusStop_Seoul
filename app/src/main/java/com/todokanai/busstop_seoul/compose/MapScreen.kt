@@ -106,9 +106,7 @@ fun MapScreen(
         }
 
         LaunchedEffect(key1 = stId){
-            if(stId != null) {
-                targetStation = viewModel.getStationInfo(stId)
-            }
+            targetStation = viewModel.getStationInfo(stId)
         }
 
     }

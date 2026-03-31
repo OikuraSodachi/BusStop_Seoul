@@ -20,6 +20,38 @@ class LocalDataRepositoryImpl @Inject constructor(
     private val assetManager: AssetManager
 ) : LocalDataRepository{
 
+//    // allStations, allBusLines 값 최초 1회 로드     // Todo: 이게 정말 적절한 방식인지?
+//    private var allStations = mutableListOf<StationItem>()
+//    private var allBusLines = mutableListOf<BusLineItem>()
+
+//    init{
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val stationInputStream = assetManager.open("SeoulBusStation.csv")
+//            val stationData = readCsvData(stationInputStream)
+//            val stationList = stationData.mapNotNull {
+//                try {
+//                    convertToStationItem(it)
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                    null
+//                }
+//            }
+//            val busLineInputStream = assetManager.open("SeoulBusLine.csv")
+//            val busLineData = readCsvData(busLineInputStream)
+//            val busLineList = busLineData.mapNotNull {
+//                try {
+//                    convertToBusLineItem(it)
+//                }catch (e:Exception){
+//                    e.printStackTrace()
+//                    null
+//                }
+//            }
+//            allBusLines.addAll(busLineList)
+//            allStations.addAll(stationList)
+//        }
+//
+//    }
+
     override fun getAllStations(): Flow<List<StationItem>> {
         return stationItemDao.getAll().map {
             it.mapNotNull {
@@ -65,9 +97,9 @@ class LocalDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllStationItems(): List<StationItem> {
-        val inputStream = assetManager.open("SeoulBusStation.csv")
-        val data = readCsvData(inputStream)
-        val list = data.mapNotNull {
+        val stationInputStream = assetManager.open("SeoulBusStation.csv")
+        val stationData = readCsvData(stationInputStream)
+        val stationList = stationData.mapNotNull {
             try {
                 convertToStationItem(it)
             } catch (e: Exception) {
@@ -75,13 +107,13 @@ class LocalDataRepositoryImpl @Inject constructor(
                 null
             }
         }
-        return list
+        return stationList
     }
 
     override suspend fun getAllBusLineItems(): List<BusLineItem> {
-        val inputStream = assetManager.open("SeoulBusLine.csv")
-        val data = readCsvData(inputStream)
-        val list = data.mapNotNull {
+        val busLineInputStream = assetManager.open("SeoulBusLine.csv")
+        val busLineData = readCsvData(busLineInputStream)
+        val busLineList = busLineData.mapNotNull {
             try {
                 convertToBusLineItem(it)
             }catch (e:Exception){
@@ -89,7 +121,8 @@ class LocalDataRepositoryImpl @Inject constructor(
                 null
             }
         }
-        return list
+
+        return busLineList
     }
 
     private fun com.todokanai.data.room.StationItem.convert(infos:List<StationItem>): StationItem?{

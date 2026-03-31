@@ -41,22 +41,24 @@ class DatabaseModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideSettingsRepository(@ApplicationContext appContext: Context): SettingsRepository {
         return SettingsRepositoryImpl(appContext)
     }
 
-    @Singleton
     @Provides
     fun provideMapUseCase(settingsRepository: SettingsRepository): MapUseCase {
         return MapUseCase(settingsRepository)
     }
 
+    @Singleton
     @Provides
     fun provideStationRepository(): StationRepository {
         return StationRepositoryImpl()
     }
 
+    @Singleton
     @Provides
     fun provideBusPositionRepository(): BusPositionRepository {
         return BusPositionRepositoryImpl()
@@ -72,6 +74,7 @@ class DatabaseModule {
         return myDatabase.busLineItemDao()
     }
 
+    @Singleton
     @Provides
     fun provideLocalDataRepository(
         stationItemDao: StationItemDao,
@@ -85,6 +88,7 @@ class DatabaseModule {
         )
     }
 
+    @Singleton
     @Provides
     fun provideArriveInfoRepository():ArriveInfoRepository{
         return ArriveInfoRepositoryImpl()
