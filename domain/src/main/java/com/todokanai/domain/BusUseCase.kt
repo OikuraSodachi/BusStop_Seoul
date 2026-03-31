@@ -57,7 +57,7 @@ class BusUseCase @Inject constructor(
                 result.add(it)
             }
         }
-        return result
+        return result.distinctBy{it.busRouteId}
     }
 
     suspend fun saveBusStation(stationItem: StationItem){
