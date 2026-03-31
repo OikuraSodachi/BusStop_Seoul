@@ -8,11 +8,10 @@ import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.LocalDataRepository
 import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
 import javax.inject.Inject
@@ -20,40 +19,30 @@ import javax.inject.Inject
 class LocalDataRepositoryImpl @Inject constructor(
     private val stationItemDao: StationItemDao,
     private val busLineItemDao: BusLineItemDao,
-    private val assetManager: AssetManager
+    assetManager: AssetManager
 ) : LocalDataRepository{
 
-    // allStations, allBusLines 값 최초 1회 로드     // Todo: 이게 정말 적절한 방식인지?
-    private var allStations = mutableListOf<StationItem>()
-    private var allBusLines = mutableListOf<BusLineItem>()
-
-    init{
-        CoroutineScope(Dispatchers.IO).launch {
-            val stationInputStream = assetManager.open("SeoulBusStation.csv")
-            val stationData = readCsvData(stationInputStream)
-            val stationList = stationData.mapNotNull {
-                try {
-                    convertToStationItem(it)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    null
-                }
+    private val stationFlow = flowOf(
+        readCsvData(assetManager.open("SeoulBusStation.csv")).mapNotNull{
+            try {
+                convertToStationItem(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
             }
-            val busLineInputStream = assetManager.open("SeoulBusLine.csv")
-            val busLineData = readCsvData(busLineInputStream)
-            val busLineList = busLineData.mapNotNull {
-                try {
-                    convertToBusLineItem(it)
-                }catch (e:Exception){
-                    e.printStackTrace()
-                    null
-                }
-            }
-            allBusLines.addAll(busLineList)
-            allStations.addAll(stationList)
         }
+    )
 
-    }
+    private val busLineFlow = flowOf(
+        readCsvData(assetManager.open("SeoulBusLine.csv")).mapNotNull{
+            try {
+                convertToBusLineItem(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+    )
 
     override fun getAllStations(): Flow<List<StationItem>> {
         return stationItemDao.getAll().map {
@@ -100,12 +89,11 @@ class LocalDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllStationItems(): List<StationItem> {
-        println("allStations: ${allStations.size}")
-        return allStations
+        return stationFlow.first()
     }
 
     override suspend fun getAllBusLineItems(): List<BusLineItem> {
-        return allBusLines
+        return busLineFlow.first()
     }
 
     private fun com.todokanai.data.room.StationItem.convert(infos:List<StationItem>): StationItem?{
@@ -134,7 +122,7 @@ class LocalDataRepositoryImpl @Inject constructor(
         )
     }
 
-    fun readCsvData(inputStream: InputStream) : List<Array<String>> {
+    private fun readCsvData(inputStream: InputStream) : List<Array<String>> {
         return try {
             CSVReader(inputStream.reader()).readAll()
         } catch (e: IOException) {
