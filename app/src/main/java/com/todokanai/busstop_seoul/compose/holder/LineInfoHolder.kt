@@ -1,11 +1,13 @@
 package com.todokanai.busstop_seoul.compose.holder
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Surface
@@ -53,19 +55,23 @@ fun LineInfoHolder(
             )
             // Todo: 정류장 표시 UI
         }
-        Box(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             lineInfo.busInfo.forEach {
                 Text(
                     text = it,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize()
+                    modifier = Modifier.padding(2.dp)
                 )
-
-                // Todo: 버스 정보 UI
+            // Todo: 버스 정보 UI
             }
         }
     }
+
 }
 
 //@Preview
@@ -75,7 +81,7 @@ private fun LineInfoHolderPreview(){
         LineInfoHolder(
             lineInfo = LineInfo(
                 stNm = "Name",
-                busInfo = listOf("123", "123", "123", "123", "123", "123")
+                busInfo = listOf("123", "123")
             ),
             modifier = Modifier.height(100.dp)
 
