@@ -114,9 +114,7 @@ class MapViewModel @Inject constructor(
     }
 
     suspend fun getStationInfo(stId:Long):StationInfo?{
-        val temp = busUseCase.getStationById(stId)?.toStationInfo()
-        println("info: $temp")
-        return temp
+        return busUseCase.getStationById(stId)?.toStationInfo()
     }
 
     private suspend fun getVisibleStation(
