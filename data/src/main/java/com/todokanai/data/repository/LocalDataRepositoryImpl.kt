@@ -8,8 +8,11 @@ import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.LocalDataRepository
 import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
 import javax.inject.Inject
@@ -20,37 +23,37 @@ class LocalDataRepositoryImpl @Inject constructor(
     private val assetManager: AssetManager
 ) : LocalDataRepository{
 
-//    // allStations, allBusLines 값 최초 1회 로드     // Todo: 이게 정말 적절한 방식인지?
-//    private var allStations = mutableListOf<StationItem>()
-//    private var allBusLines = mutableListOf<BusLineItem>()
+    // allStations, allBusLines 값 최초 1회 로드     // Todo: 이게 정말 적절한 방식인지?
+    private var allStations = mutableListOf<StationItem>()
+    private var allBusLines = mutableListOf<BusLineItem>()
 
-//    init{
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val stationInputStream = assetManager.open("SeoulBusStation.csv")
-//            val stationData = readCsvData(stationInputStream)
-//            val stationList = stationData.mapNotNull {
-//                try {
-//                    convertToStationItem(it)
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                    null
-//                }
-//            }
-//            val busLineInputStream = assetManager.open("SeoulBusLine.csv")
-//            val busLineData = readCsvData(busLineInputStream)
-//            val busLineList = busLineData.mapNotNull {
-//                try {
-//                    convertToBusLineItem(it)
-//                }catch (e:Exception){
-//                    e.printStackTrace()
-//                    null
-//                }
-//            }
-//            allBusLines.addAll(busLineList)
-//            allStations.addAll(stationList)
-//        }
-//
-//    }
+    init{
+        CoroutineScope(Dispatchers.IO).launch {
+            val stationInputStream = assetManager.open("SeoulBusStation.csv")
+            val stationData = readCsvData(stationInputStream)
+            val stationList = stationData.mapNotNull {
+                try {
+                    convertToStationItem(it)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+            }
+            val busLineInputStream = assetManager.open("SeoulBusLine.csv")
+            val busLineData = readCsvData(busLineInputStream)
+            val busLineList = busLineData.mapNotNull {
+                try {
+                    convertToBusLineItem(it)
+                }catch (e:Exception){
+                    e.printStackTrace()
+                    null
+                }
+            }
+            allBusLines.addAll(busLineList)
+            allStations.addAll(stationList)
+        }
+
+    }
 
     override fun getAllStations(): Flow<List<StationItem>> {
         return stationItemDao.getAll().map {
@@ -97,32 +100,12 @@ class LocalDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllStationItems(): List<StationItem> {
-        val stationInputStream = assetManager.open("SeoulBusStation.csv")
-        val stationData = readCsvData(stationInputStream)
-        val stationList = stationData.mapNotNull {
-            try {
-                convertToStationItem(it)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
-        }
-        return stationList
+        println("allStations: ${allStations.size}")
+        return allStations
     }
 
     override suspend fun getAllBusLineItems(): List<BusLineItem> {
-        val busLineInputStream = assetManager.open("SeoulBusLine.csv")
-        val busLineData = readCsvData(busLineInputStream)
-        val busLineList = busLineData.mapNotNull {
-            try {
-                convertToBusLineItem(it)
-            }catch (e:Exception){
-                e.printStackTrace()
-                null
-            }
-        }
-
-        return busLineList
+        return allBusLines
     }
 
     private fun com.todokanai.data.room.StationItem.convert(infos:List<StationItem>): StationItem?{
