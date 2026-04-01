@@ -100,7 +100,7 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
-    suspend fun getSearchData(keyWord:String):List<SearchResult>{
+    private suspend fun getSearchData(keyWord:String):List<SearchResult>{
         val result = mutableListOf<SearchResult>()
 
         val favoriteStations = emptyList<Long>()
