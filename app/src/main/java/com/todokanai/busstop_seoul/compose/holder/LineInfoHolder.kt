@@ -1,6 +1,7 @@
 package com.todokanai.busstop_seoul.compose.holder
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,9 +25,15 @@ import com.todokanai.busstop_seoul.dataclass.LineInfo
 @Composable
 fun LineInfoHolder(
     lineInfo: LineInfo,
+    toStationInfo: (stId:Long)-> Unit,
     modifier: Modifier = Modifier
 ){
-    Row(modifier = modifier){
+    Row(
+        modifier = modifier
+            .clickable{
+                toStationInfo(lineInfo.stId)
+            }
+    ){
         Column(
             modifier = Modifier
                 .weight(1f),
@@ -80,9 +87,11 @@ private fun LineInfoHolderPreview(){
     Surface{
         LineInfoHolder(
             lineInfo = LineInfo(
+                stId = 123,
                 stNm = "Name",
                 busInfo = listOf("123", "123")
             ),
+            toStationInfo = {},
             modifier = Modifier.height(100.dp)
 
         )

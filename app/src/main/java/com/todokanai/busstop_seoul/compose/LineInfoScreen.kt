@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.compose.holder.LineInfoHolder
+import com.todokanai.busstop_seoul.compose.navigation.navigateToMapScreen
 import com.todokanai.busstop_seoul.viewmodel.LineInfoViewModel
 
 /** 특정 노선의 현재 위치, 정류소 정보 화면 **/
@@ -33,6 +34,9 @@ fun LineInfoScreen(
         itemsIndexed(uiState.value.lineInfos){ index, lineInfo ->
             LineInfoHolder(
                 lineInfo = lineInfo,
+                toStationInfo = {
+                    navController.navigateToMapScreen(it)
+                },
                 modifier = Modifier.height(150.dp)
             )
             if(index < uiState.value.lineInfos.lastIndex)
