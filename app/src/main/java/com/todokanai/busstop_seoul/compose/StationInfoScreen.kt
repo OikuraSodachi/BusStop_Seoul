@@ -72,10 +72,9 @@ fun StationInfoScreen(
                 itemsIndexed(arriveInfos.value) { index, _ ->
                     StationArriveHolder(
                         stationArriveInfo = arriveInfos.value[index],
-                        modifier = Modifier
-                            .clickable{
-                                toLineInfoScreen(arriveInfos.value[index].busRouteId)
-                            }
+                        toLineInfoScreen = {
+                            toLineInfoScreen(arriveInfos.value[index].busRouteId)
+                        }
                     )
                     if (index < arriveInfos.value.lastIndex)
                         HorizontalDivider()
