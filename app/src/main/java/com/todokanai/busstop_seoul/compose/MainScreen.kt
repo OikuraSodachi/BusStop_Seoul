@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.compose.tab.FavoritesTab
+import com.todokanai.busstop_seoul.compose.tab.HistoryTab
 import com.todokanai.busstop_seoul.compose.tab.SearchTab
 import com.todokanai.busstop_seoul.viewmodel.MainScreenViewModel
 
@@ -30,44 +31,53 @@ fun MainScreen(
 ){
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     var currentTab by remember { mutableStateOf(0)}
-    Column{
-        Row(modifier = Modifier.height(50.dp)){
-            Text(
-                text = "Search",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize()
-                    .weight(1f)
-                    .clickable{
-                        currentTab = 0
-                    }
-            )
-            Text(
-                text = "Favorites",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize()
-                    .weight(1f)
-                    .clickable{
-                        currentTab = 1
-                    }
-            )
-        }
-        if(currentTab == 0){
-            SearchTab(
-                navController = navController,
-                onKeyWordChanged = {viewModel.onKeyWordChanged(it)},
-                results = uiState.value.results,
-                saveToFavorites = {viewModel.saveToFavorite(it)},
-                deleteFromFavorites = {viewModel.deleteSearchData(it)}
-            )
-        }else{
-            FavoritesTab(
-                navController = navController,
-                results = uiState.value.favorites,
-                saveToFavorites = {viewModel.saveToFavorite(it)},
-                deleteFromFavorites = {viewModel.deleteSearchData(it)}
-            )
+    var isSearchTab by remember { mutableStateOf(false)}
+
+    if(isSearchTab){
+        SearchTab(
+            navController = navController,
+            onKeyWordChanged = { viewModel.onKeyWordChanged(it) },
+            results = uiState.value.results,
+            saveToFavorites = { viewModel.saveToFavorite(it) },
+            deleteFromFavorites = { viewModel.deleteSearchData(it) }
+        )
+    }else {
+        Column {
+            Row(modifier = Modifier.height(50.dp)) {
+                Text(
+                    text = "Search",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize()
+                        .weight(1f)
+                        .clickable {
+                            currentTab = 0
+                        }
+                )
+                Text(
+                    text = "Favorites",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize()
+                        .weight(1f)
+                        .clickable {
+                            currentTab = 1
+                        }
+                )
+            }
+            if (currentTab == 0) {
+                HistoryTab(
+                    navController = navController,
+                    history = emptyList()
+                )
+            } else {
+                FavoritesTab(
+                    navController = navController,
+                    results = uiState.value.favorites,
+                    saveToFavorites = { viewModel.saveToFavorite(it) },
+                    deleteFromFavorites = { viewModel.deleteSearchData(it) }
+                )
+            }
         }
     }
 

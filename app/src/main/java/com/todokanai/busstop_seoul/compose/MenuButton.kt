@@ -13,8 +13,7 @@ import com.todokanai.busstop_seoul.compose.presets.MyDropdownMenu
 @Composable
 fun MenuButton(
     toggleSmallMap: () -> Unit,
-    enableRotation: () -> Unit,
-    toSearchScreen: () -> Unit // 테스트 용도 파라미터
+    enableRotation: () -> Unit
 ){
     val expanded = remember{mutableStateOf(false)}
 
@@ -36,10 +35,6 @@ fun MenuButton(
                 Pair(
                     stringResource(R.string.enable_rotation),
                     {enableRotation()}
-                ),
-                Pair(
-                    stringResource(R.string.to_search_screen),
-                {toSearchScreen()}
                 )
             ),
             expanded = expanded.value,

@@ -26,7 +26,6 @@ import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
-import com.todokanai.busstop_seoul.compose.navigation.navigateToSearchScreen
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.viewmodel.MapViewModel
 
@@ -61,8 +60,7 @@ fun MapScreen(
             )
             MenuButton(
                 toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
-                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.mapUiSettings.rotationGesturesEnabled) },
-                toSearchScreen = { navController.navigateToSearchScreen() }
+                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.mapUiSettings.rotationGesturesEnabled) }
             )
             if (uiState.value.isSmallMapEnabled) {
                     SmallMap(
