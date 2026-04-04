@@ -21,7 +21,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.compose.tab.FavoritesTab
 import com.todokanai.busstop_seoul.compose.tab.HistoryTab
-import com.todokanai.busstop_seoul.compose.tab.SearchTab
 import com.todokanai.busstop_seoul.viewmodel.MainScreenViewModel
 
 @Composable
@@ -34,7 +33,7 @@ fun MainScreen(
     var isSearchTab by remember { mutableStateOf(false)}
 
     if(isSearchTab){
-        SearchTab(
+        SearchScreen(
             navController = navController,
             onKeyWordChanged = { viewModel.onKeyWordChanged(it) },
             results = uiState.value.results,

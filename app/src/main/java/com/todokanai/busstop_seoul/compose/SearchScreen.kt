@@ -1,4 +1,4 @@
-package com.todokanai.busstop_seoul.compose.tab
+package com.todokanai.busstop_seoul.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +23,7 @@ import com.todokanai.busstop_seoul.compose.holder.SearchResultHolder
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
 @Composable
-fun SearchTab(
+fun SearchScreen(
     navController: NavHostController,
     onKeyWordChanged:(String)->Unit,
     results:List<SearchResult>,
