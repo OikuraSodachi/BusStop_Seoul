@@ -25,13 +25,13 @@ import com.todokanai.busstop_seoul.dataclass.LineInfo
 @Composable
 fun LineInfoHolder(
     lineInfo: LineInfo,
-    toStationInfo: (stId:Long)-> Unit,
+    toStationInfo: ()-> Unit,
     modifier: Modifier = Modifier
 ){
     Row(
         modifier = modifier
             .clickable{
-                toStationInfo(lineInfo.stId)
+                toStationInfo()
             }
     ){
         Column(

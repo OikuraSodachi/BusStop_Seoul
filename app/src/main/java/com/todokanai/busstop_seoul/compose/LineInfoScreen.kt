@@ -35,7 +35,7 @@ fun LineInfoScreen(
             LineInfoHolder(
                 lineInfo = lineInfo,
                 toStationInfo = {
-                    navController.navigateToMapScreen(it)
+                    navController.navigateToMapScreen(lineInfo.stId)
                 },
                 modifier = Modifier.height(150.dp)
             )
