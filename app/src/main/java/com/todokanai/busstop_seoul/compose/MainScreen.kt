@@ -32,65 +32,55 @@ fun MainScreen(
 ){
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     var currentTab by remember { mutableStateOf(0)}
-    var isSearchTab by remember { mutableStateOf(false)}
 
-//    if(isSearchTab){
-//        SearchScreen(
-//            navController = navController,
-//            onKeyWordChanged = { viewModel.onKeyWordChanged(it) },
-//            results = uiState.value.results,
-//            saveToFavorites = { viewModel.saveToFavorite(it) },
-//            deleteFromFavorites = { viewModel.deleteSearchData(it) }
-//        )
-//    }else {
-        Column {
+    Column {
+        Text(
+            text = "Search",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .clickable {
+                    navController.navigateToSearchScreen()
+                }
+        )
+        Row(modifier = Modifier.height(50.dp)) {
             Text(
-                text = "Search",
+                text = "History",
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp)
+                    .fillMaxSize()
+                    .wrapContentSize()
+                    .weight(1f)
                     .clickable {
-                        navController.navigateToSearchScreen()
+                        currentTab = 0
                     }
             )
-            Row(modifier = Modifier.height(50.dp)) {
-                Text(
-                    text = "History",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize()
-                        .weight(1f)
-                        .clickable {
-                            currentTab = 0
-                        }
-                )
-                Text(
-                    text = "Favorites",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize()
-                        .weight(1f)
-                        .clickable {
-                            currentTab = 1
-                        }
-                )
-            }
-            if (currentTab == 0) {
-                HistoryTab(
-                    navController = navController,
-                    history = emptyList(),
-                    saveToFavorites = { viewModel.saveToFavorite(it) },
-                    deleteFromFavorites = { viewModel.deleteSearchData(it) }
-                )
-            } else {
-                FavoritesTab(
-                    navController = navController,
-                    results = uiState.value.favorites,
-                    saveToFavorites = { viewModel.saveToFavorite(it) },
-                    deleteFromFavorites = { viewModel.deleteSearchData(it) }
-                )
-            }
+            Text(
+                text = "Favorites",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize()
+                    .weight(1f)
+                    .clickable {
+                        currentTab = 1
+                    }
+            )
         }
+        if (currentTab == 0) {
+            HistoryTab(
+                navController = navController,
+                history = emptyList(),
+                saveToFavorites = { viewModel.saveToFavorite(it) },
+                deleteFromFavorites = { viewModel.deleteSearchData(it) }
+            )
+        } else {
+            FavoritesTab(
+                navController = navController,
+                results = uiState.value.favorites,
+                saveToFavorites = { viewModel.saveToFavorite(it) },
+                deleteFromFavorites = { viewModel.deleteSearchData(it) }
+            )
+        }
+    }
 
 }
 
