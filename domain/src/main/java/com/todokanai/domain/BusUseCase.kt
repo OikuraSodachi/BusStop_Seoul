@@ -19,10 +19,6 @@ class BusUseCase @Inject constructor(
         return stationRepository.getStationArriveInfos(arsId)
     }
 
-    suspend fun getStationByName(stNm:String):List<StationItem>{
-        return localDataRepository.getAllStationItems().filter{ it.stNm.contains(stNm) }
-    }
-
     suspend fun getStationById(stId:Long):StationItem?{
         return localDataRepository.getAllStationItems().find{it.stId == stId}
     }
@@ -37,10 +33,6 @@ class BusUseCase @Inject constructor(
 
     suspend fun getBusPositions(routeId:Long):List<BusPositionItem>{
         return busPositionRepository.getBusPositions(routeId)
-    }
-
-    suspend fun getLineInfosFromKeyWord(keyWord:String):List<BusLineItem>{
-        return localDataRepository.getAllBusLineItems().filter{ it.rtNm.contains(keyWord) }.distinctBy { it.busRouteId }
     }
 
     suspend fun saveBusStation(stationItem: StationItem){

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
-import com.todokanai.domain.BusUseCase
+import com.todokanai.domain.SearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,16 +16,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
-    private val busUseCase: BusUseCase
+    private val searchUseCase: SearchUseCase
 ) : ViewModel() {
 
     private val keyWord = MutableStateFlow<String>("")
 
     val uiState = combine(
         keyWord,
-        busUseCase.getSavedStationItems(),
-        busUseCase.getSavedBusLineItems()
-    ) { word, stations, lines ->
+        MutableStateFlow<String>("")       //  Todo: dummy Flow. 나중에 지울 것
+    ) { word, _ ->
         SearchScreenUiState(
             results = getSearchData(word)
         )
@@ -56,7 +55,7 @@ class SearchScreenViewModel @Inject constructor(
         val favoriteLines = emptyList<Long>()
 
         if(keyWord.isNotBlank()) {
-            val stationList = busUseCase.getStationByName(keyWord)
+            val stationList = searchUseCase.getStationByName(keyWord)
             stationList.forEach {
                 result.add(
                     StationSearchResult(
@@ -73,7 +72,7 @@ class SearchScreenViewModel @Inject constructor(
                 )
             }
 
-            val lineList = busUseCase.getLineInfosFromKeyWord(keyWord)
+            val lineList = searchUseCase.getLineInfosFromKeyWord(keyWord)
             lineList.forEach {
                 result.add(
                     LineSearchResult(
