@@ -13,9 +13,7 @@ import com.todokanai.data.room.MyDatabase
 import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.ArriveInfoRepository
 import com.todokanai.domain.BusPositionRepository
-import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.LocalDataRepository
-import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.SettingsRepository
 import com.todokanai.domain.StationRepository
 import dagger.Module
@@ -25,6 +23,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+// Todo: UseCase 에 대한 Provide 선언을 생략할지 여부 결정하기
 @InstallIn(SingletonComponent::class)
 @Module
 class DatabaseModule {
@@ -47,10 +46,10 @@ class DatabaseModule {
         return SettingsRepositoryImpl(appContext)
     }
 
-    @Provides
-    fun provideMapUseCase(settingsRepository: SettingsRepository): MapUseCase {
-        return MapUseCase(settingsRepository)
-    }
+//    @Provides
+//    fun provideMapUseCase(settingsRepository: SettingsRepository): MapUseCase {
+//        return MapUseCase(settingsRepository)
+//    }
 
     @Singleton
     @Provides
@@ -94,20 +93,20 @@ class DatabaseModule {
         return ArriveInfoRepositoryImpl()
     }
 
-    @Provides
-    fun provideBusUseCase(
-        stationRepository: StationRepository,
-        busPositionRepository: BusPositionRepository,
-        arriveInfoRepository: ArriveInfoRepository,
-        localDataRepository: LocalDataRepository
-    ): BusUseCase{
-        return BusUseCase(
-            stationRepository,
-            busPositionRepository,
-            arriveInfoRepository,
-            localDataRepository
-        )
-    }
+//    @Provides
+//    fun provideBusUseCase(
+//        stationRepository: StationRepository,
+//        busPositionRepository: BusPositionRepository,
+//        arriveInfoRepository: ArriveInfoRepository,
+//        localDataRepository: LocalDataRepository
+//    ): BusUseCase{
+//        return BusUseCase(
+//            stationRepository,
+//            busPositionRepository,
+//            arriveInfoRepository,
+//            localDataRepository
+//        )
+//    }
 
     @Singleton
     @Provides
