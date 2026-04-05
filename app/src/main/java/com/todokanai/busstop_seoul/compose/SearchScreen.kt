@@ -17,19 +17,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.holder.SearchResultHolder
-import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
+import com.todokanai.busstop_seoul.viewmodel.SearchScreenViewModel
 
 @Composable
 fun SearchScreen(
     navController: NavHostController,
-    onKeyWordChanged:(String)->Unit,
-    results:List<SearchResult>,
-    deleteFromFavorites:(SearchResult)->Unit,
-    saveToFavorites:(SearchResult)->Unit
+    viewModel: SearchScreenViewModel = hiltViewModel()
 ){
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     var text by remember { mutableStateOf("") }
 
     Column{
@@ -38,11 +38,11 @@ fun SearchScreen(
                 value = text,
                 onValueChange = {
                     text = it
-                    onKeyWordChanged(it)
+                    viewModel.onKeyWordChanged(it)
                 }
             )
         }
-        if(results.isEmpty()){
+        if(uiState.value.results.isEmpty()){
             Text(
                 text = stringResource(R.string.search_result_empty),
                 modifier = Modifier
@@ -50,13 +50,14 @@ fun SearchScreen(
                     .wrapContentSize()
             )
         }else {
+            val results = uiState.value.results
             LazyColumn(modifier = Modifier.weight(1f)) {
                 itemsIndexed(items = results) { index, item ->
                     SearchResultHolder(
                         data = item,
                         onItemClick = {item.onItemClick(navController)},
-                        saveToFavorites = {saveToFavorites(item)},
-                        deleteFromFavorites = {deleteFromFavorites(item)}
+                        saveToFavorites = {viewModel.saveToFavorites(item)},
+                        deleteFromFavorites = {viewModel.deleteFromFavorites(item)}
                     )
                     if(index < results.lastIndex)
                         HorizontalDivider()
@@ -65,4 +66,5 @@ fun SearchScreen(
             }
         }
     }
+    
 }

@@ -1,26 +1,24 @@
 package com.todokanai.busstop_seoul.compose.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.todokanai.busstop_seoul.compose.LineInfoScreen
 import com.todokanai.busstop_seoul.compose.MapScreen
 import com.todokanai.busstop_seoul.compose.MainScreen
+import com.todokanai.busstop_seoul.compose.SearchScreen
 
 @Composable
 fun BusNavHost(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
-        startDestination = SearchScreen.route,
-        modifier = modifier
+        startDestination = MainScreen.route
     ){
 
-        composable(route = SearchScreen.route){
+        composable(route = MainScreen.route){
             MainScreen(navController = navController)
         }
 
@@ -44,6 +42,14 @@ fun BusNavHost(
                 routeId = it.arguments?.getLong(LineInfoScreen.lineInfoArg) ?: 0L,
             )
         }
+
+        composable(
+            route = SearchScreen.route
+        ){
+            SearchScreen(
+                navController = navController
+            )
+        }
     }
 
 }
@@ -65,4 +71,8 @@ fun NavHostController.navigateToLineInfo(routeId:Long){
 
 fun NavHostController.navigateToSearchScreen(){
     this.navigate(SearchScreen.route)
+}
+
+fun NavHostController.navigateToMainScreen(){
+    this.navigate(MainScreen.route)
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Surface
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.todokanai.busstop_seoul.compose.navigation.navigateToSearchScreen
 import com.todokanai.busstop_seoul.compose.tab.FavoritesTab
 import com.todokanai.busstop_seoul.compose.tab.HistoryTab
 import com.todokanai.busstop_seoul.viewmodel.MainScreenViewModel
@@ -32,19 +34,28 @@ fun MainScreen(
     var currentTab by remember { mutableStateOf(0)}
     var isSearchTab by remember { mutableStateOf(false)}
 
-    if(isSearchTab){
-        SearchScreen(
-            navController = navController,
-            onKeyWordChanged = { viewModel.onKeyWordChanged(it) },
-            results = uiState.value.results,
-            saveToFavorites = { viewModel.saveToFavorite(it) },
-            deleteFromFavorites = { viewModel.deleteSearchData(it) }
-        )
-    }else {
+//    if(isSearchTab){
+//        SearchScreen(
+//            navController = navController,
+//            onKeyWordChanged = { viewModel.onKeyWordChanged(it) },
+//            results = uiState.value.results,
+//            saveToFavorites = { viewModel.saveToFavorite(it) },
+//            deleteFromFavorites = { viewModel.deleteSearchData(it) }
+//        )
+//    }else {
         Column {
+            Text(
+                text = "Search",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .clickable {
+                        navController.navigateToSearchScreen()
+                    }
+            )
             Row(modifier = Modifier.height(50.dp)) {
                 Text(
-                    text = "Search",
+                    text = "History",
                     modifier = Modifier
                         .fillMaxSize()
                         .wrapContentSize()
@@ -67,7 +78,9 @@ fun MainScreen(
             if (currentTab == 0) {
                 HistoryTab(
                     navController = navController,
-                    history = emptyList()
+                    history = emptyList(),
+                    saveToFavorites = { viewModel.saveToFavorite(it) },
+                    deleteFromFavorites = { viewModel.deleteSearchData(it) }
                 )
             } else {
                 FavoritesTab(
@@ -78,7 +91,6 @@ fun MainScreen(
                 )
             }
         }
-    }
 
 }
 

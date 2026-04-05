@@ -33,3 +33,7 @@ data object LineInfoScreen: NavDestinations{
         navArgument(lineInfoArg) { type = NavType.LongType }
     )
 }
+
+data object MainScreen: NavDestinations{
+    override val route: String = "MainScreen"
+}
