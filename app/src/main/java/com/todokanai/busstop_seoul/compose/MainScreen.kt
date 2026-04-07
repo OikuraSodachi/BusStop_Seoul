@@ -16,10 +16,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.navigation.navigateToSearchScreen
 import com.todokanai.busstop_seoul.compose.tab.FavoritesTab
 import com.todokanai.busstop_seoul.compose.tab.HistoryTab
@@ -35,7 +37,7 @@ fun MainScreen(
 
     Column {
         Text(
-            text = "Search",
+            text = stringResource(R.string.main_screen_search),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
@@ -45,7 +47,7 @@ fun MainScreen(
         )
         Row(modifier = Modifier.height(50.dp)) {
             Text(
-                text = "History",
+                text = stringResource(R.string.main_screen_history),
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize()
@@ -55,7 +57,7 @@ fun MainScreen(
                     }
             )
             Text(
-                text = "Favorites",
+                text = stringResource(R.string.main_screen_favorites),
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize()
