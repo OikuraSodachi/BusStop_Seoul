@@ -1,12 +1,15 @@
 package com.todokanai.busstop_seoul.compose
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,8 +17,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,17 +42,34 @@ fun MainScreen(
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     var currentTab by remember { mutableStateOf(0)}
 
+    var rightButtonWidth by remember { mutableStateOf(0.dp) }
+    val density = LocalDensity.current
+
     Column {
-        Text(
-            text = stringResource(R.string.main_screen_search),
-            modifier = Modifier
-                .height(60.dp)
-                .fillMaxWidth()
-                .wrapContentSize()
-                .clickable {
-                    navController.navigateToSearchScreen()
-                }
-        )
+        Row(
+            modifier = Modifier.height(60.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(modifier = Modifier.width(rightButtonWidth))
+            Button(
+                onClick = { navController.navigateToSearchScreen() },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(text = stringResource(R.string.main_screen_search))
+            }
+
+            Button(
+                onClick = { TODO() },
+                modifier = Modifier.onSizeChanged{
+                    rightButtonWidth = with(density) { it.width.toDp() }                }
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.outline_menu_24),
+                    contentDescription = null
+                )
+            }
+        }
+
         Row(modifier = Modifier.height(50.dp)) {
             Text(
                 text = stringResource(R.string.main_screen_history),
