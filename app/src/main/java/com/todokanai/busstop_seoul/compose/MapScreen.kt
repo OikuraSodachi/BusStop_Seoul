@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
+import com.todokanai.busstop_seoul.compose.buttons.MenuButton
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
@@ -43,6 +44,8 @@ fun MapScreen(
         position = CameraPosition.fromLatLngZoom(viewModel.lastKnownLatLng(), viewModel.lastKnownZoomLevel())
     }
 
+    var rangeSelectionMode by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ){
@@ -60,7 +63,8 @@ fun MapScreen(
             )
             MenuButton(
                 toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
-                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.mapUiSettings.rotationGesturesEnabled) }
+                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.mapUiSettings.rotationGesturesEnabled) },
+                toggleRangeSelectionMode = { }
             )
             if (uiState.value.isSmallMapEnabled) {
                     SmallMap(

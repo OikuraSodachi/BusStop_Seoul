@@ -10,4 +10,5 @@
     <string name="main_screen_search">Search</string>
     <string name="main_screen_history">History</string>
     <string name="main_screen_favorites">Favorites</string>
+    <string name="range_selection_mode">Range Selection Mode</string>"
 </resources>

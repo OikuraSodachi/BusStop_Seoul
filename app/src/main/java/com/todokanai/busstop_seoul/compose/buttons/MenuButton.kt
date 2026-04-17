@@ -1,4 +1,4 @@
-package com.todokanai.busstop_seoul.compose
+package com.todokanai.busstop_seoul.compose.buttons
 
 import androidx.compose.foundation.Image
 import androidx.compose.material3.FloatingActionButton
@@ -13,7 +13,8 @@ import com.todokanai.busstop_seoul.compose.presets.MyDropdownMenu
 @Composable
 fun MenuButton(
     toggleSmallMap: () -> Unit,
-    enableRotation: () -> Unit
+    enableRotation: () -> Unit,
+    toggleRangeSelectionMode: () -> Unit
 ){
     val expanded = remember{mutableStateOf(false)}
 
@@ -35,6 +36,10 @@ fun MenuButton(
                 Pair(
                     stringResource(R.string.enable_rotation),
                     {enableRotation()}
+                ),
+                Pair(
+                    stringResource(R.string.range_selection_mode),
+                    {toggleRangeSelectionMode()}
                 )
             ),
             expanded = expanded.value,
