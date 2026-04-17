@@ -49,7 +49,7 @@ fun MainScreen(
                 Text(text = stringResource(R.string.main_screen_search))
             }
 
-            MainMenuButton()
+            MainMenuButton(navController = navController)
         }
 
         Row(modifier = Modifier.height(50.dp)) {
