@@ -28,6 +28,7 @@ import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
+import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.viewmodel.MapViewModel
 
 @Composable
@@ -36,6 +37,14 @@ fun MapScreen(
     stId:Long? = null,
     viewModel: MapViewModel = hiltViewModel()
 ){
+
+    fun testInterface(): MainMapInterface{
+        return object: MainMapInterface{
+            override fun onCameraPositionChanged(cameraPositionState: CameraPositionState) {
+                viewModel.testCameraPositionChanged(cameraPositionState)
+            }
+        }
+    }
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     var targetStation by remember { mutableStateOf<StationInfo?>(null) }
@@ -56,7 +65,7 @@ fun MapScreen(
                 cameraPositionState = cameraPositionState,
                 uiSettings = uiState.value.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
                 markerInfos = uiState.value.markerInfos,
-                mainMapCallback = viewModel.mainMapCallback,
+                mainMapCallback = testInterface(),
                 onMarkerClick = {
                     targetStation = it.stationInfo
                 }
@@ -118,3 +127,5 @@ private fun smallMapCameraPositionState(state:CameraPositionState): CameraPositi
         )
     )
 }
+
+// Todo: Composable parameter 를 interface 로 wrapping 하는게 나으려나?
