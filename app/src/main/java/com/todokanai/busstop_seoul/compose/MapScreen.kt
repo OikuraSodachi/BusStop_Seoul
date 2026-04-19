@@ -64,7 +64,7 @@ fun MapScreen(
             MenuButton(
                 toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
                 enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.mapUiSettings.rotationGesturesEnabled) },
-                toggleRangeSelectionMode = { }
+                toggleRangeSelectionMode = { rangeSelectionMode = !rangeSelectionMode }
             )
             if (uiState.value.isSmallMapEnabled) {
                     SmallMap(
@@ -72,16 +72,7 @@ fun MapScreen(
                             .align(Alignment.TopEnd)
                             .height(300.dp)
                             .width(180.dp),
-                        cameraPositionState = {
-                            CameraPositionState(
-                                position = CameraPosition(
-                                    cameraPositionState.position.target,
-                                    cameraPositionState.position.zoom / 2,
-                                    cameraPositionState.position.tilt,
-                                    cameraPositionState.position.bearing
-                                )
-                            )
-                        },
+                        cameraPositionState = { smallMapCameraPositionState(cameraPositionState) },
                         uiSettings = uiState.value.smallMapSettings
                     ) // Todo: MainMap 과 같은 가로/세로 비율을 유지할 것
                 }
@@ -113,4 +104,15 @@ fun MapScreen(
 
     }
 
+}
+
+private fun smallMapCameraPositionState(state:CameraPositionState): CameraPositionState {
+    return CameraPositionState(
+        position = CameraPosition(
+            state.position.target,
+            state.position.zoom / 2,
+            state.position.tilt,
+            state.position.bearing
+        )
+    )
 }
