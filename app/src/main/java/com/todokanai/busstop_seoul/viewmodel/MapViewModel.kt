@@ -3,8 +3,8 @@ package com.todokanai.busstop_seoul.viewmodel
 import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.LatLng             //  Todo: viewModel 에서 제거
+import com.google.android.gms.maps.model.LatLngBounds       //  Todo: viewModel 에서 제거
 import com.todokanai.busstop_seoul.Constants.MAP_MARKER_MINIMUM_RADIUS
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
