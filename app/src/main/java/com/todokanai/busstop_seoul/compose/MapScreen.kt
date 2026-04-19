@@ -65,7 +65,9 @@ fun MapScreen(
         ){
             MainMap(
                 cameraPositionState = cameraPositionState,
-                uiSettings = uiState.value.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
+                zoomControlsEnabled = uiState.value.zoomControlsEnabled,
+                mapToolbarEnabled = uiState.value.mapToolbarEnabled,
+                rotationGesturesEnabled = uiState.value.rotationGesturesEnabled,
                 markerInfos = uiState.value.markerInfos,
                 mainMapCallback = testInterface,
                 onMarkerClick = {
@@ -74,7 +76,7 @@ fun MapScreen(
             )
             MenuButton(
                 toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
-                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.mapUiSettings.rotationGesturesEnabled) },
+                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.rotationGesturesEnabled) },
                 toggleRangeSelectionMode = { rangeSelectionMode = !rangeSelectionMode }
             )
             if (uiState.value.isSmallMapEnabled) {
@@ -83,8 +85,7 @@ fun MapScreen(
                             .align(Alignment.TopEnd)
                             .height(300.dp)
                             .width(180.dp),
-                        cameraPositionState = { smallMapCameraPositionState(cameraPositionState) },
-                        uiSettings = uiState.value.smallMapSettings
+                        cameraPositionState = { smallMapCameraPositionState(cameraPositionState) }
                     ) // Todo: MainMap 과 같은 가로/세로 비율을 유지할 것
                 }
         }

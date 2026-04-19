@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.maps.android.compose.MapUiSettings
 import com.todokanai.busstop_seoul.Constants.MAP_MARKER_MINIMUM_RADIUS
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
@@ -39,11 +38,9 @@ class MapViewModel @Inject constructor(
     ){smallMapEnabled, zoomControlsEnabled, rotationGesturesEnabled, markers->
         MapScreenUiState(
             isSmallMapEnabled = smallMapEnabled,
-            mapUiSettings = MapUiSettings(
-                zoomControlsEnabled = zoomControlsEnabled,
-                mapToolbarEnabled = false,
-                rotationGesturesEnabled = rotationGesturesEnabled
-            ),
+            zoomControlsEnabled = zoomControlsEnabled,
+            mapToolbarEnabled = false,
+            rotationGesturesEnabled = rotationGesturesEnabled,
             markerInfos = markers
         )
     }.stateIn(
@@ -200,17 +197,8 @@ class MapViewModel @Inject constructor(
 
 data class MapScreenUiState(
     val isSmallMapEnabled: Boolean = false,
-    val mapUiSettings: MapUiSettings = MapUiSettings(),
-    val markerInfos:List<MarkerInfo> = emptyList(),
-    val smallMapSettings: MapUiSettings =  MapUiSettings(
-        zoomControlsEnabled = false,
-        mapToolbarEnabled = false,
-        compassEnabled = false,
-        myLocationButtonEnabled = false,
-        indoorLevelPickerEnabled = false,
-        rotationGesturesEnabled = false,
-        scrollGesturesEnabled = false,
-        tiltGesturesEnabled = false,
-        zoomGesturesEnabled = false
-    )
+    val zoomControlsEnabled: Boolean = false,
+    val mapToolbarEnabled:Boolean = false,
+    val rotationGesturesEnabled:Boolean = false,
+    val markerInfos:List<MarkerInfo> = emptyList()
 )

@@ -14,7 +14,9 @@ import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 @Composable
 fun MainMap(
     cameraPositionState: CameraPositionState,
-    uiSettings:MapUiSettings,
+    zoomControlsEnabled:Boolean,
+    mapToolbarEnabled:Boolean,
+    rotationGesturesEnabled:Boolean,
     markerInfos:List<MarkerInfo>,
     mainMapCallback: MainMapInterface,
     onMarkerClick:(MarkerInfo)->Unit
@@ -26,7 +28,11 @@ fun MainMap(
         onMapLoaded = {
 
         },
-        uiSettings = uiSettings
+        uiSettings = MapUiSettings(
+            zoomControlsEnabled = zoomControlsEnabled,
+            mapToolbarEnabled = mapToolbarEnabled,
+            rotationGesturesEnabled = rotationGesturesEnabled
+        )
     ) {
         markerInfos.forEach { markerInfo ->
             Marker(
