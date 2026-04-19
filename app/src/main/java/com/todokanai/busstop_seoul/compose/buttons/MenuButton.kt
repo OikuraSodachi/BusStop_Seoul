@@ -3,8 +3,10 @@ package com.todokanai.busstop_seoul.compose.buttons
 import androidx.compose.foundation.Image
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.todokanai.busstop_seoul.R
@@ -16,11 +18,11 @@ fun MenuButton(
     enableRotation: () -> Unit,
     toggleRangeSelectionMode: () -> Unit
 ){
-    val expanded = remember{mutableStateOf(false)}
+    var expanded by remember{mutableStateOf(false)}
 
     FloatingActionButton(
         onClick = {
-            expanded.value = !expanded.value
+            expanded = !expanded
         }
     ) {
         Image(
@@ -42,8 +44,8 @@ fun MenuButton(
                     {toggleRangeSelectionMode()}
                 )
             ),
-            expanded = expanded.value,
-            onDismissRequest = {expanded.value = false}
+            expanded = expanded,
+            onDismissRequest = {expanded = false}
         )
     }
 }
