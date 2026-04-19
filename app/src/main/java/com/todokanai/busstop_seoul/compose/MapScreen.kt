@@ -38,10 +38,12 @@ fun MapScreen(
     viewModel: MapViewModel = hiltViewModel()
 ){
 
-    fun testInterface(): MainMapInterface{
-        return object: MainMapInterface{
-            override fun onCameraPositionChanged(cameraPositionState: CameraPositionState) {
-                viewModel.testCameraPositionChanged(cameraPositionState)
+    /** Todo: remember 처리 해야할지도? **/
+    val testInterface = object: MainMapInterface{
+        override fun onCameraPositionChanged(cameraPositionState: CameraPositionState) {
+            val latLngBounds = cameraPositionState.projection?.visibleRegion?.latLngBounds
+            latLngBounds?.let {
+                viewModel.testCameraPositionChanged(it, cameraPositionState.position.zoom)
             }
         }
     }
@@ -65,7 +67,7 @@ fun MapScreen(
                 cameraPositionState = cameraPositionState,
                 uiSettings = uiState.value.mapUiSettings,   // Todo: uiSettings 값 변경에 따른 Recomposition 검증 필요
                 markerInfos = uiState.value.markerInfos,
-                mainMapCallback = testInterface(),
+                mainMapCallback = testInterface,
                 onMarkerClick = {
                     targetStation = it.stationInfo
                 }
