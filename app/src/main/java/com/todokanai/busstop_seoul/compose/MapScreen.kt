@@ -86,16 +86,18 @@ fun MapScreen(
                     ZOOM_ON_MARKER_CLICK
                 )
             }
-            StationInfoScreen(
-                arsId = target.arsId,
-                stName = target.stNm,
-                getArriveInfos =  {viewModel.getArriveInfos(it)},
-                onClose = { targetStation = null },
-                toLineInfoScreen = { navController.navigateToLineInfo(it) },
-                modifier = Modifier
-                    .height(400.dp)
-                    .fillMaxWidth()
-            )
+            if(!rangeSelectionMode) {
+                StationInfoScreen(
+                    arsId = target.arsId,
+                    stName = target.stNm,
+                    getArriveInfos = { viewModel.getArriveInfos(it) },
+                    onClose = { targetStation = null },
+                    toLineInfoScreen = { navController.navigateToLineInfo(it) },
+                    modifier = Modifier
+                        .height(400.dp)
+                        .fillMaxWidth()
+                )
+            }
         }
 
         LaunchedEffect(key1 = stId){
