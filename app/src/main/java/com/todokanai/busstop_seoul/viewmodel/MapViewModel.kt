@@ -11,7 +11,6 @@ import com.todokanai.busstop_seoul.Constants.MAP_MARKER_MINIMUM_RADIUS
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
-import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.MapUseCase
 import com.todokanai.domain.dataclass.StationArriveItem
@@ -65,6 +64,7 @@ class MapViewModel @Inject constructor(
         return mapUseCase.lastKnownZoomLevel()
     }
 
+    // Todo: Compose dependency 가 viewModel 에 와도 되는지?
     fun testCameraPositionChanged(cameraPositionState: CameraPositionState) {
         viewModelScope.launch {
             val latLngBounds = cameraPositionState.projection?.visibleRegion?.latLngBounds
@@ -102,47 +102,47 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    // Todo: mainMapCallback 을 함수가 아닌 변수 (val) 로서 가지고 있는 것이 메모리 관리상 적절한지 고민해볼 것
-    val mainMapCallback = object: MainMapInterface {
-
-        override fun onCameraPositionChanged(cameraPositionState: CameraPositionState) {
-            viewModelScope.launch {
-                val latLngBounds = cameraPositionState.projection?.visibleRegion?.latLngBounds
-
-                latLngBounds?.let {
-                    val radiusInMeters = getRadiusInMeters(latLngBounds)
-                    val isMarkerActive =
-                        radiusInMeters < MAP_MARKER_MINIMUM_RADIUS        // marker 기능 활성화 여부 결정
-
-                    val latitude = latLngBounds.center.latitude
-                    val longitude = latLngBounds.center.longitude
-
-                    val result = if (isMarkerActive) {
-                        getVisibleStation(
-                            tmX = longitude,
-                            tmY = latitude,
-                            radius = radiusInMeters
-                        ).map {
-                            MarkerInfo(
-                                stationInfo = it,
-                                position = LatLng(it.tmY, it.tmX),
-                                title = it.stNm,
-                                snippet = null
-                            )
-                        }
-                    } else {
-                        emptyList()
-                    }
-                    markerInfos.update { result }
-
-                    mapUseCase.saveLastKnownLatitude(latitude)
-                    mapUseCase.saveLastKnownLongitude(longitude)
-                }
-                mapUseCase.saveLastKnownZoomLevel(cameraPositionState.position.zoom)
-            }
-        }
-
-    }
+//    // Todo: mainMapCallback 을 함수가 아닌 변수 (val) 로서 가지고 있는 것이 메모리 관리상 적절한지 고민해볼 것
+//    val mainMapCallback = object: MainMapInterface {
+//
+//        override fun onCameraPositionChanged(cameraPositionState: CameraPositionState) {
+//            viewModelScope.launch {
+//                val latLngBounds = cameraPositionState.projection?.visibleRegion?.latLngBounds
+//
+//                latLngBounds?.let {
+//                    val radiusInMeters = getRadiusInMeters(latLngBounds)
+//                    val isMarkerActive =
+//                        radiusInMeters < MAP_MARKER_MINIMUM_RADIUS        // marker 기능 활성화 여부 결정
+//
+//                    val latitude = latLngBounds.center.latitude
+//                    val longitude = latLngBounds.center.longitude
+//
+//                    val result = if (isMarkerActive) {
+//                        getVisibleStation(
+//                            tmX = longitude,
+//                            tmY = latitude,
+//                            radius = radiusInMeters
+//                        ).map {
+//                            MarkerInfo(
+//                                stationInfo = it,
+//                                position = LatLng(it.tmY, it.tmX),
+//                                title = it.stNm,
+//                                snippet = null
+//                            )
+//                        }
+//                    } else {
+//                        emptyList()
+//                    }
+//                    markerInfos.update { result }
+//
+//                    mapUseCase.saveLastKnownLatitude(latitude)
+//                    mapUseCase.saveLastKnownLongitude(longitude)
+//                }
+//                mapUseCase.saveLastKnownZoomLevel(cameraPositionState.position.zoom)
+//            }
+//        }
+//
+//    }
 
     suspend fun getArriveInfos(key:Long) : List<StationArriveInfo>{
         return busUseCase.getArriveInfos(key).map{
