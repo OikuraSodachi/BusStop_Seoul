@@ -18,8 +18,7 @@ fun MainMap(
     mapToolbarEnabled:Boolean,
     rotationGesturesEnabled:Boolean,
     markerInfos:List<MarkerInfo>,
-    mainMapCallback: MainMapInterface,
-    onMarkerClick:(MarkerInfo)->Unit
+    mainMapCallback: MainMapInterface
 ){
 
     GoogleMap(
@@ -40,7 +39,7 @@ fun MainMap(
                 title = markerInfo.title,
                 snippet = markerInfo.snippet,
                 onClick = {
-                    onMarkerClick(markerInfo)
+                    mainMapCallback.onMarkerClick(markerInfo)
                     false
                 }
 
@@ -48,7 +47,10 @@ fun MainMap(
         }
 
         if(!cameraPositionState.isMoving) {
-            mainMapCallback.onCameraPositionChanged(cameraPositionState)
+            val latLngBounds = cameraPositionState.projection?.visibleRegion?.latLngBounds
+            latLngBounds?.let {
+                mainMapCallback.onCameraPositionChanged(it)
+            }
         }
     }
 

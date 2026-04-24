@@ -20,6 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
@@ -27,6 +28,7 @@ import com.todokanai.busstop_seoul.compose.buttons.MenuButton
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
+import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.viewmodel.MapViewModel
@@ -38,16 +40,6 @@ fun MapScreen(
     viewModel: MapViewModel = hiltViewModel()
 ){
 
-    /** Todo: remember 처리 해야할지도? **/
-    val testInterface = object: MainMapInterface{
-        override fun onCameraPositionChanged(cameraPositionState: CameraPositionState) {
-            val latLngBounds = cameraPositionState.projection?.visibleRegion?.latLngBounds
-            latLngBounds?.let {
-                viewModel.testCameraPositionChanged(it, cameraPositionState.position.zoom)
-            }
-        }
-    }
-
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     var targetStation by remember { mutableStateOf<StationInfo?>(null) }
 
@@ -56,6 +48,17 @@ fun MapScreen(
     }
 
     var rangeSelectionMode by remember { mutableStateOf(false) }
+
+    /** Todo: remember 처리 해야할지도? **/
+    val mainMapInterface = object: MainMapInterface{
+        override fun onCameraPositionChanged(latLngBounds: LatLngBounds) {
+            viewModel.testCameraPositionChanged(latLngBounds, cameraPositionState.position.zoom)
+        }
+
+        override fun onMarkerClick(markerInfo: MarkerInfo) {
+            targetStation = markerInfo.stationInfo
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -69,10 +72,7 @@ fun MapScreen(
                 mapToolbarEnabled = uiState.value.mapToolbarEnabled,
                 rotationGesturesEnabled = uiState.value.rotationGesturesEnabled,
                 markerInfos = uiState.value.markerInfos,
-                mainMapCallback = testInterface,
-                onMarkerClick = {
-                    targetStation = it.stationInfo
-                }
+                mainMapCallback = mainMapInterface
             )
             MenuButton(
                 toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
