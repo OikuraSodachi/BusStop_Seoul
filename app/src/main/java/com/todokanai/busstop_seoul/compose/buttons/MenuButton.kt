@@ -15,12 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.todokanai.busstop_seoul.R
+import com.todokanai.busstop_seoul.interfaces.compose.MenuButtonInterface
 
 @Composable
 fun MenuButton(
-    toggleSmallMap: () -> Unit,
-    enableRotation: () -> Unit,
-    toggleRangeSelectionMode: () -> Unit
+    menuButtonInterface: MenuButtonInterface
 ){
     var expanded by remember{mutableStateOf(false)}
 
@@ -41,15 +40,15 @@ fun MenuButton(
         ) {
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.toggle_small_map))},
-                onClick = { toggleSmallMap() }
+                onClick = { menuButtonInterface.toggleSmallMap() }
             )
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.enable_rotation)) },
-                onClick = { enableRotation() }
+                onClick = { menuButtonInterface.enableRotation() }
             )
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.range_selection_mode)) },
-                onClick = { toggleRangeSelectionMode() }
+                onClick = { menuButtonInterface.toggleRangeSelectionMode() }
             )
         }
     }

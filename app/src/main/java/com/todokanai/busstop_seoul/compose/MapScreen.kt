@@ -32,6 +32,7 @@ import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
+import com.todokanai.busstop_seoul.interfaces.compose.MenuButtonInterface
 import com.todokanai.busstop_seoul.viewmodel.MapViewModel
 
 @Composable
@@ -79,40 +80,37 @@ fun MapScreen(
         }
     }
 
+    val menuButtonInterface = object: MenuButtonInterface{
+        override fun toggleSmallMap() {
+            viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled)
+        }
+        override fun enableRotation() {
+            viewModel.saveRotationGesturesEnabled(!uiState.value.rotationGesturesEnabled)
+        }
+
+        override fun toggleRangeSelectionMode() {
+            if(!rangeSelectionMode){
+                targetStation = null
+            }                           // rangeSelectionMode 진입시 targetStation 값 null 지정
+            rangeSelectionMode = !rangeSelectionMode
+        }
+    }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ){
-        Box(
+
+        MapScreenBox(
+            cameraPositionState = cameraPositionState,
+            mainMapInterface = mainMapInterface,
+            menuButtonInterface = menuButtonInterface,
+            isSmallMapEnabled = uiState.value.isSmallMapEnabled,
+            zoomControlsEnabled = uiState.value.zoomControlsEnabled,
+            mapToolbarEnabled = uiState.value.mapToolbarEnabled,
+            rotationGesturesEnabled = uiState.value.rotationGesturesEnabled,
+            markerInfos = uiState.value.markerInfos,
             modifier = Modifier.weight(1f)
-        ){
-            MainMap(
-                cameraPositionState = cameraPositionState,
-                zoomControlsEnabled = uiState.value.zoomControlsEnabled,
-                mapToolbarEnabled = uiState.value.mapToolbarEnabled,
-                rotationGesturesEnabled = uiState.value.rotationGesturesEnabled,
-                markerInfos = uiState.value.markerInfos,
-                mainMapCallback = mainMapInterface
-            )
-            MenuButton(
-                toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
-                enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.rotationGesturesEnabled) },
-                toggleRangeSelectionMode = {
-                    if(!rangeSelectionMode){
-                        targetStation = null
-                    }                           // rangeSelectionMode 진입시 targetStation 값 null 지정
-                    rangeSelectionMode = !rangeSelectionMode
-                }
-            )
-            if (uiState.value.isSmallMapEnabled) {
-                    SmallMap(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .height(300.dp)
-                            .width(180.dp),
-                        cameraPositionState = { smallMapCameraPositionState(cameraPositionState) }
-                    ) // Todo: MainMap 과 같은 가로/세로 비율을 유지할 것
-                }
-        }
+        )
 
         if(targetStation != null){
             val target = targetStation!!
@@ -140,6 +138,42 @@ fun MapScreen(
 
     }
 
+}
+
+@Composable
+private fun MapScreenBox(
+    cameraPositionState: CameraPositionState,
+    mainMapInterface: MainMapInterface,
+    menuButtonInterface: MenuButtonInterface,
+    isSmallMapEnabled:Boolean,
+    zoomControlsEnabled:Boolean,
+    mapToolbarEnabled:Boolean,
+    rotationGesturesEnabled:Boolean,
+    markerInfos:List<MarkerInfo>,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+    ) {
+        MainMap(
+            cameraPositionState = cameraPositionState,
+            zoomControlsEnabled = zoomControlsEnabled,
+            mapToolbarEnabled = mapToolbarEnabled,
+            rotationGesturesEnabled = rotationGesturesEnabled,
+            markerInfos = markerInfos,
+            mainMapCallback = mainMapInterface
+        )
+        MenuButton(menuButtonInterface)
+        if (isSmallMapEnabled) {
+            SmallMap(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .height(300.dp)
+                    .width(180.dp),
+                cameraPositionState = { smallMapCameraPositionState(cameraPositionState) }
+            ) // Todo: MainMap 과 같은 가로/세로 비율을 유지할 것
+        }
+    }
 }
 
 private fun smallMapCameraPositionState(state:CameraPositionState): CameraPositionState {
