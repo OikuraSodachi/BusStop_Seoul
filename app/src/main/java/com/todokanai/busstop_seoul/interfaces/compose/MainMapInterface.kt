@@ -9,4 +9,6 @@ interface MainMapInterface {
     fun onCameraPositionChanged(latLngBounds: LatLngBounds)
 
     fun onMarkerClick(markerInfo: MarkerInfo)
+
+    fun markerColorSelector(stId:Long):Float
 }

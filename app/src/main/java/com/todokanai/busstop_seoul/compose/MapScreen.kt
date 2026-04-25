@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -48,6 +49,8 @@ fun MapScreen(
     }
 
     var rangeSelectionMode by remember { mutableStateOf(false) }
+    var startGroup by remember{ mutableStateOf(emptyList<Long>())}
+    var endGroup by remember{ mutableStateOf(emptyList<Long>())}
 
     /** Todo: remember 처리 해야할지도? **/
     val mainMapInterface = object: MainMapInterface{
@@ -56,10 +59,22 @@ fun MapScreen(
         }
 
         override fun onMarkerClick(markerInfo: MarkerInfo) {
+            val stationInfo = markerInfo.stationInfo
             if(rangeSelectionMode){
 
+
             }else {
-                targetStation = markerInfo.stationInfo
+                targetStation = stationInfo
+            }
+        }
+
+        override fun markerColorSelector(stId: Long): Float {
+            return if(startGroup.contains(stId)){
+                BitmapDescriptorFactory.HUE_GREEN
+            }else if(endGroup.contains(stId)){
+                BitmapDescriptorFactory.HUE_BLUE
+            }else {
+                BitmapDescriptorFactory.HUE_RED
             }
         }
     }
