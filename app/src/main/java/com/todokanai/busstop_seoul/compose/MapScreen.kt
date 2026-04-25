@@ -55,7 +55,7 @@ fun MapScreen(
             viewModel.testCameraPositionChanged(latLngBounds, cameraPositionState.position.zoom)
         }
 
-        override fun onMarkerClick(markerInfo: MarkerInfo, rangeSelectionMode: Boolean) {
+        override fun onMarkerClick(markerInfo: MarkerInfo) {
             if(rangeSelectionMode){
 
             }else {
@@ -71,7 +71,6 @@ fun MapScreen(
             modifier = Modifier.weight(1f)
         ){
             MainMap(
-                rangeSelectionMode = rangeSelectionMode,
                 cameraPositionState = cameraPositionState,
                 zoomControlsEnabled = uiState.value.zoomControlsEnabled,
                 mapToolbarEnabled = uiState.value.mapToolbarEnabled,

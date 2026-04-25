@@ -8,5 +8,5 @@ interface MainMapInterface {
 
     fun onCameraPositionChanged(latLngBounds: LatLngBounds)
 
-    fun onMarkerClick(markerInfo: MarkerInfo, rangeSelectionMode: Boolean)
+    fun onMarkerClick(markerInfo: MarkerInfo)
 }
