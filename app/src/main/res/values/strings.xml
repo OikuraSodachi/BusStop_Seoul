@@ -12,4 +12,6 @@
     <string name="main_screen_history">History</string>
     <string name="main_screen_favorites">Favorites</string>
     <string name="range_selection_mode">Range Selection Mode</string>"
+    <string name="range_selection_start_mode">시작 지점</string>
+    <string name="range_selection_end_mode">도착 지점</string>
 </resources>

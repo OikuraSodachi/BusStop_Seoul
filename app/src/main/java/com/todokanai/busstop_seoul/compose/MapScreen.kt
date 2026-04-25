@@ -2,10 +2,13 @@ package com.todokanai.busstop_seoul.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -14,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -25,6 +29,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
+import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.buttons.MenuButton
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
@@ -49,9 +54,10 @@ fun MapScreen(
         position = CameraPosition.fromLatLngZoom(viewModel.lastKnownLatLng(), viewModel.lastKnownZoomLevel())
     }
 
-    var rangeSelectionMode by remember { mutableStateOf(false) }
-    var startGroup by remember{ mutableStateOf(emptyList<Long>())}
-    var endGroup by remember{ mutableStateOf(emptyList<Long>())}
+    var rangeSelectionMode by remember { mutableStateOf(false) }        // Todo: 선언 위치 조정할 것 ( 메모리 관리 )
+    var rangeSelectionType by remember { mutableStateOf(1)}  //  1: 시작 지점 선택, 2: 도착 지점 선택   Todo: 선언 위치 조정할 것 ( 메모리 관리 )
+    var startGroup by remember{ mutableStateOf(emptyList<Long>())}      // Todo: 선언 위치 조정할 것 ( 메모리 관리 )
+    var endGroup by remember{ mutableStateOf(emptyList<Long>())}        // Todo: 선언 위치 조정할 것 ( 메모리 관리 )
 
     /** Todo: remember 처리 해야할지도? **/
     val mainMapInterface = object: MainMapInterface{
@@ -62,8 +68,11 @@ fun MapScreen(
         override fun onMarkerClick(markerInfo: MarkerInfo) {
             val stationInfo = markerInfo.stationInfo
             if(rangeSelectionMode){
-
-
+                if(rangeSelectionType == 1){
+                    startGroup = rangeSelector(stationInfo.stId, startGroup)
+                }else{
+                    endGroup = rangeSelector(stationInfo.stId, endGroup)
+                }
             }else {
                 targetStation = stationInfo
             }
@@ -99,7 +108,26 @@ fun MapScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ){
-
+        if(rangeSelectionMode){
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp)
+            ) {
+                Button(
+                    onClick = {rangeSelectionType = 1},
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(text = stringResource(R.string.range_selection_start_mode))
+                }
+                Button(
+                    onClick = {rangeSelectionType = 2},
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(text = stringResource(R.string.range_selection_end_mode))
+                }
+            }
+        }
         MapScreenBox(
             cameraPositionState = cameraPositionState,
             mainMapInterface = mainMapInterface,
@@ -185,6 +213,19 @@ private fun smallMapCameraPositionState(state:CameraPositionState): CameraPositi
             state.position.bearing
         )
     )
+}
+
+/** startGroup, endGroup 에 targetStId 추가/제거
+ *
+ * @param targetStId 추가/제거할 정류소 ID
+ * @param group startGroup, endGroup
+ * @return 수정된 목록 **/
+private fun rangeSelector(targetStId:Long, group:List<Long>):List<Long>{
+    return if(group.contains(targetStId)){
+        group.filter { it != targetStId }
+    }else{
+        group + targetStId
+    }
 }
 
 // Todo: Composable parameter 를 interface 로 wrapping 하는게 나으려나?
