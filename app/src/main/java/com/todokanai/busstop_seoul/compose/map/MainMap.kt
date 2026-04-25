@@ -13,6 +13,7 @@ import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 
 @Composable
 fun MainMap(
+    rangeSelectionMode: Boolean,
     cameraPositionState: CameraPositionState,
     zoomControlsEnabled:Boolean,
     mapToolbarEnabled:Boolean,
@@ -39,7 +40,7 @@ fun MainMap(
                 title = markerInfo.title,
                 snippet = markerInfo.snippet,
                 onClick = {
-                    mainMapCallback.onMarkerClick(markerInfo)
+                    mainMapCallback.onMarkerClick(markerInfo, rangeSelectionMode)
                     false
                 }
 

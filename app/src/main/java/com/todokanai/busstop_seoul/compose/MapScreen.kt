@@ -55,8 +55,12 @@ fun MapScreen(
             viewModel.testCameraPositionChanged(latLngBounds, cameraPositionState.position.zoom)
         }
 
-        override fun onMarkerClick(markerInfo: MarkerInfo) {
-            targetStation = markerInfo.stationInfo
+        override fun onMarkerClick(markerInfo: MarkerInfo, rangeSelectionMode: Boolean) {
+            if(rangeSelectionMode){
+
+            }else {
+                targetStation = markerInfo.stationInfo
+            }
         }
     }
 
@@ -67,6 +71,7 @@ fun MapScreen(
             modifier = Modifier.weight(1f)
         ){
             MainMap(
+                rangeSelectionMode = rangeSelectionMode,
                 cameraPositionState = cameraPositionState,
                 zoomControlsEnabled = uiState.value.zoomControlsEnabled,
                 mapToolbarEnabled = uiState.value.mapToolbarEnabled,
@@ -77,7 +82,12 @@ fun MapScreen(
             MenuButton(
                 toggleSmallMap = { viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled) },
                 enableRotation = { viewModel.saveRotationGesturesEnabled(!uiState.value.rotationGesturesEnabled) },
-                toggleRangeSelectionMode = { rangeSelectionMode = !rangeSelectionMode }
+                toggleRangeSelectionMode = {
+                    if(!rangeSelectionMode){
+                        targetStation = null
+                    }                           // rangeSelectionMode 진입시 targetStation 값 null 지정
+                    rangeSelectionMode = !rangeSelectionMode
+                }
             )
             if (uiState.value.isSmallMapEnabled) {
                     SmallMap(
@@ -98,18 +108,16 @@ fun MapScreen(
                     ZOOM_ON_MARKER_CLICK
                 )
             }
-            if(!rangeSelectionMode) {
-                StationInfoScreen(
-                    arsId = target.arsId,
-                    stName = target.stNm,
-                    getArriveInfos = { viewModel.getArriveInfos(it) },
-                    onClose = { targetStation = null },
-                    toLineInfoScreen = { navController.navigateToLineInfo(it) },
-                    modifier = Modifier
-                        .height(400.dp)
-                        .fillMaxWidth()
-                )
-            }
+            StationInfoScreen(
+                arsId = target.arsId,
+                stName = target.stNm,
+                getArriveInfos = { viewModel.getArriveInfos(it) },
+                onClose = { targetStation = null },
+                toLineInfoScreen = { navController.navigateToLineInfo(it) },
+                modifier = Modifier
+                    .height(400.dp)
+                    .fillMaxWidth()
+            )
         }
 
         LaunchedEffect(key1 = stId){
