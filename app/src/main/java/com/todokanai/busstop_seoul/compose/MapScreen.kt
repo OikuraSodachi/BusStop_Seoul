@@ -40,94 +40,105 @@ import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.interfaces.compose.MenuButtonInterface
 import com.todokanai.busstop_seoul.viewmodel.MapViewModel
 
+private enum class SelectionType { START, END }
+
+private sealed interface MapScreenMode {
+    // 일반 모드: 특정 정류소를 선택할 수 있음
+    data class Normal(val targetStation: StationInfo? = null) : MapScreenMode
+
+    // 구간 선택 모드: 시작/종료 그룹을 관리함
+    data class RangeSelection(
+        val type: SelectionType = SelectionType.START,
+        val startGroup: List<Long> = emptyList(),
+        val endGroup: List<Long> = emptyList()
+    ) : MapScreenMode
+}
+
 @Composable
 fun MapScreen(
     navController: NavHostController,
-    stId:Long? = null,
+    stId: Long? = null,
     viewModel: MapViewModel = hiltViewModel()
-){
-
+) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    var targetStation by remember { mutableStateOf<StationInfo?>(null) }
+
+    // 통합된 모드 상태 관리
+    var screenMode by remember { mutableStateOf<MapScreenMode>(MapScreenMode.Normal()) }
 
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(viewModel.lastKnownLatLng(), viewModel.lastKnownZoomLevel())
     }
 
-    var rangeSelectionMode by remember { mutableStateOf(false) }        // Todo: 선언 위치 조정할 것 ( 메모리 관리 )
-    var rangeSelectionType by remember { mutableStateOf(1)}  //  1: 시작 지점 선택, 2: 도착 지점 선택   Todo: 선언 위치 조정할 것 ( 메모리 관리 )
-    var startGroup by remember{ mutableStateOf(emptyList<Long>())}      // Todo: 선언 위치 조정할 것 ( 메모리 관리 )
-    var endGroup by remember{ mutableStateOf(emptyList<Long>())}        // Todo: 선언 위치 조정할 것 ( 메모리 관리 )
-
-    /** Todo: remember 처리 해야할지도? **/
-    val mainMapInterface = object: MainMapInterface{
+    val mainMapInterface = object : MainMapInterface {
         override fun onCameraPositionChanged(latLngBounds: LatLngBounds) {
             viewModel.testCameraPositionChanged(latLngBounds, cameraPositionState.position.zoom)
         }
 
         override fun onMarkerClick(markerInfo: MarkerInfo) {
             val stationInfo = markerInfo.stationInfo
-            if(rangeSelectionMode){
-                if(rangeSelectionType == 1){
-                    startGroup = rangeSelector(stationInfo.stId, startGroup)
-                }else{
-                    endGroup = rangeSelector(stationInfo.stId, endGroup)
+
+            // 모드에 따른 분기 처리
+            when (val mode = screenMode) {
+                is MapScreenMode.Normal -> {
+                    screenMode = mode.copy(targetStation = stationInfo)
                 }
-            }else {
-                targetStation = stationInfo
+                is MapScreenMode.RangeSelection -> {
+                    screenMode = if (mode.type == SelectionType.START) {
+                        mode.copy(startGroup = rangeSelector(stationInfo.stId, mode.startGroup))
+                    } else {
+                        mode.copy(endGroup = rangeSelector(stationInfo.stId, mode.endGroup))
+                    }
+                }
             }
         }
 
         override fun markerColorSelector(stId: Long): Float {
-            return if(startGroup.contains(stId)){
-                BitmapDescriptorFactory.HUE_GREEN
-            }else if(endGroup.contains(stId)){
-                BitmapDescriptorFactory.HUE_BLUE
-            }else {
-                BitmapDescriptorFactory.HUE_RED
+            return when (val mode = screenMode) {
+                is MapScreenMode.RangeSelection -> {
+                    if (mode.startGroup.contains(stId)) BitmapDescriptorFactory.HUE_GREEN
+                    else if (mode.endGroup.contains(stId)) BitmapDescriptorFactory.HUE_BLUE
+                    else BitmapDescriptorFactory.HUE_RED
+                }
+                else -> BitmapDescriptorFactory.HUE_RED
             }
         }
     }
 
-    val menuButtonInterface = object: MenuButtonInterface{
-        override fun toggleSmallMap() {
-            viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled)
-        }
-        override fun enableRotation() {
-            viewModel.saveRotationGesturesEnabled(!uiState.value.rotationGesturesEnabled)
-        }
+    val menuButtonInterface = object : MenuButtonInterface {
+        override fun toggleSmallMap() = viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled)
+        override fun enableRotation() = viewModel.saveRotationGesturesEnabled(!uiState.value.rotationGesturesEnabled)
 
         override fun toggleRangeSelectionMode() {
-            if(!rangeSelectionMode){
-                targetStation = null
-            }                           // rangeSelectionMode 진입시 targetStation 값 null 지정
-            rangeSelectionMode = !rangeSelectionMode
+            screenMode = if (screenMode is MapScreenMode.Normal) {
+                MapScreenMode.RangeSelection() // 모드 전환 시 targetStation 자동 소멸
+            } else {
+                MapScreenMode.Normal()
+            }
         }
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ){
-        if(rangeSelectionMode){
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp)
-            ) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        // 상단 UI 분기 (RangeSelection 모드일 때만 표시)
+        if (screenMode is MapScreenMode.RangeSelection) {
+            val mode = screenMode as MapScreenMode.RangeSelection
+            Row(modifier = Modifier.fillMaxWidth().height(60.dp)) {
                 Button(
-                    onClick = {rangeSelectionType = 1},
-                    modifier = Modifier.weight(1f)
+                    onClick = { screenMode = mode.copy(type = SelectionType.START) },
+                    modifier = Modifier.weight(1f),
+                    enabled = mode.type != SelectionType.START
                 ) {
                     Text(text = stringResource(R.string.range_selection_start_mode))
                 }
                 Button(
-                    onClick = {rangeSelectionType = 2},
-                    modifier = Modifier.weight(1f)
+                    onClick = { screenMode = mode.copy(type = SelectionType.END) },
+                    modifier = Modifier.weight(1f),
+                    enabled = mode.type != SelectionType.END
                 ) {
                     Text(text = stringResource(R.string.range_selection_end_mode))
                 }
             }
         }
+
         MapScreenBox(
             cameraPositionState = cameraPositionState,
             mainMapInterface = mainMapInterface,
@@ -140,32 +151,33 @@ fun MapScreen(
             modifier = Modifier.weight(1f)
         )
 
-        if(targetStation != null){
-            val target = targetStation!!
-            LaunchedEffect(target) {
-                cameraPositionState.position = CameraPosition.fromLatLngZoom(
-                    LatLng(target.tmY, target.tmX),
-                    ZOOM_ON_MARKER_CLICK
+        // 하단 정류소 정보 UI 분기
+        if (screenMode is MapScreenMode.Normal) {
+            val target = (screenMode as MapScreenMode.Normal).targetStation
+            if (target != null) {
+                LaunchedEffect(target) {
+                    cameraPositionState.position = CameraPosition.fromLatLngZoom(
+                        LatLng(target.tmY, target.tmX),
+                        ZOOM_ON_MARKER_CLICK
+                    )
+                }
+                StationInfoScreen(
+                    arsId = target.arsId,
+                    stName = target.stNm,
+                    getArriveInfos = { viewModel.getArriveInfos(it) },
+                    onClose = { screenMode = MapScreenMode.Normal(null) },
+                    toLineInfoScreen = { navController.navigateToLineInfo(it) },
+                    modifier = Modifier.height(400.dp).fillMaxWidth()
                 )
             }
-            StationInfoScreen(
-                arsId = target.arsId,
-                stName = target.stNm,
-                getArriveInfos = { viewModel.getArriveInfos(it) },
-                onClose = { targetStation = null },
-                toLineInfoScreen = { navController.navigateToLineInfo(it) },
-                modifier = Modifier
-                    .height(400.dp)
-                    .fillMaxWidth()
-            )
         }
 
-        LaunchedEffect(key1 = stId){
-            targetStation = viewModel.getStationInfo(stId)
+        // 초기 진입 시 stId 처리
+        LaunchedEffect(key1 = stId) {
+            val info = viewModel.getStationInfo(stId)
+            if (info != null) screenMode = MapScreenMode.Normal(info)
         }
-
     }
-
 }
 
 @Composable
