@@ -26,6 +26,7 @@ import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
 import com.todokanai.busstop_seoul.compose.buttons.MenuButton
+import com.todokanai.busstop_seoul.compose.list.RangeSelectionPointList
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
@@ -44,8 +45,9 @@ private sealed interface MapScreenMode {
     // 구간 선택 모드: 시작/종료 그룹을 관리함
     data class RangeSelection(
         val type: SelectionType = SelectionType.START,
-        val startGroup: List<Long> = emptyList(),
-        val endGroup: List<Long> = emptyList()
+        val startGroup: List<StationInfo> = emptyList(),
+        val endGroup: List<StationInfo> = emptyList(),
+        val isGroupViewEnabled: Boolean = false    // 선택된 목록 창 활성화 여부
     ) : MapScreenMode
 }
 
@@ -79,9 +81,9 @@ fun MapScreen(
                 }
                 is MapScreenMode.RangeSelection -> {
                     screenMode = if (mode.type == SelectionType.START) {
-                        mode.copy(startGroup = rangeSelector(stationInfo.stId, mode.startGroup))
+                        mode.copy(startGroup = rangeSelector(stationInfo, mode.startGroup))
                     } else {
-                        mode.copy(endGroup = rangeSelector(stationInfo.stId, mode.endGroup))
+                        mode.copy(endGroup = rangeSelector(stationInfo, mode.endGroup))
                     }
                 }
             }
@@ -90,8 +92,8 @@ fun MapScreen(
         override fun markerColorSelector(stId: Long): Float {
             return when (val mode = screenMode) {
                 is MapScreenMode.RangeSelection -> {
-                    if (mode.startGroup.contains(stId)) BitmapDescriptorFactory.HUE_GREEN
-                    else if (mode.endGroup.contains(stId)) BitmapDescriptorFactory.HUE_BLUE
+                    if (mode.startGroup.map{it.stId}.contains(stId)) BitmapDescriptorFactory.HUE_GREEN
+                    else if (mode.endGroup.map{it.stId}.contains(stId)) BitmapDescriptorFactory.HUE_BLUE
                     else BitmapDescriptorFactory.HUE_RED
                 }
                 else -> BitmapDescriptorFactory.HUE_RED
@@ -118,6 +120,7 @@ fun MapScreen(
             val mode = screenMode as MapScreenMode.RangeSelection
             RangeSelectionMenu(
                 isStartMode = mode.type == SelectionType.START,
+                onToggleGroupView = { screenMode = mode.copy(isGroupViewEnabled = !mode.isGroupViewEnabled) },
                 selectStartRange = { screenMode = mode.copy(type = SelectionType.START) },
                 selectEndRange = { screenMode = mode.copy(type = SelectionType.END) },
                 modifier = Modifier
@@ -155,6 +158,20 @@ fun MapScreen(
                     onClose = { screenMode = MapScreenMode.Normal(null) },
                     toLineInfoScreen = { navController.navigateToLineInfo(it) },
                     modifier = Modifier.height(400.dp).fillMaxWidth()
+                )
+            }
+        }else if(screenMode is MapScreenMode.RangeSelection){
+            val mode = screenMode as MapScreenMode.RangeSelection
+            if(mode.isGroupViewEnabled){
+                val itemList = if(mode.type == SelectionType.START) mode.startGroup else mode.endGroup
+                RangeSelectionPointList(
+                    rangeSelectionPointList = itemList,
+                    onItemClick = {
+
+                    },
+                    modifier = Modifier
+                        .height(200.dp)
+                        .fillMaxWidth()
                 )
             }
         }
@@ -214,16 +231,16 @@ private fun smallMapCameraPositionState(state:CameraPositionState): CameraPositi
     )
 }
 
-/** startGroup, endGroup 에 targetStId 추가/제거
+/** startGroup, endGroup 에 targetStation 추가/제거
  *
- * @param targetStId 추가/제거할 정류소 ID
+ * @param targetStId 추가/제거할 정류소
  * @param group startGroup, endGroup
  * @return 수정된 목록 **/
-private fun rangeSelector(targetStId:Long, group:List<Long>):List<Long>{
-    return if(group.contains(targetStId)){
-        group.filter { it != targetStId }
+private fun rangeSelector(targetStation:StationInfo, group:List<StationInfo>):List<StationInfo>{
+    return if(group.contains(targetStation)){
+        group.filter { it != targetStation }
     }else{
-        group + targetStId
+        group + targetStation
     }
 }
 
