@@ -2,13 +2,10 @@ package com.todokanai.busstop_seoul.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,9 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -31,7 +25,6 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
-import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.compose.buttons.MenuButton
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
@@ -124,7 +117,7 @@ fun MapScreen(
         if (screenMode is MapScreenMode.RangeSelection) {
             val mode = screenMode as MapScreenMode.RangeSelection
             RangeSelectionMenu(
-                screenMode = mode,
+                isStartMode = mode.type == SelectionType.START,
                 selectStartRange = { screenMode = mode.copy(type = SelectionType.START) },
                 selectEndRange = { screenMode = mode.copy(type = SelectionType.END) },
                 modifier = Modifier
@@ -172,48 +165,6 @@ fun MapScreen(
             if (info != null) screenMode = MapScreenMode.Normal(info)
         }
     }
-}
-
-@Composable
-private fun RangeSelectionMenu(
-    screenMode: MapScreenMode.RangeSelection,
-    selectStartRange: () -> Unit,
-    selectEndRange: () -> Unit,
-    modifier: Modifier = Modifier
-){
-    Row(modifier = modifier) {
-        Button(
-            onClick = { selectStartRange() },
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = stringResource(R.string.range_selection_start_mode),
-                style = TextStyle(
-                    textDecoration = if (screenMode.type == SelectionType.START) {
-                        TextDecoration.Underline
-                    } else {
-                        null
-                    }
-                )
-            )
-        }
-        Button(
-            onClick = { selectEndRange() },
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = stringResource(R.string.range_selection_end_mode),
-                style = TextStyle(
-                    textDecoration = if (screenMode.type == SelectionType.END) {
-                        TextDecoration.Underline
-                    } else {
-                        null
-                    }
-                )
-            )
-        }
-    }
-
 }
 
 @Composable
