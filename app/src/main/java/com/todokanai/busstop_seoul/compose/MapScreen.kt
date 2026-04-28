@@ -123,38 +123,14 @@ fun MapScreen(
         // 상단 UI 분기 (RangeSelection 모드일 때만 표시)
         if (screenMode is MapScreenMode.RangeSelection) {
             val mode = screenMode as MapScreenMode.RangeSelection
-            Row(modifier = Modifier.fillMaxWidth().height(60.dp)) {
-                Button(
-                    onClick = { screenMode = mode.copy(type = SelectionType.START) },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = stringResource(R.string.range_selection_start_mode),
-                        style = TextStyle(
-                            textDecoration = if (mode.type == SelectionType.START) {
-                                TextDecoration.Underline
-                            } else {
-                                null
-                            }
-                        )
-                    )
-                }
-                Button(
-                    onClick = { screenMode = mode.copy(type = SelectionType.END) },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = stringResource(R.string.range_selection_end_mode),
-                        style = TextStyle(
-                            textDecoration = if (mode.type == SelectionType.END) {
-                                TextDecoration.Underline
-                            } else {
-                                null
-                            }
-                        )
-                    )
-                }
-            }
+            RangeSelectionMenu(
+                screenMode = mode,
+                selectStartRange = { screenMode = mode.copy(type = SelectionType.START) },
+                selectEndRange = { screenMode = mode.copy(type = SelectionType.END) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+            )
         }
 
         MapScreenBox(
@@ -196,6 +172,48 @@ fun MapScreen(
             if (info != null) screenMode = MapScreenMode.Normal(info)
         }
     }
+}
+
+@Composable
+private fun RangeSelectionMenu(
+    screenMode: MapScreenMode.RangeSelection,
+    selectStartRange: () -> Unit,
+    selectEndRange: () -> Unit,
+    modifier: Modifier = Modifier
+){
+    Row(modifier = modifier) {
+        Button(
+            onClick = { selectStartRange() },
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = stringResource(R.string.range_selection_start_mode),
+                style = TextStyle(
+                    textDecoration = if (screenMode.type == SelectionType.START) {
+                        TextDecoration.Underline
+                    } else {
+                        null
+                    }
+                )
+            )
+        }
+        Button(
+            onClick = { selectEndRange() },
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = stringResource(R.string.range_selection_end_mode),
+                style = TextStyle(
+                    textDecoration = if (screenMode.type == SelectionType.END) {
+                        TextDecoration.Underline
+                    } else {
+                        null
+                    }
+                )
+            )
+        }
+    }
+
 }
 
 @Composable
