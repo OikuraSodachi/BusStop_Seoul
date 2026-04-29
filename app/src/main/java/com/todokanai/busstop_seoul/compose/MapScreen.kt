@@ -163,11 +163,16 @@ fun MapScreen(
         }else if(screenMode is MapScreenMode.RangeSelection){
             val mode = screenMode as MapScreenMode.RangeSelection
             if(mode.isGroupViewEnabled){
-                val itemList = if(mode.type == SelectionType.START) mode.startGroup else mode.endGroup
+                val type = mode.type
+                val itemList = if(type == SelectionType.START) mode.startGroup else mode.endGroup
                 RangeSelectionPointList(
                     rangeSelectionPointList = itemList,
                     onItemClick = {
-
+                        if(type == SelectionType.START){
+                            screenMode = mode.copy(startGroup = mode.startGroup.minus(it))
+                        }else{
+                            screenMode = mode.copy(endGroup = mode.endGroup.minus(it))
+                        }
                     },
                     modifier = Modifier
                         .height(200.dp)
