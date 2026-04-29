@@ -45,18 +45,21 @@ private sealed interface MapScreenMode {
     // 구간 선택 모드: 시작/종료 그룹을 관리함
     data class RangeSelection(
         val type: SelectionType = SelectionType.START,
-        var startGroup: List<StationInfo> = emptyList(),        // Todo: var 선언이 안전한지 검증
-        var endGroup: List<StationInfo> = emptyList(),          // Todo: var 선언이 안전한지 검증
+        val startGroup: List<StationInfo> = emptyList(),
+        val endGroup: List<StationInfo> = emptyList(),
         val isGroupViewEnabled: Boolean = false    // 선택된 목록 창 활성화 여부
     ) : MapScreenMode{
 
-        fun updateGroupItems(stationInfo: StationInfo){
-            when(type){
+        /** Todo: [RangeSelection] 을 반환하는 구조가 바람직한 구조인지?
+         *  @param stationInfo 추가/제거할 정류소
+         * @return 수정된 목록 **/
+        fun updateGroupItems(stationInfo: StationInfo):RangeSelection{
+            return when(type){
                 SelectionType.START -> {
-                    startGroup = rangeSelector(stationInfo, startGroup)
+                    this.copy(startGroup = rangeSelector(stationInfo, startGroup))
                 }
                 SelectionType.END -> {
-                    endGroup = rangeSelector(stationInfo, endGroup)
+                    this.copy(endGroup = rangeSelector(stationInfo, endGroup))
                 }
             }
         }
@@ -105,7 +108,7 @@ fun MapScreen(
                     screenMode = mode.copy(targetStation = stationInfo)
                 }
                 is MapScreenMode.RangeSelection -> {
-                    mode.updateGroupItems(stationInfo)
+                    screenMode = mode.updateGroupItems(stationInfo)
                 }
             }
         }
@@ -188,7 +191,7 @@ fun MapScreen(
                 val itemList = if(type == SelectionType.START) mode.startGroup else mode.endGroup
                 RangeSelectionPointList(
                     rangeSelectionPointList = itemList,
-                    onItemClick = { mode.updateGroupItems(it) },
+                    onItemClick = { screenMode = mode.updateGroupItems(it) },
                     modifier = Modifier
                         .height(200.dp)
                         .fillMaxWidth()
