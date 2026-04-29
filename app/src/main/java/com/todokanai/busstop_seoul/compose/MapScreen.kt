@@ -45,10 +45,35 @@ private sealed interface MapScreenMode {
     // 구간 선택 모드: 시작/종료 그룹을 관리함
     data class RangeSelection(
         val type: SelectionType = SelectionType.START,
-        val startGroup: List<StationInfo> = emptyList(),
-        val endGroup: List<StationInfo> = emptyList(),
+        var startGroup: List<StationInfo> = emptyList(),        // Todo: var 선언이 안전한지 검증
+        var endGroup: List<StationInfo> = emptyList(),          // Todo: var 선언이 안전한지 검증
         val isGroupViewEnabled: Boolean = false    // 선택된 목록 창 활성화 여부
-    ) : MapScreenMode
+    ) : MapScreenMode{
+
+        fun updateGroupItems(stationInfo: StationInfo){
+            when(type){
+                SelectionType.START -> {
+                    startGroup = rangeSelector(stationInfo, startGroup)
+                }
+                SelectionType.END -> {
+                    endGroup = rangeSelector(stationInfo, endGroup)
+                }
+            }
+        }
+
+        /** startGroup, endGroup 에 targetStation 추가/제거
+         *
+         * @param targetStation 추가/제거할 정류소
+         * @param group startGroup, endGroup
+         * @return 수정된 목록 **/
+        private fun rangeSelector(targetStation:StationInfo, group:List<StationInfo>):List<StationInfo>{
+            return if(group.contains(targetStation)){
+                group.filter { it != targetStation }
+            }else{
+                group + targetStation
+            }
+        }
+    }
 }
 
 @Composable
@@ -80,11 +105,7 @@ fun MapScreen(
                     screenMode = mode.copy(targetStation = stationInfo)
                 }
                 is MapScreenMode.RangeSelection -> {
-                    screenMode = if (mode.type == SelectionType.START) {
-                        mode.copy(startGroup = rangeSelector(stationInfo, mode.startGroup))
-                    } else {
-                        mode.copy(endGroup = rangeSelector(stationInfo, mode.endGroup))
-                    }
+                    mode.updateGroupItems(stationInfo)
                 }
             }
         }
@@ -167,13 +188,7 @@ fun MapScreen(
                 val itemList = if(type == SelectionType.START) mode.startGroup else mode.endGroup
                 RangeSelectionPointList(
                     rangeSelectionPointList = itemList,
-                    onItemClick = {
-                        if(type == SelectionType.START){
-                            screenMode = mode.copy(startGroup = mode.startGroup.minus(it))
-                        }else{
-                            screenMode = mode.copy(endGroup = mode.endGroup.minus(it))
-                        }
-                    },
+                    onItemClick = { mode.updateGroupItems(it) },
                     modifier = Modifier
                         .height(200.dp)
                         .fillMaxWidth()
@@ -236,17 +251,6 @@ private fun smallMapCameraPositionState(state:CameraPositionState): CameraPositi
     )
 }
 
-/** startGroup, endGroup 에 targetStation 추가/제거
- *
- * @param targetStId 추가/제거할 정류소
- * @param group startGroup, endGroup
- * @return 수정된 목록 **/
-private fun rangeSelector(targetStation:StationInfo, group:List<StationInfo>):List<StationInfo>{
-    return if(group.contains(targetStation)){
-        group.filter { it != targetStation }
-    }else{
-        group + targetStation
-    }
-}
+
 
 // Todo: Composable parameter 를 interface 로 wrapping 하는게 나으려나?
