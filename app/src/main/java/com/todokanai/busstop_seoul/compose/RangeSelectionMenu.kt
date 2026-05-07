@@ -2,7 +2,7 @@ package com.todokanai.busstop_seoul.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,7 +57,7 @@ fun RangeSelectionMenu(
         }
         Button(
             onClick = { onToggleGroupView() },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         ) {
             val text = if (isStartMode) {
                 stringResource(R.string.show_range_selection_start_list)
