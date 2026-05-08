@@ -1,7 +1,10 @@
 package com.todokanai.busstop_seoul.compose.map
 
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
@@ -13,7 +16,9 @@ fun SmallMap(
 ){
 
     GoogleMap(
-        modifier = modifier,
+        modifier = modifier
+            .height(300.dp)
+            .width(180.dp),
         cameraPositionState = cameraPositionState(),
         onMapLoaded = {
 

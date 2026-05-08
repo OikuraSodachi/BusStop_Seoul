@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -177,8 +176,7 @@ fun MapScreen(
                     stName = target.stNm,
                     getArriveInfos = { viewModel.getArriveInfos(it) },
                     onClose = { screenMode = MapScreenMode.Normal(null) },
-                    toLineInfoScreen = { navController.navigateToLineInfo(it) },
-                    modifier = Modifier.height(400.dp).fillMaxWidth()
+                    toLineInfoScreen = { navController.navigateToLineInfo(it) }
                 )
             }
         }else if(screenMode is MapScreenMode.RangeSelection){
@@ -188,10 +186,7 @@ fun MapScreen(
                 val itemList = if(type == SelectionType.START) mode.startGroup else mode.endGroup
                 RangeSelectionPointList(
                     rangeSelectionPointList = itemList,
-                    onItemClick = { screenMode = mode.updateGroupItems(it) },
-                    modifier = Modifier
-                        .height(200.dp)
-                        .fillMaxWidth()
+                    onItemClick = { screenMode = mode.updateGroupItems(it) }
                 )
             }
         }
@@ -230,10 +225,7 @@ private fun MapScreenBox(
         MenuButton(menuButtonInterface)
         if (isSmallMapEnabled) {
             SmallMap(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .height(300.dp)
-                    .width(180.dp),
+                modifier = Modifier.align(Alignment.TopEnd),
                 cameraPositionState = { smallMapCameraPositionState(cameraPositionState) }
             ) // Todo: MainMap 과 같은 가로/세로 비율을 유지할 것
         }
