@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -147,10 +146,7 @@ fun MapScreen(
                 isStartMode = mode.type == SelectionType.START,
                 onToggleGroupView = { screenMode = mode.copy(isGroupViewEnabled = !mode.isGroupViewEnabled) },
                 selectStartRange = { screenMode = mode.copy(type = SelectionType.START) },
-                selectEndRange = { screenMode = mode.copy(type = SelectionType.END) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
+                selectEndRange = { screenMode = mode.copy(type = SelectionType.END) }
             )
         }
 
