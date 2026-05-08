@@ -1,7 +1,6 @@
 package com.todokanai.busstop_seoul.compose
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
@@ -11,7 +10,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -36,8 +34,7 @@ fun LineInfoScreen(
                 lineInfo = lineInfo,
                 toStationInfo = {
                     navController.navigateToMapScreen(lineInfo.stId)
-                },
-                modifier = Modifier.height(150.dp)
+                }
             )
             if(index < uiState.value.lineInfos.lastIndex)
                 HorizontalDivider()

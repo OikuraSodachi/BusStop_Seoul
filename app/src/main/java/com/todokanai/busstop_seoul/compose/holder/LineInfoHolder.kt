@@ -30,6 +30,7 @@ fun LineInfoHolder(
 ){
     Row(
         modifier = modifier
+            .height(150.dp)
             .clickable{
                 toStationInfo()
             }
