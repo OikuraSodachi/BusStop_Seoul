@@ -58,16 +58,27 @@ fun RangeSelectionMenu(
                 )
             }
         }
-        Button(
-            onClick = { onToggleGroupView() },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            val text = if (isStartMode) {
-                stringResource(R.string.show_range_selection_start_list)
-            } else {
-                stringResource(R.string.show_range_selection_end_list)
+        Row {
+            Button(
+                onClick = { onToggleGroupView() },
+                modifier = Modifier.weight(1f)
+            ) {
+                val text = if (isStartMode) {
+                    stringResource(R.string.show_range_selection_start_list)
+                } else {
+                    stringResource(R.string.show_range_selection_end_list)
+                }
+                Text(text = text)
             }
-            Text(text = text)
+
+            Button(
+                onClick = {  },
+                modifier = Modifier.weight(1f)
+            ) {
+                val text = stringResource(R.string.show_range_search_result)
+
+                Text(text = text)
+            }
         }
     }
 
