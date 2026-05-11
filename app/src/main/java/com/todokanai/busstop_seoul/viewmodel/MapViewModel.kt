@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng             //  Todo: viewModel 에서 제거
 import com.google.android.gms.maps.model.LatLngBounds       //  Todo: viewModel 에서 제거
 import com.todokanai.busstop_seoul.Constants.MAP_MARKER_MINIMUM_RADIUS
+import com.todokanai.busstop_seoul.dataclass.LineInfo
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
@@ -109,6 +110,13 @@ class MapViewModel @Inject constructor(
                 null
             }
         return result
+    }
+
+    /** @param startGroup 시작 정류소 목록
+     * @param endGroup 도착 정류소 목록
+     * @return 검색 결과 **/
+    suspend fun rangeSearchResult(startGroup:List<StationInfo>, endGroup:List<StationInfo>):List<LineInfo>{
+        return emptyList()  // Todo()
     }
 
     private suspend fun getVisibleStation(

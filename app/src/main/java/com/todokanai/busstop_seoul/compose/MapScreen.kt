@@ -2,6 +2,7 @@ package com.todokanai.busstop_seoul.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +23,7 @@ import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
 import com.todokanai.busstop_seoul.compose.buttons.MenuButton
+import com.todokanai.busstop_seoul.compose.list.RangeSearchResultList
 import com.todokanai.busstop_seoul.compose.list.RangeSelectionPointList
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
@@ -43,7 +45,8 @@ private sealed interface MapScreenMode {
         val type: SelectionType = SelectionType.START,
         val startGroup: List<StationInfo> = emptyList(),
         val endGroup: List<StationInfo> = emptyList(),
-        val isGroupViewEnabled: Boolean = false    // 선택된 목록 창 활성화 여부
+        val isGroupViewEnabled: Boolean = false,    // 선택된 목록 창 활성화 여부
+        val isSearchResultEnabled: Boolean = false
     ) : MapScreenMode{
 
         /** Todo: [RangeSelection] 을 반환하는 구조가 바람직한 구조인지?
@@ -141,6 +144,7 @@ fun MapScreen(
             RangeSelectionMenu(
                 isStartMode = mode.type == SelectionType.START,
                 onToggleGroupView = { screenMode = mode.copy(isGroupViewEnabled = !mode.isGroupViewEnabled) },
+                onToggleSearchResult = { screenMode = mode.copy(isSearchResultEnabled = !mode.isSearchResultEnabled) },
                 selectStartRange = { screenMode = mode.copy(type = SelectionType.START) },
                 selectEndRange = { screenMode = mode.copy(type = SelectionType.END) }
             )
@@ -177,14 +181,32 @@ fun MapScreen(
                 )
             }
         }else if(screenMode is MapScreenMode.RangeSelection){
-            val mode = screenMode as MapScreenMode.RangeSelection
-            if(mode.isGroupViewEnabled){
-                val type = mode.type
-                val itemList = if(type == SelectionType.START) mode.startGroup else mode.endGroup
-                RangeSelectionPointList(
-                    rangeSelectionPointList = itemList,
-                    onItemClick = { screenMode = mode.updateGroupItems(it) }
-                )
+            Row {
+                val mode = screenMode as MapScreenMode.RangeSelection
+                if (mode.isGroupViewEnabled) {
+                    val type = mode.type
+                    val itemList =
+                        if (type == SelectionType.START) mode.startGroup else mode.endGroup
+                    RangeSelectionPointList(
+                        rangeSelectionPointList = itemList,
+                        onItemClick = { screenMode = mode.updateGroupItems(it) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                if (mode.isSearchResultEnabled) {
+                    RangeSearchResultList(
+                        startGroup = mode.startGroup,
+                        endGroup = mode.endGroup,
+                        rangeSearchResultList = {
+                            viewModel.rangeSearchResult(
+                                mode.startGroup,
+                                mode.endGroup
+                            )
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
             }
         }
 

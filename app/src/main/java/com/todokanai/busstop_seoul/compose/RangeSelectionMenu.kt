@@ -17,6 +17,7 @@ import com.todokanai.busstop_seoul.R
 fun RangeSelectionMenu(
     isStartMode:Boolean,
     onToggleGroupView: ()->Unit,
+    onToggleSearchResult: ()->Unit,
     selectStartRange: () -> Unit,
     selectEndRange: () -> Unit,
     modifier: Modifier = Modifier
@@ -72,7 +73,7 @@ fun RangeSelectionMenu(
             }
 
             Button(
-                onClick = {  },
+                onClick = { onToggleSearchResult() },
                 modifier = Modifier.weight(1f)
             ) {
                 val text = stringResource(R.string.show_range_search_result)
