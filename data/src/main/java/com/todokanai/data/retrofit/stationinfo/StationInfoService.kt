@@ -21,7 +21,7 @@ interface StationInfoService {
     @GET("getStationByPos?serviceKey=${BuildConfig.REST_API_KEY}")
     fun getStationByPosition(@Query("tmX") tmX: String, @Query("tmY") tmY: String, @Query("radius") radius: String) : Call<StationByPositionResponse>
 
-    @GET("getRouteByStationList?serviceKey=${BuildConfig.REST_API_KEY}")
+    @GET("getRouteByStation?serviceKey=${BuildConfig.REST_API_KEY}")
     fun getRouteByStation(@Query("arsId") arsId: String) : Call<RouteByStationResponse>
 
     @GET("getBustimeByStation?serviceKey=${BuildConfig.REST_API_KEY}")
