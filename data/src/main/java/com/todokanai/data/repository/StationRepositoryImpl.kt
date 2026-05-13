@@ -71,15 +71,17 @@ class StationRepositoryImpl : StationRepository {
         val result = mutableListOf<BusLineItem>()
         val service = StationInfoRetrofit.stationInfoRetrofit.create(StationInfoService::class.java)
         val response = service.getRouteByStation(arsId.toString()).awaitResponse()
-
         val responseList = response.body()?.msgBody?.itemList
+        println("result: ${responseList}")
         responseList?.forEach {
             try {
                 result.add(it.convert())
             } catch (e: Exception) {
+                println(e)
                 e.printStackTrace()
             }
         }
+        println("test: $result")
         return result
     }
 

@@ -15,18 +15,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.todokanai.busstop_seoul.dataclass.LineInfo
+import com.todokanai.busstop_seoul.dataclass.RangeSearchItem
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 
 @Composable
 fun RangeSearchResultList(
-    startGroup: List<StationInfo>,
-    endGroup: List<StationInfo>,
-    rangeSearchResultList: suspend ()-> List<LineInfo>,
+    startGroup: List<StationInfo>,  // Todo: List<Long> 으로 변경
+    endGroup: List<StationInfo>,    // Todo: List<Long> 으로 변경
+    rangeSearchResultList: suspend ()-> List<RangeSearchItem>,
     modifier: Modifier = Modifier
 ){
 
-    var itemList by remember{ mutableStateOf(emptyList<LineInfo>())}
+    var itemList by remember{ mutableStateOf(emptyList<RangeSearchItem>())}
 
     LazyColumn(
         modifier = modifier.height(300.dp)
@@ -36,7 +36,7 @@ fun RangeSearchResultList(
                 modifier = Modifier.height(40.dp)
             ){
                 Text(
-                    text = item.stNm,
+                    text = item.rtNm,
                     modifier = Modifier
                         .fillMaxSize()
                         .wrapContentSize()

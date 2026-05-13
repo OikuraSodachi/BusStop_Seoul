@@ -6,12 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng             //  Todo: viewModel 에서 제거
 import com.google.android.gms.maps.model.LatLngBounds       //  Todo: viewModel 에서 제거
 import com.todokanai.busstop_seoul.Constants.MAP_MARKER_MINIMUM_RADIUS
-import com.todokanai.busstop_seoul.dataclass.LineInfo
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
+import com.todokanai.busstop_seoul.dataclass.RangeSearchItem
 import com.todokanai.busstop_seoul.dataclass.StationArriveInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.MapUseCase
+import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationArriveItem
 import com.todokanai.domain.dataclass.StationItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -115,8 +116,19 @@ class MapViewModel @Inject constructor(
     /** @param startGroup 시작 정류소 목록
      * @param endGroup 도착 정류소 목록
      * @return 검색 결과 **/
-    suspend fun rangeSearchResult(startGroup:List<StationInfo>, endGroup:List<StationInfo>):List<LineInfo>{
-        return emptyList()  // Todo()
+    suspend fun rangeSearchResult(startGroup:List<StationInfo>, endGroup:List<StationInfo>):List<RangeSearchItem>{
+        val startGroupId = startGroup.map{
+            it.arsId
+        }
+        val endGroupId = endGroup.map{
+            it.arsId
+        }
+
+        val result = busUseCase.getRangeSearchResult(startGroupId, endGroupId).map{
+            it.toRangeSearchItem()
+        }
+
+        return result
     }
 
     private suspend fun getVisibleStation(
@@ -198,6 +210,12 @@ class MapViewModel @Inject constructor(
             posX = posX,
             posY = posY,
             stationTp = stationTp
+        )
+    }
+
+    private fun BusLineItem.toRangeSearchItem():RangeSearchItem{
+        return RangeSearchItem(
+            rtNm = rtNm
         )
     }
 

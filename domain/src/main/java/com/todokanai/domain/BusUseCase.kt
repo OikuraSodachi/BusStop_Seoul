@@ -59,4 +59,23 @@ class BusUseCase @Inject constructor(
         return localDataRepository.getAllStations()
     }
 
+    /** @param startStId 출발 정류소 ID 목록
+     * @param endStId 도착 정류소 ID 목록
+     * @return 공통 노선 목록
+     * Todo: ( [startStId].size + [endStId].size ) 만큼 API 호출이 실행됨. 줄일 방법이 있는지? **/
+    suspend fun getRangeSearchResult(startStId:List<Long>, endStId:List<Long>):List<BusLineItem>{
+        val startGroup = mutableListOf<BusLineItem>()
+        val endGroup = mutableListOf<BusLineItem>()
+
+        startStId.forEach {
+            startGroup.addAll(stationRepository.getRouteByStationList(it))
+        }
+        endStId.forEach{
+            endGroup.addAll(stationRepository.getRouteByStationList(it))
+        }
+
+        val result = startGroup.union(endGroup)
+        return result.toList()
+    }
+
 }
