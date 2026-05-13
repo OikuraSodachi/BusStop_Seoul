@@ -16,12 +16,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.todokanai.busstop_seoul.dataclass.RangeSearchItem
-import com.todokanai.busstop_seoul.dataclass.StationInfo
 
 @Composable
 fun RangeSearchResultList(
-    startGroup: List<StationInfo>,  // Todo: List<Long> 으로 변경
-    endGroup: List<StationInfo>,    // Todo: List<Long> 으로 변경
+    startGroup: List<Long>,
+    endGroup: List<Long>,
     rangeSearchResultList: suspend ()-> List<RangeSearchItem>,
     modifier: Modifier = Modifier
 ){

@@ -113,22 +113,13 @@ class MapViewModel @Inject constructor(
         return result
     }
 
-    /** @param startGroup 시작 정류소 목록
-     * @param endGroup 도착 정류소 목록
+    /** @param startArsIds 시작 정류소 ID 목록
+     * @param endArsIds 도착 정류소 ID 목록
      * @return 검색 결과 **/
-    suspend fun rangeSearchResult(startGroup:List<StationInfo>, endGroup:List<StationInfo>):List<RangeSearchItem>{
-        val startArsIds = startGroup.map{
-            it.arsId
-        }
-        val endArsIds = endGroup.map{
-            it.arsId
-        }
-
-        val result = busUseCase.getRangeSearchResult(startArsIds, endArsIds).map{
+    suspend fun rangeSearchResult(startArsIds:List<Long>, endArsIds:List<Long>):List<RangeSearchItem>{
+        return busUseCase.getRangeSearchResult(startArsIds, endArsIds).map {
             it.toRangeSearchItem()
         }
-
-        return result
     }
 
     private suspend fun getVisibleStation(
