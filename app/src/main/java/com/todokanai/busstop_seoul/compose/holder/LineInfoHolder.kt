@@ -31,13 +31,13 @@ fun LineInfoHolder(
     Row(
         modifier = modifier
             .height(150.dp)
-            .clickable{
-                toStationInfo()
-            }
     ){
         Column(
             modifier = Modifier
-                .weight(1f),
+                .weight(1f)
+                .clickable{
+                    toStationInfo()
+                },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
