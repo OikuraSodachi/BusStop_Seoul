@@ -198,11 +198,8 @@ fun MapScreen(
                     RangeSearchResultList(
                         startGroup = mode.startGroup.map{it.arsId},
                         endGroup = mode.endGroup.map{it.arsId},
-                        rangeSearchResultList = {
-                            viewModel.rangeSearchResult(
-                                mode.startGroup.map{it.arsId},
-                                mode.endGroup.map{it.arsId}
-                            )
+                        rangeSearchResultList = { start, end ->
+                            viewModel.rangeSearchResult(start, end)
                         },
                         modifier = Modifier.weight(1f)
                     )

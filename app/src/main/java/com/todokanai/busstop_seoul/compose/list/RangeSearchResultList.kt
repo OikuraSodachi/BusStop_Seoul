@@ -21,7 +21,7 @@ import com.todokanai.busstop_seoul.dataclass.RangeSearchItem
 fun RangeSearchResultList(
     startGroup: List<Long>,
     endGroup: List<Long>,
-    rangeSearchResultList: suspend ()-> List<RangeSearchItem>,
+    rangeSearchResultList: suspend (start:List<Long>, end:List<Long>)-> List<RangeSearchItem>,
     modifier: Modifier = Modifier
 ){
 
@@ -46,7 +46,7 @@ fun RangeSearchResultList(
     }
 
     LaunchedEffect(key1 = startGroup, key2 = endGroup){
-        itemList = rangeSearchResultList()
+        itemList = rangeSearchResultList(startGroup,endGroup)
     }
 
 }
