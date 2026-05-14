@@ -19,6 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -51,15 +52,15 @@ class MapViewModel @Inject constructor(
         initialValue = MapScreenUiState()
     )
 
-    fun lastKnownLatLng():LatLng{
+    suspend fun lastKnownLatLng():LatLng{
         return LatLng(
-            mapUseCase.lastKnownLatitude(),
-            mapUseCase.lastKnownLongitude()
+            mapUseCase.lastKnownLatitude().first(),
+            mapUseCase.lastKnownLongitude().first()
         )
     }
 
-    fun lastKnownZoomLevel():Float{
-        return mapUseCase.lastKnownZoomLevel()
+    suspend fun lastKnownZoomLevel():Float{
+        return mapUseCase.lastKnownZoomLevel().first()
     }
 
     // Todo: Compose dependency 가 viewModel 에 와도 되는지?

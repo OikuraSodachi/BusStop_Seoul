@@ -90,7 +90,7 @@ fun MapScreen(
     var screenMode by remember { mutableStateOf<MapScreenMode>(MapScreenMode.Normal()) }
 
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(viewModel.lastKnownLatLng(), viewModel.lastKnownZoomLevel())
+        position = CameraPosition.fromLatLngZoom(LatLng(0.0,0.0), 0f)
     }
 
     val mainMapInterface = object : MainMapInterface {
@@ -209,6 +209,7 @@ fun MapScreen(
 
         // 초기 진입 시 stId 처리
         LaunchedEffect(key1 = stId) {
+            cameraPositionState.position = CameraPosition.fromLatLngZoom(viewModel.lastKnownLatLng(), viewModel.lastKnownZoomLevel())
             val info = viewModel.getStationInfo(stId)
             if (info != null) screenMode = MapScreenMode.Normal(info)
         }

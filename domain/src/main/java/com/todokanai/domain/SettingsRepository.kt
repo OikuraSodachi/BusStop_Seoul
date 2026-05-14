@@ -24,11 +24,11 @@ interface SettingsRepository {
 
     fun zoomGesturesEnabled(): Flow<Boolean>
 
-    fun lastKnownLatitude(): Double
+    fun lastKnownLatitude(): Flow<Double>
 
-    fun lastKnownLongitude(): Double
+    fun lastKnownLongitude(): Flow<Double>
 
-    fun lastKnownZoomLevel(): Float
+    fun lastKnownZoomLevel(): Flow<Float>
 
     suspend fun saveZoomLevel(value:Float)
 

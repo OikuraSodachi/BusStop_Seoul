@@ -6,35 +6,20 @@ import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
 import com.todokanai.data.abstracts.BaseDataStore
 import com.todokanai.domain.SettingsRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 class SettingsRepositoryImpl(appContext: Context) : BaseDataStore(appContext), SettingsRepository {
 
-    private var lastKnownLatitude = 0.0
-    private var lastKnownLongitude = 0.0
-    private var lastKnownZoomLevel = 0f
-
-    init{
-        CoroutineScope(Dispatchers.IO).launch {
-            lastKnownLatitude = LAST_KNOWN_LATITUDE.notNullValue(0.0)
-            lastKnownLongitude = LAST_KNOWN_LONGITUDE.notNullValue(0.0)
-            lastKnownZoomLevel = LAST_KNOWN_ZOOM_LEVEL.notNullValue(0f)
-        }
+    override fun lastKnownZoomLevel(): Flow<Float> {
+        return LAST_KNOWN_ZOOM_LEVEL.notNullFlow(0f)
     }
 
-    override fun lastKnownZoomLevel(): Float {
-        return lastKnownZoomLevel
+    override fun lastKnownLatitude(): Flow<Double> {
+        return LAST_KNOWN_LATITUDE.notNullFlow(defaultValue = 0.0)
     }
 
-    override fun lastKnownLatitude(): Double {
-        return lastKnownLatitude
-    }
-
-    override  fun lastKnownLongitude(): Double {
-        return lastKnownLongitude
+    override  fun lastKnownLongitude(): Flow<Double> {
+        return LAST_KNOWN_LONGITUDE.notNullFlow(defaultValue = 0.0)
     }
 
     override suspend fun saveLastKnownLatitude(value: Double) {
