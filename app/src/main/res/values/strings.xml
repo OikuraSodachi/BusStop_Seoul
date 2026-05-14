@@ -17,4 +17,5 @@
     <string name="show_range_selection_start_list">시작 지점 목록</string>
     <string name="show_range_selection_end_list">도착 지점 목록</string>
     <string name="show_range_search_result">검색 결과</string>
+    <string name="search_text_field_label">정류소명, 노선명</string>
 </resources>

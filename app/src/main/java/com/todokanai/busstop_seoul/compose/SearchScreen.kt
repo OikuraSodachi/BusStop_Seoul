@@ -35,6 +35,7 @@ fun SearchScreen(
     Column{
         Row(modifier = Modifier.fillMaxWidth()) {
             TextField(
+                label = {Text(stringResource(R.string.search_text_field_label))},
                 value = text,
                 onValueChange = {
                     text = it
