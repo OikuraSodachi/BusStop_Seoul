@@ -18,7 +18,8 @@ data class StationSearchResult(
 ): SearchResult(
     description = stNm,
     isFavorite = favorite,
-    type = ResultType.STATION
+    type = ResultType.STATION,
+    optionalInfo = arsId.toString()
 ){
     override fun onItemClick(navController: NavHostController) {
         navController.navigateToMapScreen(stId = stId)

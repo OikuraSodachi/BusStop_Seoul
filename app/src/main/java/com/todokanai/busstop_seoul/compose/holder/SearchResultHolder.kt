@@ -58,6 +58,9 @@ fun SearchResultHolder(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
             )
+            Text(
+                text = data.optionalInfo.toString()
+            )
         }
 
         Box(modifier = Modifier.width(30.dp)){

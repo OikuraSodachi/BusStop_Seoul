@@ -6,7 +6,8 @@ import androidx.navigation.NavHostController
 abstract class SearchResult(
     val description:String,
     val isFavorite:Boolean,
-    val type:ResultType
+    val type:ResultType,
+    val optionalInfo: String? = null
 ){
 
     /** Todo: navController 가 여기서 보이는 게 적절한지? **/
