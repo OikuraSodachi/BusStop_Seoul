@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -53,7 +55,8 @@ fun SearchResultHolder(
         }
         Image(
             painter = painterResource(painter),
-            contentDescription = null
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(LocalContentColor.current)       // dark theme 대응
         )
         Box(modifier = Modifier.width(50.dp))
         Column(
@@ -75,12 +78,13 @@ fun SearchResultHolder(
 
         Box(modifier = Modifier.width(30.dp)){
             Image(
-                painter = painterResource(R.drawable.outline_more_vert_24),     // Todo: dark theme 에서도 검은색임
+                painter = painterResource(R.drawable.outline_more_vert_24),
                 contentDescription = null,
                 modifier = Modifier
                     .clickable{
                         expanded = !expanded
-                    }
+                    },
+                colorFilter = ColorFilter.tint(LocalContentColor.current)
             )
 
             DropdownMenu(
