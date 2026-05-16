@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.todokanai.busstop_seoul.R
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
+import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 
 @Composable
@@ -41,10 +42,19 @@ fun SearchResultHolder(
 
     Row(
         modifier = modifier
+            .height(80.dp)
             .padding(8.dp)
     ) {
 
-        // Todo: result type icon
+        val painter = if(data.type == ResultType.LINE ){
+            R.drawable.bus_symbol_icon
+        }else{
+            R.drawable.location_sign
+        }
+        Image(
+            painter = painterResource(painter),
+            contentDescription = null
+        )
         Box(modifier = Modifier.width(50.dp))
         Column(
             modifier = Modifier
