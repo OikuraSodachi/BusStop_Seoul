@@ -3,6 +3,7 @@ package com.todokanai.busstop_seoul.compose
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -22,26 +23,27 @@ import com.todokanai.busstop_seoul.viewmodel.LineInfoViewModel
 fun LineInfoScreen(
     navController: NavHostController,
     routeId:Long,
+    targetStationId:Long? = null,                   // Todo: targetStation 으로 스크롤
     viewModel: LineInfoViewModel = hiltViewModel()
 ){
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val listState = rememberLazyListState()
 
     LazyColumn(
+        state = listState,
         modifier = Modifier.fillMaxSize()
     ) {
         itemsIndexed(uiState.value.lineInfos){ index, lineInfo ->
             LineInfoHolder(
                 lineInfo = lineInfo,
-                toStationInfo = {
-                    navController.navigateToMapScreen(lineInfo.stId)
-                }
+                toStationInfo = { navController.navigateToMapScreen(lineInfo.arsId) }
             )
             if(index < uiState.value.lineInfos.lastIndex)
                 HorizontalDivider()
         }
     }
 
-    LaunchedEffect(key1 = routeId){
+    LaunchedEffect(key1 = routeId,key2 = targetStationId){
         viewModel.setRouteId(routeId)
     }
 

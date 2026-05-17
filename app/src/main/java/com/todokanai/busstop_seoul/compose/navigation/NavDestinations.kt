@@ -28,9 +28,19 @@ data object SearchScreen: NavDestinations{
 data object LineInfoScreen: NavDestinations{
     override val route: String = "LineInfoScreen"
     const val lineInfoArg = "lineInfoArg"
-    val routeWithArgs = "$route/{$lineInfoArg}"
+    const val targetStationIdArg = "targetStationIdArg"
+
+    val routeWithArgs = "$route/{$lineInfoArg}?${targetStationIdArg}={$targetStationIdArg}"
+
     val arguments = listOf(
-        navArgument(lineInfoArg) { type = NavType.LongType }
+        navArgument(lineInfoArg) {
+            type = NavType.LongType
+        },
+        navArgument(targetStationIdArg) {
+            type = NavType.StringType
+            nullable = true
+            defaultValue = null
+        }
     )
 }
 

@@ -40,6 +40,7 @@ fun BusNavHost(
             LineInfoScreen(
                 navController = navController,
                 routeId = it.arguments?.getLong(LineInfoScreen.lineInfoArg) ?: 0L,
+                targetStationId = it.arguments?.getString(LineInfoScreen.targetStationIdArg)?.toLong()
             )
         }
 
@@ -67,6 +68,10 @@ fun NavHostController.navigateToMapScreen(stId:Long){
 
 fun NavHostController.navigateToLineInfo(routeId:Long){
     this.navigate("${LineInfoScreen.route}/$routeId")
+}
+
+fun NavHostController.navigateToLineInfo(routeId:Long, stId:Long){
+    this.navigate("${LineInfoScreen.route}/$routeId?${LineInfoScreen.targetStationIdArg}=$stId")
 }
 
 fun NavHostController.navigateToSearchScreen(){
