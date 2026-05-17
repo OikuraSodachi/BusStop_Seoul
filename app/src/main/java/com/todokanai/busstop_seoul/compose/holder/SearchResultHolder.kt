@@ -56,7 +56,8 @@ fun SearchResultHolder(
         Image(
             painter = painterResource(painter),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(LocalContentColor.current)       // dark theme 대응
+            colorFilter = ColorFilter.tint(LocalContentColor.current),       // dark theme 대응
+            modifier = Modifier.height(50.dp)
         )
         Box(modifier = Modifier.width(50.dp))
         Column(
