@@ -43,8 +43,15 @@ fun LineInfoScreen(
         }
     }
 
-    LaunchedEffect(key1 = routeId,key2 = targetStationId){
+    LaunchedEffect(key1 = routeId){
         viewModel.setRouteId(routeId)
+    }
+    LaunchedEffect(key1 = uiState.value.lineInfos){
+        if(targetStationId != null && uiState.value.lineInfos.isNotEmpty()){
+            val lineInfos = uiState.value.lineInfos
+            val indexOfFirst = lineInfos.indexOfFirst { it.arsId == targetStationId }
+            listState.scrollToItem(indexOfFirst)
+        }
     }
 
 }
