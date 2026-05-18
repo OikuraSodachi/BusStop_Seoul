@@ -28,6 +28,7 @@ import com.todokanai.busstop_seoul.compose.list.RangeSelectionPointList
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
+import com.todokanai.busstop_seoul.compose.navigation.navigateToMapScreen
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.dataclass.StationInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
@@ -104,7 +105,8 @@ fun MapScreen(
             // 모드에 따른 분기 처리
             when (val mode = screenMode) {
                 is MapScreenMode.Normal -> {
-                    screenMode = mode.copy(targetStation = stationInfo)
+                    //screenMode = mode.copy(targetStation = stationInfo)
+                    navController.navigateToMapScreen(stationInfo.stId)
                 }
                 is MapScreenMode.RangeSelection -> {
                     screenMode = mode.updateGroupItems(stationInfo)
