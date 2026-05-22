@@ -1,9 +1,12 @@
 package com.todokanai.busstop_seoul.interfaces.compose
 
 import com.todokanai.busstop_seoul.dataclass.StationInfo
-import com.todokanai.busstop_seoul.enumclass.SelectionType
 
 sealed interface MapScreenMode {
+
+    /** Todo: [MapScreenMode] 외부에서 보이면 안됨 **/
+    enum class SelectionType{ START, END }
+
     // 일반 모드: 특정 정류소를 선택할 수 있음
     data class Normal(val targetStation: StationInfo? = null) :
         MapScreenMode
@@ -16,6 +19,18 @@ sealed interface MapScreenMode {
         val isGroupViewEnabled: Boolean = false,    // 선택된 목록 창 활성화 여부
         val isSearchResultEnabled: Boolean = false
     ) : MapScreenMode {
+
+        fun isStartMode():Boolean{
+            return type == SelectionType.START
+        }
+
+        fun toStartMode():RangeSelection{
+            return copy(type = SelectionType.START)
+        }
+
+        fun toEndMode():RangeSelection{
+            return copy(type = SelectionType.END)
+        }
 
         /** Todo: [RangeSelection] 을 반환하는 구조가 바람직한 구조인지?
          *  @param stationInfo 추가/제거할 정류소

@@ -30,7 +30,6 @@ import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
 import com.todokanai.busstop_seoul.compose.navigation.navigateToMapScreen
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
-import com.todokanai.busstop_seoul.enumclass.SelectionType
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.interfaces.compose.MapScreenMode
 import com.todokanai.busstop_seoul.interfaces.compose.MenuButtonInterface
@@ -101,11 +100,14 @@ fun MapScreen(
         if (screenMode is MapScreenMode.RangeSelection) {
             val mode = screenMode as MapScreenMode.RangeSelection
             RangeSelectionMenu(
-                isStartMode = mode.type == SelectionType.START,
+                //isStartMode = mode.type == SelectionType.START,
+                isStartMode = mode.isStartMode(),
                 onToggleGroupView = { screenMode = mode.copy(isGroupViewEnabled = !mode.isGroupViewEnabled) },
                 onToggleSearchResult = { screenMode = mode.copy(isSearchResultEnabled = !mode.isSearchResultEnabled) },
-                selectStartRange = { screenMode = mode.copy(type = SelectionType.START) },
-                selectEndRange = { screenMode = mode.copy(type = SelectionType.END) }
+                selectStartRange = { screenMode = mode.toStartMode() },
+                selectEndRange = { screenMode = mode.toEndMode() }
+                //selectStartRange = { screenMode = mode.copy(type = SelectionType.START) },
+                //selectEndRange = { screenMode = mode.copy(type = SelectionType.END) }
             )
         }
 
@@ -143,9 +145,9 @@ fun MapScreen(
             Row {
                 val mode = screenMode as MapScreenMode.RangeSelection
                 if (mode.isGroupViewEnabled) {
-                    val type = mode.type
+                    //val type = mode.type
                     val itemList =
-                        if (type == SelectionType.START) mode.startGroup else mode.endGroup
+                        if (mode.isStartMode()) mode.startGroup else mode.endGroup
                     RangeSelectionPointList(
                         rangeSelectionPointList = itemList,
                         onItemClick = { screenMode = mode.updateGroupItems(it) },
