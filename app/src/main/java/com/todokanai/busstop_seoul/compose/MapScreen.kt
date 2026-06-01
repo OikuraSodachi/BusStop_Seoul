@@ -200,7 +200,10 @@ private fun MapScreenBox(
             markerInfos = markerInfos,
             mainMapCallback = mainMapInterface
         )
-        MenuButton(menuButtonInterface)
+        MenuButton(
+            menuButtonInterface,
+            rotationGesturesEnabled
+        )
         if (isSmallMapEnabled) {
             SmallMap(
                 modifier = Modifier.align(Alignment.TopEnd),

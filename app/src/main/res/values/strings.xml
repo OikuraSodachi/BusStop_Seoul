@@ -3,6 +3,7 @@
     <string name="close_station_info">Close</string>
     <string name="toggle_small_map">toggle small map</string>
     <string name="enable_rotation">enable rotation</string>
+    <string name="disable_rotation">disable rotation</string>
     <string name="to_search_screen">to search screen</string>
     <string name="to_map_screen">to map screen</string>
     <string name="search_result_empty">no result</string>

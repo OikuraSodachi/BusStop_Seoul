@@ -19,7 +19,8 @@ import com.todokanai.busstop_seoul.interfaces.compose.MenuButtonInterface
 
 @Composable
 fun MenuButton(
-    menuButtonInterface: MenuButtonInterface
+    menuButtonInterface: MenuButtonInterface,
+    isRotationEnabled:Boolean
 ){
     var expanded by remember{mutableStateOf(false)}
 
@@ -38,12 +39,18 @@ fun MenuButton(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
+            val rotationText = if(isRotationEnabled){
+                stringResource(R.string.disable_rotation)
+            }else {
+                stringResource(R.string.enable_rotation)
+            }
+
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.toggle_small_map))},
                 onClick = { menuButtonInterface.toggleSmallMap() }
             )
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.enable_rotation)) },
+                text = { Text(rotationText) },
                 onClick = { menuButtonInterface.enableRotation() }
             )
             DropdownMenuItem(
