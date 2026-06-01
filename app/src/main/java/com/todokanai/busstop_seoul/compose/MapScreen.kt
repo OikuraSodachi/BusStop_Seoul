@@ -61,8 +61,24 @@ fun MapScreen(
             // 모드에 따른 분기 처리
             when (val mode = screenMode) {
                 is MapScreenMode.Normal -> {
-                    //screenMode = mode.copy(targetStation = stationInfo)
-                    navController.navigateToMapScreen(stationInfo.stId)
+
+                    /*
+                    /** 기존 방식 **/
+                    fun setTargetStation(){
+                        screenMode = mode.copy(targetStation = stationInfo)
+                    }
+                    setTargetStation()
+                     */
+
+                    /*
+                    // 백스택 argument 값 변경 테스트
+                    navController.previousBackStackEntry?.savedStateHandle?.set(
+                        "stIdArg",
+                        stationInfo.stId
+                    )
+                     */
+
+                    navController.navigateToMapScreen(stationInfo.stId)     /** Todo: 백스택 관리 때문에 [setTargetStation] 대신 임시로 사용중임 **/
                 }
                 is MapScreenMode.RangeSelection -> {
                     screenMode = mode.updateGroupItems(stationInfo)
