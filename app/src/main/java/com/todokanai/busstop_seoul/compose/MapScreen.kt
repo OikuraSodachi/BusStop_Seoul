@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +29,6 @@ import com.todokanai.busstop_seoul.compose.list.RangeSelectionPointList
 import com.todokanai.busstop_seoul.compose.map.MainMap
 import com.todokanai.busstop_seoul.compose.map.SmallMap
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
-import com.todokanai.busstop_seoul.compose.navigation.navigateToMapScreen
 import com.todokanai.busstop_seoul.dataclass.MarkerInfo
 import com.todokanai.busstop_seoul.interfaces.compose.MainMapInterface
 import com.todokanai.busstop_seoul.interfaces.compose.MapScreenMode
@@ -42,6 +42,7 @@ fun MapScreen(
     viewModel: MapViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    var targetStationId by rememberSaveable { mutableStateOf(stId) }       // navController.navigate() 해도 targetStId 값 유지
 
     // 통합된 모드 상태 관리
     var screenMode by remember { mutableStateOf<MapScreenMode>(MapScreenMode.Normal()) }
@@ -61,24 +62,8 @@ fun MapScreen(
             // 모드에 따른 분기 처리
             when (val mode = screenMode) {
                 is MapScreenMode.Normal -> {
-
-                    /*
-                    /** 기존 방식 **/
-                    fun setTargetStation(){
-                        screenMode = mode.copy(targetStation = stationInfo)
-                    }
-                    setTargetStation()
-                     */
-
-                    /*
-                    // 백스택 argument 값 변경 테스트
-                    navController.previousBackStackEntry?.savedStateHandle?.set(
-                        "stIdArg",
-                        stationInfo.stId
-                    )
-                     */
-
-                    navController.navigateToMapScreen(stationInfo.stId)     /** Todo: 백스택 관리 때문에 [setTargetStation] 대신 임시로 사용중임 **/
+                    screenMode = mode.copy(targetStation = stationInfo)
+                    targetStationId = stationInfo.stId
                 }
                 is MapScreenMode.RangeSelection -> {
                     screenMode = mode.updateGroupItems(stationInfo)
@@ -116,14 +101,11 @@ fun MapScreen(
         if (screenMode is MapScreenMode.RangeSelection) {
             val mode = screenMode as MapScreenMode.RangeSelection
             RangeSelectionMenu(
-                //isStartMode = mode.type == SelectionType.START,
                 isStartMode = mode.isStartMode(),
                 onToggleGroupView = { screenMode = mode.copy(isGroupViewEnabled = !mode.isGroupViewEnabled) },
                 onToggleSearchResult = { screenMode = mode.copy(isSearchResultEnabled = !mode.isSearchResultEnabled) },
                 selectStartRange = { screenMode = mode.toStartMode() },
                 selectEndRange = { screenMode = mode.toEndMode() }
-                //selectStartRange = { screenMode = mode.copy(type = SelectionType.START) },
-                //selectEndRange = { screenMode = mode.copy(type = SelectionType.END) }
             )
         }
 
@@ -161,7 +143,6 @@ fun MapScreen(
             Row {
                 val mode = screenMode as MapScreenMode.RangeSelection
                 if (mode.isGroupViewEnabled) {
-                    //val type = mode.type
                     val itemList =
                         if (mode.isStartMode()) mode.startGroup else mode.endGroup
                     RangeSelectionPointList(
@@ -185,9 +166,9 @@ fun MapScreen(
         }
 
         // 초기 진입 시 stId 처리
-        LaunchedEffect(key1 = stId) {
+        LaunchedEffect(key1 = targetStationId) {
             cameraPositionState.position = CameraPosition.fromLatLngZoom(viewModel.lastKnownLatLng(), viewModel.lastKnownZoomLevel())
-            val info = viewModel.getStationInfo(stId)
+            val info = viewModel.getStationInfo(targetStationId)
             if (info != null) screenMode = MapScreenMode.Normal(info)
         }
     }
