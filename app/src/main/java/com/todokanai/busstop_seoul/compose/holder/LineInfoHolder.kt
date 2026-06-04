@@ -88,7 +88,6 @@ private fun LineInfoHolderPreview(){
     Surface{
         LineInfoHolder(
             lineInfo = LineInfo(
-                arsId = 123,
                 stId = 123,
                 stNm = "Name",
                 busInfo = listOf("123", "123")

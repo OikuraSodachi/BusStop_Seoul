@@ -40,7 +40,6 @@ class LineInfoViewModel @Inject constructor(
 
         return busRouteArriveInfo.map {
             LineInfo(
-                arsId = it.arsId,
                 stId = it.stId,
                 stNm = it.stNm,
                 busInfo = busPositionCheck(it.stId,busPositions)

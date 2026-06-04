@@ -137,7 +137,7 @@ fun MapScreen(
                     stName = target.stNm,
                     getArriveInfos = { viewModel.getArriveInfos(it) },
                     onClose = { screenMode = MapScreenMode.Normal(null) },
-                    toLineInfoScreen = { navController.navigateToLineInfo(it,target.arsId) }
+                    toLineInfoScreen = { navController.navigateToLineInfo(it,target.stId) }
                 )
             }
         }else if(screenMode is MapScreenMode.RangeSelection){

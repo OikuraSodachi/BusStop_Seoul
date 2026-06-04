@@ -49,7 +49,7 @@ fun LineInfoScreen(
     LaunchedEffect(key1 = uiState.value.lineInfos){
         if(targetStationId != null && uiState.value.lineInfos.isNotEmpty()){
             val lineInfos = uiState.value.lineInfos
-            val indexOfFirst = lineInfos.indexOfFirst { it.arsId == targetStationId }
+            val indexOfFirst = lineInfos.indexOfFirst { it.stId == targetStationId }
             listState.scrollToItem(indexOfFirst)
         }
     }
