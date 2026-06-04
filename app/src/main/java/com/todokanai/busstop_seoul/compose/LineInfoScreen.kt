@@ -36,7 +36,7 @@ fun LineInfoScreen(
         itemsIndexed(uiState.value.lineInfos){ index, lineInfo ->
             LineInfoHolder(
                 lineInfo = lineInfo,
-                toStationInfo = { navController.navigateToMapScreen(lineInfo.arsId) }
+                toStationInfo = { navController.navigateToMapScreen(lineInfo.stId) }
             )
             if(index < uiState.value.lineInfos.lastIndex)
                 HorizontalDivider()
