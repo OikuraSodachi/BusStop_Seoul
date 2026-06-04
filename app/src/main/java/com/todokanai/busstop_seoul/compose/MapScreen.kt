@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.todokanai.busstop_seoul.Constants
 import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
 import com.todokanai.busstop_seoul.compose.buttons.MenuButton
 import com.todokanai.busstop_seoul.compose.list.RangeSearchResultList
@@ -48,7 +49,7 @@ fun MapScreen(
     var screenMode by remember { mutableStateOf<MapScreenMode>(MapScreenMode.Normal()) }
 
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(LatLng(0.0,0.0), 0f)
+        position = CameraPosition.fromLatLngZoom(LatLng(Constants.DEFAULT_LATITUDE,Constants.DEFAULT_LONGITUDE), Constants.DEFAULT_ZOOM)
     }
 
     val mainMapInterface = object : MainMapInterface {
