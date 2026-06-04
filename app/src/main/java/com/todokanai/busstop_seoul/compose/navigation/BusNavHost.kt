@@ -63,9 +63,7 @@ fun NavHostController.navigateToMapScreen(){
  *
  * Todo: 해당 StationInfo 의 Marker 선택 동작 구현 **/
 fun NavHostController.navigateToMapScreen(stId:Long){
-    this.navigate("${MapScreen.route}?${MapScreen.stIdArg}=$stId"){
-        launchSingleTop = true
-    }
+    this.navigate("${MapScreen.route}?${MapScreen.stIdArg}=$stId")
 }
 
 fun NavHostController.navigateToLineInfo(routeId:Long){
