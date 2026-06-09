@@ -23,7 +23,7 @@ import com.todokanai.busstop_seoul.viewmodel.LineInfoViewModel
 fun LineInfoScreen(
     navController: NavHostController,
     routeId:Long,
-    targetStationId:Long? = null,                   // Todo: targetStation 으로 스크롤
+    targetStationId:Long? = null,
     viewModel: LineInfoViewModel = hiltViewModel()
 ){
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
