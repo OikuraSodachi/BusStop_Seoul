@@ -22,5 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "BusStop_Seoul"
 include(":app")
 include(":domain")
-include(":presets")
 include(":data")
