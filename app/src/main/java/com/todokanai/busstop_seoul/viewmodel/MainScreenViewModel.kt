@@ -39,34 +39,11 @@ class MainScreenViewModel @Inject constructor(
             when(data.type){
                 ResultType.STATION -> {
                     val item = data as StationSearchResult
-                    busUseCase.saveBusStation(
-                        StationItem(
-                            item.stId,
-                            item.stNm,
-                            item.arsId,
-                            item.tmX,
-                            item.tmY,
-                            item.posX,
-                            item.posY,
-                            item.stationTp
-                        )
-                    )
+                    busUseCase.saveBusStation(item.toStationItem())
                 }
                 ResultType.LINE -> {
                     val item = data as LineSearchResult
-                    busUseCase.saveBusLine(
-                        BusLineItem(
-                            item.busRouteId,
-                            item.rtNm,
-                            item.routeAbrv,
-                            item.routeType,
-                            item.stBegin,
-                            item.stEnd,
-                            item.term,
-                            item.firstBusTm,
-                            item.lastBusTm
-                        )
-                    )
+                    busUseCase.saveBusLine(item.toBusLineItem())
                 }
 
             }

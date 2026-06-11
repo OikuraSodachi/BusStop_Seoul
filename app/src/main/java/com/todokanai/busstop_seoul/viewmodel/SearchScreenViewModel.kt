@@ -8,8 +8,6 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.SearchUseCase
-import com.todokanai.domain.dataclass.BusLineItem
-import com.todokanai.domain.dataclass.StationItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -50,34 +48,11 @@ class SearchScreenViewModel @Inject constructor(
             when(searchResult.type){
                 ResultType.STATION -> {
                     val item = searchResult as StationSearchResult
-                    busUseCase.saveBusStation(
-                        StationItem(
-                            item.stId,
-                            item.stNm,
-                            item.arsId,
-                            item.tmX,
-                            item.tmY,
-                            item.posX,
-                            item.posY,
-                            item.stationTp
-                        )
-                    )
+                    busUseCase.saveBusStation(item.toStationItem())
                 }
                 ResultType.LINE -> {
                     val item = searchResult as LineSearchResult
-                    busUseCase.saveBusLine(
-                        BusLineItem(
-                            item.busRouteId,
-                            item.rtNm,
-                            item.routeAbrv,
-                            item.routeType,
-                            item.stBegin,
-                            item.stEnd,
-                            item.term,
-                            item.firstBusTm,
-                            item.lastBusTm
-                        )
-                    )
+                    busUseCase.saveBusLine(item.toBusLineItem())
                 }
             }
         }

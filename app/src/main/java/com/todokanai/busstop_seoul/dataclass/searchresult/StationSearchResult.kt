@@ -4,6 +4,7 @@ import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.compose.navigation.navigateToMapScreen
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
+import com.todokanai.domain.dataclass.StationItem
 
 data class StationSearchResult(
     val stId:Long,
@@ -23,5 +24,18 @@ data class StationSearchResult(
 ){
     override fun onItemClick(navController: NavHostController) {
         navController.navigateToMapScreen(stId = stId)
+    }
+
+    fun toStationItem(): StationItem{
+        return StationItem(
+            stId = stId,
+            stNm = stNm,
+            arsId = arsId,
+            tmX = tmX,
+            tmY = tmY,
+            posX = posX,
+            posY = posY,
+            stationTp = stationTp
+        )
     }
 }

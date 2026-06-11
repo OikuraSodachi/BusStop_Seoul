@@ -4,6 +4,7 @@ import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.compose.navigation.navigateToLineInfo
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
+import com.todokanai.domain.dataclass.BusLineItem
 
 data class LineSearchResult(
     val busRouteId:Long,
@@ -23,5 +24,19 @@ data class LineSearchResult(
 ){
     override fun onItemClick(navController: NavHostController) {
         navController.navigateToLineInfo(routeId = busRouteId)
+    }
+
+    fun toBusLineItem(): BusLineItem {
+        return BusLineItem(
+            busRouteId = busRouteId,
+            rtNm = rtNm,
+            routeAbrv = routeAbrv,
+            routeType = routeType,
+            stBegin = stBegin,
+            stEnd = stEnd,
+            term = term,
+            firstBusTm = firstBusTm,
+            lastBusTm = lastBusTm
+        )
     }
 }
