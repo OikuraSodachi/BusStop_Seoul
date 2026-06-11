@@ -26,6 +26,7 @@ class MainScreenViewModel @Inject constructor(
         busUseCase.getSavedBusLineItems()
     ) { stations,lines->
         MainScreenUiState(
+            history = emptyList(),
             favorites = getFavorites(stations, lines)
         )
     }.stateIn(
@@ -119,5 +120,6 @@ class MainScreenViewModel @Inject constructor(
 }
 
 data class MainScreenUiState(
+    val history: List<SearchResult> = emptyList(),
     val favorites:List<SearchResult> = emptyList()
 )

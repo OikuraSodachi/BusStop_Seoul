@@ -77,7 +77,7 @@ fun MainScreen(
         if (currentTab == 0) {
             HistoryTab(
                 navController = navController,
-                history = emptyList(),
+                history = uiState.value.history,
                 saveToFavorites = { viewModel.saveToFavorite(it) },
                 deleteFromFavorites = { viewModel.deleteSearchData(it) }
             )
