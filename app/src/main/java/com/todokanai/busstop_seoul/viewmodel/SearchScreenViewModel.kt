@@ -8,6 +8,8 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.SearchUseCase
+import com.todokanai.domain.dataclass.BusLineItem
+import com.todokanai.domain.dataclass.StationItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -84,40 +86,50 @@ class SearchScreenViewModel @Inject constructor(
             val stationList = searchUseCase.getStationByName(keyWord)
             stationList.forEach {
                 result.add(
-                    StationSearchResult(
-                        it.stId,
-                        it.stNm,
-                        it.arsId,
-                        it.tmX,
-                        it.tmY,
-                        it.posX,
-                        it.posY,
-                        it.stationTp,
-                        favoriteStations.contains(it.stId)
-                    )
+                    it.toStationSearchResult(favoriteStations.contains(it.stId))
                 )
             }
 
             val lineList = searchUseCase.getLineInfosFromKeyWord(keyWord)
             lineList.forEach {
                 result.add(
-                    LineSearchResult(
-                        it.busRouteId,
-                        it.rtNm,
-                        it.routeAbrv,
-                        it.routeType,
-                        it.stBegin,
-                        it.stEnd,
-                        it.term,
-                        it.firstBusTm,
-                        it.lastBusTm,
-                        favoriteLines.contains(it.busRouteId)
-                    )
+                    it.toLineSearchResult(favoriteLines.contains(it.busRouteId))
                 )
             }
         }
 
         return result
+    }
+
+    /** Todo: MainScreenViewModel 에 같은 내용이 있음. 합칠 방법 고려해볼 것**/
+    private fun StationItem.toStationSearchResult(favorite:Boolean):StationSearchResult{
+        return StationSearchResult(
+            stId = stId,
+            stNm = stNm,
+            arsId = arsId,
+            tmX = tmX,
+            tmY = tmY,
+            posX = posX,
+            posY = posY,
+            stationTp = stationTp,
+            favorite = favorite
+        )
+    }
+
+    /** Todo: MainScreenViewModel 에 같은 내용이 있음. 합칠 방법 고려해볼 것**/
+    private fun BusLineItem.toLineSearchResult(favorite:Boolean):LineSearchResult{
+        return LineSearchResult(
+            busRouteId = busRouteId,
+            rtNm = rtNm,
+            routeAbrv = routeAbrv,
+            routeType = routeType,
+            stBegin = stBegin,
+            stEnd = stEnd,
+            term = term,
+            firstBusTm = firstBusTm,
+            lastBusTm = lastBusTm,
+            favorite = favorite
+        )
     }
 
 }
