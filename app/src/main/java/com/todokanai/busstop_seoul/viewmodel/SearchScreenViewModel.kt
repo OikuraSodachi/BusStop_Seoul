@@ -6,10 +6,10 @@ import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
+import com.todokanai.busstop_seoul.util.toLineSearchResult
+import com.todokanai.busstop_seoul.util.toStationSearchResult
 import com.todokanai.domain.BusUseCase
 import com.todokanai.domain.SearchUseCase
-import com.todokanai.domain.dataclass.BusLineItem
-import com.todokanai.domain.dataclass.StationItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -99,37 +99,6 @@ class SearchScreenViewModel @Inject constructor(
         }
 
         return result
-    }
-
-    /** Todo: MainScreenViewModel 에 같은 내용이 있음. 합칠 방법 고려해볼 것**/
-    private fun StationItem.toStationSearchResult(favorite:Boolean):StationSearchResult{
-        return StationSearchResult(
-            stId = stId,
-            stNm = stNm,
-            arsId = arsId,
-            tmX = tmX,
-            tmY = tmY,
-            posX = posX,
-            posY = posY,
-            stationTp = stationTp,
-            favorite = favorite
-        )
-    }
-
-    /** Todo: MainScreenViewModel 에 같은 내용이 있음. 합칠 방법 고려해볼 것**/
-    private fun BusLineItem.toLineSearchResult(favorite:Boolean):LineSearchResult{
-        return LineSearchResult(
-            busRouteId = busRouteId,
-            rtNm = rtNm,
-            routeAbrv = routeAbrv,
-            routeType = routeType,
-            stBegin = stBegin,
-            stEnd = stEnd,
-            term = term,
-            firstBusTm = firstBusTm,
-            lastBusTm = lastBusTm,
-            favorite = favorite
-        )
     }
 
 }
