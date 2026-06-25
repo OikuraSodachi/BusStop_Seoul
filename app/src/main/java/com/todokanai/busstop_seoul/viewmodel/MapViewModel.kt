@@ -105,13 +105,10 @@ class MapViewModel @Inject constructor(
     }
 
     suspend fun getStationInfo(stId:Long?):StationInfo?{
-        val result =
-            if(stId != null){
-                busUseCase.getStationById(stId)?.toStationInfo()
-            }else{
-                null
-            }
-        return result
+        if (stId == null) return null
+        val stationItem = busUseCase.getStationById(stId)
+        if (stationItem != null) busUseCase.saveStationToHistory(stId)
+        return stationItem?.toStationInfo()
     }
 
     /** @param startArsIds 시작 정류소 ID 목록

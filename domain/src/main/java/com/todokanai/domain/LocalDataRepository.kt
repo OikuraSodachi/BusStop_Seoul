@@ -26,4 +26,12 @@ interface LocalDataRepository {
 
     suspend fun getAllBusLineItems() : List<BusLineItem>
 
+    fun getHistoryStations(): Flow<List<StationItem>>
+
+    fun getHistoryLines(): Flow<List<BusLineItem>>
+
+    suspend fun insertHistoryStation(stationId: Long)
+
+    suspend fun insertHistoryLine(busRouteId: Long)
+
 }
