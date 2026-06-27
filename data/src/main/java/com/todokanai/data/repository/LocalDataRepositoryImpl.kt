@@ -4,6 +4,8 @@ import android.content.res.AssetManager
 import com.opencsv.CSVReader
 import com.todokanai.data.BuildConfig
 import com.todokanai.data.room.BusLineItemDao
+import com.todokanai.data.room.HistoryItem
+import com.todokanai.data.room.HistoryItemDao
 import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.LocalDataRepository
 import com.todokanai.domain.dataclass.BusLineItem
@@ -19,6 +21,7 @@ import javax.inject.Inject
 class LocalDataRepositoryImpl @Inject constructor(
     private val stationItemDao: StationItemDao,
     private val busLineItemDao: BusLineItemDao,
+    private val historyItemDao: HistoryItemDao,
     assetManager: AssetManager
 ) : LocalDataRepository{
 
@@ -94,6 +97,28 @@ class LocalDataRepositoryImpl @Inject constructor(
 
     override suspend fun getAllBusLineItems(): List<BusLineItem> {
         return busLineFlow.first()
+    }
+
+    override fun getHistoryStations(): Flow<List<StationItem>> {
+        return historyItemDao.getAllByType(1).map { historyItems ->
+            val allStations = getAllStationItems()
+            historyItems.mapNotNull { historyItem -> allStations.find { it.stId == historyItem.id } }
+        }
+    }
+
+    override fun getHistoryLines(): Flow<List<BusLineItem>> {
+        return historyItemDao.getAllByType(0).map { historyItems ->
+            val allLines = getAllBusLineItems()
+            historyItems.mapNotNull { historyItem -> allLines.find { it.busRouteId == historyItem.id } }
+        }
+    }
+
+    override suspend fun insertHistoryStation(stationId: Long) {
+        historyItemDao.insert(HistoryItem(id = stationId, type = 1, timestamp = System.currentTimeMillis()))
+    }
+
+    override suspend fun insertHistoryLine(busRouteId: Long) {
+        historyItemDao.insert(HistoryItem(id = busRouteId, type = 0, timestamp = System.currentTimeMillis()))
     }
 
     private fun com.todokanai.data.room.StationItem.convert(infos:List<StationItem>): StationItem?{

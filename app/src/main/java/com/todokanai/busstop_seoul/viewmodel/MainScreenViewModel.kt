@@ -25,10 +25,12 @@ class MainScreenViewModel @Inject constructor(
 
     val uiState = combine(
         busUseCase.getSavedStationItems(),
-        busUseCase.getSavedBusLineItems()
-    ) { stations,lines->
+        busUseCase.getSavedBusLineItems(),
+        busUseCase.getHistoryStations(),
+        busUseCase.getHistoryLines()
+    ) { stations, lines, historyStations, historyLines ->
         MainScreenUiState(
-            history = emptyList(),
+            history = getHistory(historyStations, historyLines, stations.map { it.stId }, lines.map { it.busRouteId }),
             favorites = getFavorites(stations, lines)
         )
     }.stateIn(
@@ -85,6 +87,25 @@ class MainScreenViewModel @Inject constructor(
                 it.toLineSearchResult(true)
             )
         }
+        return result
+    }
+
+    private fun getHistory(
+        historyStations: List<StationItem>,
+        historyLines: List<BusLineItem>,
+        favoriteStationIds: List<Long>,
+        favoriteLineIds: List<Long>
+    ): List<SearchResult> {
+        val result = mutableListOf<SearchResult>()
+
+        historyStations.forEach {
+            result.add(it.toStationSearchResult(favoriteStationIds.contains(it.stId)))
+        }
+
+        historyLines.forEach {
+            result.add(it.toLineSearchResult(favoriteLineIds.contains(it.busRouteId)))
+        }
+
         return result
     }
 

@@ -59,6 +59,14 @@ class BusUseCase @Inject constructor(
         return localDataRepository.getAllStations()
     }
 
+    fun getHistoryStations(): Flow<List<StationItem>> = localDataRepository.getHistoryStations()
+
+    fun getHistoryLines(): Flow<List<BusLineItem>> = localDataRepository.getHistoryLines()
+
+    suspend fun saveStationToHistory(stationId: Long) = localDataRepository.insertHistoryStation(stationId)
+
+    suspend fun saveLineToHistory(busRouteId: Long) = localDataRepository.insertHistoryLine(busRouteId)
+
     /** @param startArsIds 출발 정류소 ID 목록
      * @param endArsIds 도착 정류소 ID 목록
      * @return 공통 노선 목록

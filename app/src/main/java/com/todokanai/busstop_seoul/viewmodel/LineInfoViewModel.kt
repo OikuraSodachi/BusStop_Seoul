@@ -50,6 +50,7 @@ class LineInfoViewModel @Inject constructor(
     fun setRouteId(id:Long){
         viewModelScope.launch {
             busRouteId.value = id
+            if (id != 0L) busUseCase.saveLineToHistory(id)
         }
     }
 

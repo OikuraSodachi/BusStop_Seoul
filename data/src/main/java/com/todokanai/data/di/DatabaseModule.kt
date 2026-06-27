@@ -9,6 +9,7 @@ import com.todokanai.data.repository.LocalDataRepositoryImpl
 import com.todokanai.data.repository.SettingsRepositoryImpl
 import com.todokanai.data.repository.StationRepositoryImpl
 import com.todokanai.data.room.BusLineItemDao
+import com.todokanai.data.room.HistoryItemDao
 import com.todokanai.data.room.MyDatabase
 import com.todokanai.data.room.StationItemDao
 import com.todokanai.domain.ArriveInfoRepository
@@ -73,16 +74,23 @@ class DatabaseModule {
         return myDatabase.busLineItemDao()
     }
 
+    @Provides
+    fun provideHistoryItemDao(myDatabase: MyDatabase): HistoryItemDao {
+        return myDatabase.historyItemDao()
+    }
+
     @Singleton
     @Provides
     fun provideLocalDataRepository(
         stationItemDao: StationItemDao,
         busLineItemDao: BusLineItemDao,
+        historyItemDao: HistoryItemDao,
         assetManager: AssetManager
     ): LocalDataRepository {
         return LocalDataRepositoryImpl(
             stationItemDao,
             busLineItemDao,
+            historyItemDao,
             assetManager
         )
     }
