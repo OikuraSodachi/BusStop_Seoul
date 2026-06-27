@@ -1,9 +1,17 @@
 package com.todokanai.busstop_seoul.util
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.todokanai.busstop_seoul.dataclass.searchresult.LineSearchResult
 import com.todokanai.busstop_seoul.dataclass.searchresult.StationSearchResult
 import com.todokanai.domain.dataclass.BusLineItem
 import com.todokanai.domain.dataclass.StationItem
+
+fun Color.toMapHue(): Float {
+    val hsv = FloatArray(3)
+    android.graphics.Color.colorToHSV(this.toArgb(), hsv)
+    return hsv[0]
+}
 
 fun StationItem.toStationSearchResult(favorite:Boolean):StationSearchResult{
     return StationSearchResult(

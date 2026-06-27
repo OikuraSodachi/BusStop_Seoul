@@ -24,6 +24,8 @@ import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.todokanai.busstop_seoul.Constants
 import com.todokanai.busstop_seoul.Constants.ZOOM_ON_MARKER_CLICK
+import com.todokanai.busstop_seoul.RangeSelectionColors
+import com.todokanai.busstop_seoul.util.toMapHue
 import com.todokanai.busstop_seoul.compose.buttons.MenuButton
 import com.todokanai.busstop_seoul.compose.list.RangeSearchResultList
 import com.todokanai.busstop_seoul.compose.list.RangeSelectionPointList
@@ -75,8 +77,8 @@ fun MapScreen(
         override fun markerColorSelector(stId: Long): Float {
             return when (val mode = screenMode) {
                 is MapScreenMode.RangeSelection -> {
-                    if (mode.startGroup.map{it.stId}.contains(stId)) BitmapDescriptorFactory.HUE_GREEN
-                    else if (mode.endGroup.map{it.stId}.contains(stId)) BitmapDescriptorFactory.HUE_BLUE
+                    if (mode.startGroup.map{it.stId}.contains(stId)) RangeSelectionColors.startColor.toMapHue()
+                    else if (mode.endGroup.map{it.stId}.contains(stId)) RangeSelectionColors.endColor.toMapHue()
                     else BitmapDescriptorFactory.HUE_RED
                 }
                 else -> BitmapDescriptorFactory.HUE_RED
