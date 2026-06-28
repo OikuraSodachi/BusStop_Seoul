@@ -30,7 +30,7 @@ fun RangeSearchResultList(
     LazyColumn(
         modifier = modifier.height(300.dp)
     ){
-        itemsIndexed(items = itemList) { index, item ->
+        itemsIndexed(itemList, key = { _, item -> item.rtNm }) { index, item ->
             Box(
                 modifier = Modifier.height(40.dp)
             ){

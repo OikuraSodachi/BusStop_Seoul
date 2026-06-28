@@ -53,7 +53,7 @@ fun SearchScreen(
         }else {
             val results = uiState.value.results
             LazyColumn(modifier = Modifier.weight(1f)) {
-                itemsIndexed(items = results) { index, item ->
+                itemsIndexed(results, key = { _, item -> item.id }) { index, item ->
                     SearchResultHolder(
                         data = item,
                         onItemClick = {item.onItemClick(navController)},

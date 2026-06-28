@@ -29,7 +29,7 @@ fun HistoryTab(
         )
     }else{
         LazyColumn{
-            itemsIndexed(history){ index, item ->
+            itemsIndexed(history, key = { _, item -> item.id }){ index, item ->
                 SearchResultHolder(
                     data = item,
                     onItemClick = {item.onItemClick(navController)},

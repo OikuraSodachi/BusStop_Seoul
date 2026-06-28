@@ -2,6 +2,7 @@ package com.todokanai.busstop_seoul.compose.map
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.compose.CameraPositionState
@@ -25,17 +26,21 @@ fun MainMap(
     mainMapCallback: MainMapInterface
 ){
 
+    val uiSettings = remember(zoomControlsEnabled, mapToolbarEnabled, rotationGesturesEnabled) {
+        MapUiSettings(
+            zoomControlsEnabled = zoomControlsEnabled,
+            mapToolbarEnabled = mapToolbarEnabled,
+            rotationGesturesEnabled = rotationGesturesEnabled
+        )
+    }
+
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
         onMapLoaded = {
 
         },
-        uiSettings = MapUiSettings(
-            zoomControlsEnabled = zoomControlsEnabled,
-            mapToolbarEnabled = mapToolbarEnabled,
-            rotationGesturesEnabled = rotationGesturesEnabled
-        )
+        uiSettings = uiSettings
     ) {
         markerInfos.forEach { markerInfo ->
             Marker(

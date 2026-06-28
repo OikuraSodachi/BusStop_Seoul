@@ -73,12 +73,10 @@ fun StationInfoScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                itemsIndexed(arriveInfos.value) { index, _ ->
+                itemsIndexed(arriveInfos.value, key = { _, item -> item.busRouteId }) { index, item ->
                     StationArriveHolder(
-                        stationArriveInfo = arriveInfos.value[index],
-                        toLineInfoScreen = {
-                            toLineInfoScreen(arriveInfos.value[index].busRouteId)
-                        }
+                        stationArriveInfo = item,
+                        toLineInfoScreen = { toLineInfoScreen(item.busRouteId) }
                     )
                     if (index < arriveInfos.value.lastIndex)
                         HorizontalDivider()

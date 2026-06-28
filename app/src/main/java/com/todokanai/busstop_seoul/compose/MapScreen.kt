@@ -54,47 +54,51 @@ fun MapScreen(
         position = CameraPosition.fromLatLngZoom(LatLng(Constants.DEFAULT_LATITUDE,Constants.DEFAULT_LONGITUDE), Constants.DEFAULT_ZOOM)
     }
 
-    val mainMapInterface = object : MainMapInterface {
-        override fun onCameraPositionChanged(latLngBounds: LatLngBounds) {
-            viewModel.testCameraPositionChanged(latLngBounds, cameraPositionState.position.zoom)
-        }
+    val mainMapInterface = remember {
+        object : MainMapInterface {
+            override fun onCameraPositionChanged(latLngBounds: LatLngBounds) {
+                viewModel.testCameraPositionChanged(latLngBounds, cameraPositionState.position.zoom)
+            }
 
-        override fun onMarkerClick(markerInfo: MarkerInfo) {
-            val stationInfo = markerInfo.stationInfo
+            override fun onMarkerClick(markerInfo: MarkerInfo) {
+                val stationInfo = markerInfo.stationInfo
 
-            // 모드에 따른 분기 처리
-            when (val mode = screenMode) {
-                is MapScreenMode.Normal -> {
-                    screenMode = mode.copy(targetStation = stationInfo)
-                    targetStationId = stationInfo.stId
-                }
-                is MapScreenMode.RangeSelection -> {
-                    screenMode = mode.updateGroupItems(stationInfo)
+                // 모드에 따른 분기 처리
+                when (val mode = screenMode) {
+                    is MapScreenMode.Normal -> {
+                        screenMode = mode.copy(targetStation = stationInfo)
+                        targetStationId = stationInfo.stId
+                    }
+                    is MapScreenMode.RangeSelection -> {
+                        screenMode = mode.updateGroupItems(stationInfo)
+                    }
                 }
             }
-        }
 
-        override fun markerColorSelector(stId: Long): Float {
-            return when (val mode = screenMode) {
-                is MapScreenMode.RangeSelection -> {
-                    if (mode.startGroup.map{it.stId}.contains(stId)) RangeSelectionColors.startColor.toMapHue()
-                    else if (mode.endGroup.map{it.stId}.contains(stId)) RangeSelectionColors.endColor.toMapHue()
-                    else BitmapDescriptorFactory.HUE_RED
+            override fun markerColorSelector(stId: Long): Float {
+                return when (val mode = screenMode) {
+                    is MapScreenMode.RangeSelection -> {
+                        if (mode.startGroup.map{it.stId}.contains(stId)) RangeSelectionColors.startColor.toMapHue()
+                        else if (mode.endGroup.map{it.stId}.contains(stId)) RangeSelectionColors.endColor.toMapHue()
+                        else BitmapDescriptorFactory.HUE_RED
+                    }
+                    else -> BitmapDescriptorFactory.HUE_RED
                 }
-                else -> BitmapDescriptorFactory.HUE_RED
             }
         }
     }
 
-    val menuButtonInterface = object : MenuButtonInterface {
-        override fun toggleSmallMap() = viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled)
-        override fun enableRotation() = viewModel.saveRotationGesturesEnabled(!uiState.value.rotationGesturesEnabled)
+    val menuButtonInterface = remember {
+        object : MenuButtonInterface {
+            override fun toggleSmallMap() = viewModel.saveSmallMapEnabled(!uiState.value.isSmallMapEnabled)
+            override fun enableRotation() = viewModel.saveRotationGesturesEnabled(!uiState.value.rotationGesturesEnabled)
 
-        override fun toggleRangeSelectionMode() {
-            screenMode = if (screenMode is MapScreenMode.Normal) {
-                MapScreenMode.RangeSelection() // 모드 전환 시 targetStation 자동 소멸
-            } else {
-                MapScreenMode.Normal()
+            override fun toggleRangeSelectionMode() {
+                screenMode = if (screenMode is MapScreenMode.Normal) {
+                    MapScreenMode.RangeSelection() // 모드 전환 시 targetStation 자동 소멸
+                } else {
+                    MapScreenMode.Normal()
+                }
             }
         }
     }
