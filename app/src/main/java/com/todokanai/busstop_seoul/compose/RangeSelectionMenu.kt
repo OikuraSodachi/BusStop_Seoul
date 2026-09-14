@@ -36,7 +36,7 @@ fun RangeSelectionMenu(
     ) {
         Row {
             Button(
-                onClick = { selectStartRange() },
+                onClick = selectStartRange,
                 modifier = Modifier.weight(1f)
             ) {
                 Icon(
@@ -57,7 +57,7 @@ fun RangeSelectionMenu(
                 )
             }
             Button(
-                onClick = { selectEndRange() },
+                onClick = selectEndRange,
                 modifier = Modifier.weight(1f)
             ) {
                 Icon(
@@ -80,7 +80,7 @@ fun RangeSelectionMenu(
         }
         Row {
             Button(
-                onClick = { onToggleGroupView() },
+                onClick = onToggleGroupView,
                 modifier = Modifier.weight(1f)
             ) {
                 val text = if (isStartMode) {
@@ -92,7 +92,7 @@ fun RangeSelectionMenu(
             }
 
             Button(
-                onClick = { onToggleSearchResult() },
+                onClick = onToggleSearchResult,
                 modifier = Modifier.weight(1f)
             ) {
                 val text = stringResource(R.string.show_range_search_result)

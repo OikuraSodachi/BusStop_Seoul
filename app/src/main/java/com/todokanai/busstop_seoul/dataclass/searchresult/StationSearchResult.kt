@@ -2,10 +2,12 @@ package com.todokanai.busstop_seoul.dataclass.searchresult
 
 import androidx.navigation.NavHostController
 import com.todokanai.busstop_seoul.compose.navigation.navigateToMapScreen
+import androidx.compose.runtime.Immutable
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.ResultType
 import com.todokanai.busstop_seoul.dataclass.searchresult.abstracts.SearchResult
 import com.todokanai.domain.dataclass.StationItem
 
+@Immutable
 data class StationSearchResult(
     val stId:Long,
     val stNm: String,
@@ -22,6 +24,8 @@ data class StationSearchResult(
     type = ResultType.STATION,
     optionalInfo = arsId.toString()
 ){
+    override val id: Long get() = stId
+
     override fun onItemClick(navController: NavHostController) {
         navController.navigateToMapScreen(stId = stId)
     }

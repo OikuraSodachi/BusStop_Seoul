@@ -27,7 +27,7 @@ fun RangeSelectionPointList(
     LazyColumn(
         modifier = modifier.height(300.dp)
     ) {
-        itemsIndexed(items = rangeSelectionPointList) { index, item ->
+        itemsIndexed(rangeSelectionPointList, key = { _, item -> item.stId }) { index, item ->
             Box(
                 modifier = Modifier
                     .fillMaxWidth()

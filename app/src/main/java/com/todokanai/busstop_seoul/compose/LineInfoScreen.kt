@@ -33,7 +33,7 @@ fun LineInfoScreen(
         state = listState,
         modifier = Modifier.fillMaxSize()
     ) {
-        itemsIndexed(uiState.value.lineInfos){ index, lineInfo ->
+        itemsIndexed(uiState.value.lineInfos, key = { _, lineInfo -> lineInfo.stId }){ index, lineInfo ->
             LineInfoHolder(
                 lineInfo = lineInfo,
                 toStationInfo = { navController.navigateToMapScreen(lineInfo.stId) }

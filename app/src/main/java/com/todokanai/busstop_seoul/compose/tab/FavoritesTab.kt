@@ -32,7 +32,7 @@ fun FavoritesTab(
         )
     }else {
         LazyColumn {
-            itemsIndexed(items = results) { index, item ->
+            itemsIndexed(results, key = { _, item -> item.id }) { index, item ->
                 SearchResultHolder(
                     data = item,
                     saveToFavorites = { saveToFavorites(item) },
